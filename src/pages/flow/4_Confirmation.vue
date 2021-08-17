@@ -308,6 +308,9 @@ import {
   RadioGroupOption,
 } from '@headlessui/vue'
 
+import { ShieldCheckIcon } from '@heroicons/vue/outline'
+import { CheckIcon, QuestionMarkCircleIcon, StarIcon } from '@heroicons/vue/solid'
+
 const navigation = {
   categories: [
     {
@@ -534,6 +537,11 @@ export default {
     RadioGroupDescription,
     RadioGroupLabel,
     RadioGroupOption,
+
+    CheckIcon,
+    QuestionMarkCircleIcon,
+    ShieldCheckIcon,
+    StarIcon,
   },
   setup() {
     const open = ref(false)

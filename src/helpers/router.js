@@ -30,27 +30,26 @@ const routes = [
   },
   {
     path: "/order",
-    name: "Order",
     component: Order,
     children: [
       {
-        path: '/step-1',
+        path: 'step-1',
         component: Step1
       },
       {
-        path: '/step-2',
+        path: 'step-2',
         component: Step2
       },
       {
-        path: '/step-3',
+        path: 'step-3',
         component: Step3
       },
       {
-        path: '/step-4',
+        path: 'step-4',
         component: Step4
       },
       {
-        path: '/step-5',
+        path: 'step-5',
         component: Step5
       }
     ]
