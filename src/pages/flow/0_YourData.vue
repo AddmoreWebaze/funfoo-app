@@ -32,28 +32,40 @@
       <div>
         <label for="firstname" class="block text-sm font-medium text-gray-700">Voornaam*</label>
         <div class="mt-1">
-          <input v-model="form.firstname" required type="text" name="firstname" autocomplete="username" id="firstname" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je voornaam" />
+          <input v-model="form.fname" required type="text" name="firstname" autocomplete="username" id="firstname" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je voornaam" />
         </div>
       </div>
       <div class="mt-4">
         <label for="email" class="block text-sm font-medium text-gray-700">Email*</label>
-        <div class="mt-1">
+        <div class="mt-1 relative">
           <input v-model="form.email" required type="text" name="email" autocomplete="email" id="email" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="you@example.com" />
+          <div v-if="error.errorField == 'email'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
+          </div>
         </div>
+        <p v-if="error.errorField == 'email'" class="mt-2 text-sm text-red-600" id="email-error">{{error.errorMessage}}</p>
       </div>
 
       <div class="mt-4">
         <label for="password" class="block text-sm font-medium text-gray-700">Wachtwoord*</label>
-        <div class="mt-1">
+        <div class="mt-1 relative">
           <input v-model="form.password" required type="password" name="password" autocomplete="new-password" id="password" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je passwoord" />
+          <div v-if="error.errorField == 'passwoord'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
+          </div>
         </div>
+        <p v-if="error.errorField == 'passwoord'" class="mt-2 text-sm text-red-600" id="password-error">{{error.errorMessage}}</p>
       </div>
 
       <div class="mt-4">
         <label for="repeat-password" class="block text-sm font-medium text-gray-700">Herhaal Wachtwoord*</label>
-        <div class="mt-1">
+        <div class="mt-1 relative">
           <input v-model="form.rePpassword" required type="password" name="repeat-password" autocomplete="new-password" id="repeat-password" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Herhaal je passwoord" />
+          <div v-if="error.errorField == 'passwoord-repeat'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
+          </div>
         </div>
+        <p v-if="error.errorField == 'passwoord-repeat'" class="mt-2 text-sm text-red-600" id="password-repeat-error">{{error.errorMessage}}</p>
       </div>
 
 
@@ -67,23 +79,63 @@
 </template>
 
 <script>
+import { ExclamationCircleIcon } from '@heroicons/vue/solid'
+import bcrypt from 'bcryptjs';
+
 export default {
   components: {
+    ExclamationCircleIcon,
   },
   data() {
     return {
       form: {
         fname: 'aaron',
         email: 'aaron@icloud.com',
-        password: 'aaron',
-        rePpassword: 'aaron',
-      }
+        password: 'aaronissupercool',
+        rePpassword: 'aaronissupercool',
+      },
+      error: {}
     }
   },
   methods: {
-    submitForm(){
-      this.$router.push({ name: 'step-1'})
-    }
+    submitForm: function(){
+      this.checkPassword()
+      .then(() => { this.register() })
+      .catch((error) => { this.error = error })
+    },
+    register: async function () {
+      let fname = this.form.fname
+      let email = this.form.email
+      let password = this.encryptPassword()
+
+      await this.$store.dispatch('register', { fname, email, password })
+      .then(() => this.$router.push({ name: 'step-1'}))
+      .catch(err => console.log({err}))
+    },
+
+    checkPassword: function() {
+      return new Promise((resolve, reject) => {
+          if(this.form.password === this.form.rePpassword){
+            if(this.form.password.length > 6){
+              resolve()
+            }
+            reject({
+                errorField: 'passwoord',
+                errorMessage: 'Je paswoord moet laner zijn dat 6 tekens'
+              })
+          }else{
+            reject({
+              errorField: 'passwoord-repeat',
+              errorMessage: 'Je paswoorden komen niet overeen'
+            })
+          }
+      }) 
+    },
+
+    encryptPassword: function(){          
+      const salt = bcrypt.genSaltSync(10)
+      return bcrypt.hashSync(this.form.password, salt)
+    },
   },
   computed: {
     product() {
