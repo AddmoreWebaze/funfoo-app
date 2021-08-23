@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const serveStatic = require('serve-static')
 const path = require('path')
-const port = Number(process.env.VUE_APP_PORT) || 8080
+const port = Number(process.env.PORT) || 80
 
 const app = express()
 
@@ -23,6 +23,6 @@ app.get('/', (req, res) => {
 })*/
 
 
-app.listen(port, () => {
+app.listen((process.env.PORT) || 80, () => {
   console.log(`Running on port: ${port}`)
 })
