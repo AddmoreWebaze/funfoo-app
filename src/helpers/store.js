@@ -120,10 +120,11 @@ export const store = createStore({
 
   },
   actions: {
+    //login action
     login({commit}, user){
       return new Promise((resolve, reject) => {
         commit('auth_request')
-        axios({url: process.env.VUE_APP_BASE_URL + '/login', data: user, method: 'POST' })
+        axios({url: process.env.VUE_APP_API_URL + '/login', data: user, method: 'POST' })
         .then(resp => {
           const token = resp.data.token
           const user = resp.data.user
@@ -143,7 +144,7 @@ export const store = createStore({
     register({commit}, user){
       return new Promise((resolve, reject) => {
         commit('auth_request')
-        axios({url: process.env.VUE_APP_BASE_URL + '/register', data: user, method: 'POST' })
+        axios({url: process.env.VUE_APP_API_URL + '/user/new', data: user, method: 'POST' })
         .then(resp => {
           const token = resp.data.token
           const user = resp.data.user

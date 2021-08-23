@@ -44,12 +44,6 @@
             <h2 id="options-heading" class="sr-only">Register options</h2>
 
             <form @submit.prevent="submitForm">
-              <div>
-                <label for="firstname" class="block text-sm font-medium text-gray-700">Voornaam*</label>
-                <div class="mt-1">
-                  <input v-model="form.firstname" required type="text" name="firstname" autocomplete="username" id="firstname" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je voornaam" />
-                </div>
-              </div>
               <div class="mt-4">
                 <label for="email" class="block text-sm font-medium text-gray-700">Email*</label>
                 <div class="mt-1">
@@ -64,17 +58,9 @@
                 </div>
               </div>
 
-              <div class="mt-4">
-                <label for="repeat-password" class="block text-sm font-medium text-gray-700">Herhaal Wachtwoord*</label>
-                <div class="mt-1">
-                  <input v-model="form.rePpassword" required type="password" name="repeat-password" autocomplete="new-password" id="repeat-password" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Herhaal je passwoord" />
-                </div>
-              </div>
-
-
 
               <div class="mt-10">
-                <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Stel je levervoorkeuren in</button>
+                <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Log in</button>
                 <p class="mt-4 text-sm text-gray-400 text-center" id="email-description">Nog geen account? <router-link class="text-indigo-500" :to="{ name: 'getting-started' }">Maak je account</router-link></p>
               </div>
             </form>
@@ -93,16 +79,21 @@ export default {
   data() {
     return {
       form: {
-        firstname: 'aaron',
         email: 'aaron@icloud.com',
         password: 'aaron',
-        rePpassword: 'aaron',
       }
     }
   },
   methods: {
     submitForm(){
-      this.$router.push({ name: 'step-1'})
+      this.login()
+    },
+    login: function () {
+      let email = this.form.email
+      let password = this.form.password
+      this.$store.dispatch('login', { email, password })
+      .then(() => this.$router.push('/'))
+      .catch(err => console.log(err))
     }
   },
   computed: {

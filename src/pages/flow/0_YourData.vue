@@ -73,7 +73,7 @@ export default {
   data() {
     return {
       form: {
-        firstname: 'aaron',
+        fname: 'aaron',
         email: 'aaron@icloud.com',
         password: 'aaron',
         rePpassword: 'aaron',
