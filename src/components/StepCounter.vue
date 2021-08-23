@@ -55,12 +55,17 @@ export default {
       routeName: 'getting-started'
     }
   },
-  methods: {
-
+  mounted() {
+    this.checkRoute(this.$route)
   },
   computed: {
     steps() {
       return this.$store.state.steps
+    }
+  },
+  methods: {
+    checkRoute(to){
+      this.$store.commit('routeChange', to.name)
     }
   },
   watch:{

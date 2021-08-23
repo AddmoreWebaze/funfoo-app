@@ -1,124 +1,120 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Sign in to your account
-      </h2>
-      <p class="mt-2 text-center text-sm text-gray-600">
-        Or
-        {{ ' ' }}
-        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-          start your 14-day free trial
-        </a>
-      </p>
-    </div>
-
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-        <form class="space-y-6" action="#" method="POST">
-          <div>
-            <label for="email" class="block text-sm font-medium text-gray-700">
-              Email address
-            </label>
-            <div class="mt-1">
-              <input id="email" name="email" type="email" autocomplete="email" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-            </div>
+<main>
+    <!-- Product -->
+    <div class="bg-white">
+      <div class="max-w-2xl mx-auto pt-16 pb-24 px-4 sm:pt-24 sm:pb-32 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
+        <!-- Product image -->
+        <div class="mt-10 lg:mt-0 lg:col-start-2 lg:row-span-2 lg:self-top">
+          <div class="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden">
+            <img :src="product.imageSrc" :alt="product.imageAlt" class="w-full h-full object-center object-cover" />
           </div>
+        </div>
 
-          <div>
-            <label for="password" class="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <div class="mt-1">
-              <input id="password" name="password" type="password" autocomplete="current-password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-            </div>
-          </div>
+        <!-- Product form -->
+        <div class="mt-10 lg:mt-0 lg:max-w-lg lg:col-start-1 lg:row-start-2 lg:self-start">
 
-          <div class="flex items-center justify-between">
-            <div class="flex items-center">
-              <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-              <label for="remember-me" class="ml-2 block text-sm text-gray-900">
-                Remember me
-              </label>
+
+          <!-- Product details -->
+          <div class="lg:max-w-lg lg:self-end">
+            <nav aria-label="Breadcrumb">
+              <ol role="list" class="flex items-center space-x-2">
+                <li v-for="(breadcrumb, breadcrumbIdx) in product.breadcrumbs" :key="breadcrumb.id">
+                  <div class="flex items-center text-sm">
+                    <router-link :to="{ name: breadcrumb.routeName }" class="font-medium text-gray-500 hover:text-gray-900">
+                      {{ breadcrumb.name }}
+                    </router-link>
+                    <svg v-if="(breadcrumbIdx !== product.breadcrumbs.length - 1)" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" class="ml-2 flex-shrink-0 h-5 w-5 text-gray-300">
+                      <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                    </svg>
+                  </div>
+                </li>
+              </ol>
+            </nav>
+
+            <div class="mt-4">
+              <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Maak van elke maaltijd een avontuur voor je kids!</h1>
             </div>
 
-            <div class="text-sm">
-              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-                Forgot your password?
-              </a>
-            </div>
+            <section aria-labelledby="information-heading" class="mt-4">
+              <h2 id="information-heading" class="sr-only">Registreer om door te gaan</h2>
+            </section>
           </div>
 
-          <div>
-            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Register
-            </button>
-          </div>
-        </form>
+          <section aria-labelledby="options-heading" class="mt-20">
+            <h2 id="options-heading" class="sr-only">Register options</h2>
+
+            <form @submit.prevent="submitForm">
+              <div>
+                <label for="firstname" class="block text-sm font-medium text-gray-700">Voornaam*</label>
+                <div class="mt-1">
+                  <input v-model="form.firstname" required type="text" name="firstname" autocomplete="username" id="firstname" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je voornaam" />
+                </div>
+              </div>
+              <div class="mt-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email*</label>
+                <div class="mt-1">
+                  <input v-model="form.email" required type="text" name="email" autocomplete="email" id="email" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="you@example.com" />
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <label for="password" class="block text-sm font-medium text-gray-700">Wachtwoord*</label>
+                <div class="mt-1">
+                  <input v-model="form.password" required type="password" name="password" autocomplete="new-password" id="password" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je passwoord" />
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <label for="repeat-password" class="block text-sm font-medium text-gray-700">Herhaal Wachtwoord*</label>
+                <div class="mt-1">
+                  <input v-model="form.rePpassword" required type="password" name="repeat-password" autocomplete="new-password" id="repeat-password" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Herhaal je passwoord" />
+                </div>
+              </div>
+
+
+
+              <div class="mt-10">
+                <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Stel je levervoorkeuren in</button>
+                <p class="mt-4 text-sm text-gray-400 text-center" id="email-description">Nog geen account? <router-link class="text-indigo-500" :to="{ name: 'getting-started' }">Maak je account</router-link></p>
+              </div>
+            </form>
+          </section>
+
+        </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
-import auth from '@/helpers/auth';
-
 export default {
-  name: 'login',
+  components: {
+  },
   data() {
     return {
-      error: false,
-      error_animation: false,
-      input: {
-        email: "",
-        password: ""
-      },
+      form: {
+        firstname: 'aaron',
+        email: 'aaron@icloud.com',
+        password: 'aaron',
+        rePpassword: 'aaron',
+      }
     }
   },
   methods: {
-    async login() {
-      const user = await auth.login(this.input.email, this.input.password);
-      // Check if the user is set (which should, otherwise we should have an error)
-      console.log(user);
-      
-
-      /*if(user && user.token){
-        // OK You are now loggedin. Refresh your state
-        this.user = await auth.me().catch(function(e){
-          console.log('NOT LOGGEDIN', e);
-        });
-        this.$store.commit('setUser', this.user);
-        this.$router.push('/');
-      } else {
-        this.error = user.error;
-        this.error_animation = true;
-        setTimeout(() =>{
-          this.error_animation = false;
-        }, 2000);
-      }*/
-    },
-  },
-
-  mounted(){
-    console.log(process.env.NODE_ENV)
-    console.log(process.env.VUE_APP_APIURL)
-    console.log(process.env.VUE_APP_SALT)
-  }
-
-  /*async mounted() {
-    this.user = await auth.me().catch(() => {});
-    if (this.user && this.user._id) {
-      this.$store.commit('setUser', this.user);
-      this.$router.push('/');
+    submitForm(){
+      this.$router.push({ name: 'step-1'})
     }
   },
-  created() {
-    window.addEventListener('keydown', (e) => {
-      if (e.key == 'Enter') {
-        this.login();
-      }
-    });
-  },*/
+  computed: {
+    product() {
+      return this.$store.state.product;
+    },
+    reviews(){
+      return this.$store.state.reviews;
+    },
+    policies(){
+      return this.$store.state.policies;
+    }
+  }
 }
 </script>

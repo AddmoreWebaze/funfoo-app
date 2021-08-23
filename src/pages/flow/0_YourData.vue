@@ -5,9 +5,9 @@
       <ol role="list" class="flex items-center space-x-2">
         <li v-for="(breadcrumb, breadcrumbIdx) in product.breadcrumbs" :key="breadcrumb.id">
           <div class="flex items-center text-sm">
-            <a :href="breadcrumb.href" class="font-medium text-gray-500 hover:text-gray-900">
+            <router-link :to="{ name: breadcrumb.routeName }" class="font-medium text-gray-500 hover:text-gray-900">
               {{ breadcrumb.name }}
-            </a>
+            </router-link>
             <svg v-if="(breadcrumbIdx !== product.breadcrumbs.length - 1)" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" class="ml-2 flex-shrink-0 h-5 w-5 text-gray-300">
               <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
             </svg>
@@ -17,128 +17,72 @@
     </nav>
 
     <div class="mt-4">
-      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">{{ product.name }}</h1>
+      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Maak van elke maaltijd een avontuur voor je kids!</h1>
     </div>
 
     <section aria-labelledby="information-heading" class="mt-4">
-      <h2 id="information-heading" class="sr-only">Product information</h2>
-
-      <div class="flex items-center">
-        <p class="text-lg text-gray-900 sm:text-xl">{{ product.price }}</p>
-
-        <div class="ml-4 pl-4 border-l border-gray-300">
-          <h2 class="sr-only">Reviews</h2>
-          <div class="flex items-center">
-            <div>
-              <div class="flex items-center">
-                <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[reviews.average > rating ? 'text-yellow-400' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']" aria-hidden="true" />
-              </div>
-              <p class="sr-only">{{ reviews.average }} out of 5 stars</p>
-            </div>
-            <p class="ml-2 text-sm text-gray-500">{{ reviews.totalCount }} reviews</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-4 space-y-6">
-        <p class="text-base text-gray-500">{{ product.description }}</p>
-      </div>
+      <h2 id="information-heading" class="sr-only">Registreer om door te gaan</h2>
     </section>
   </div>
 
-
-
   <section aria-labelledby="options-heading" class="mt-20">
-    <h2 id="options-heading" class="sr-only">Product options</h2>
+    <h2 id="options-heading" class="sr-only">Register options</h2>
 
-    <form>
-      <div class="sm:flex sm:justify-between">
-        <!-- Size selector -->
-        <RadioGroup v-model="selectedKids">
-          <RadioGroupLabel class="block text-sm font-medium text-gray-700">
-            Aantal kinderen
-          </RadioGroupLabel>
-          <div class="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <RadioGroupOption as="template" v-for="size in product.sizes" :key="size.name" :value="size" v-slot="{ active, checked }">
-              <div :class="[active ? 'ring-2 ring-indigo-500' : '', 'relative block border border-gray-300 rounded-lg p-4 cursor-pointer focus:outline-none']">
-                <RadioGroupLabel as="p" class="text-base font-medium text-gray-900">
-                  {{ size.name }}
-                </RadioGroupLabel>
-                <RadioGroupDescription as="p" class="mt-1 text-sm text-gray-500">
-                  {{ size.description }}
-                </RadioGroupDescription>
-                <div :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-lg pointer-events-none']" aria-hidden="true" />
-              </div>
-            </RadioGroupOption>
-          </div>
-        </RadioGroup>
-      </div>
-      <div class="sm:flex sm:justify-between mt-10">
-        <!-- Size selector -->
-        <RadioGroup v-model="selectedParents">
-          <RadioGroupLabel class="block text-sm font-medium text-gray-700">
-            Aantal ouders
-          </RadioGroupLabel>
-          <div class="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <RadioGroupOption as="template" v-for="size in product.sizes" :key="size.name" :value="size" v-slot="{ active, checked }">
-              <div :class="[active ? 'ring-2 ring-indigo-500' : '', 'relative block border border-gray-300 rounded-lg p-4 cursor-pointer focus:outline-none']">
-                <RadioGroupLabel as="p" class="text-base font-medium text-gray-900">
-                  {{ size.name }}
-                </RadioGroupLabel>
-                <RadioGroupDescription as="p" class="mt-1 text-sm text-gray-500">
-                  {{ size.description }}
-                </RadioGroupDescription>
-                <div :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-lg pointer-events-none']" aria-hidden="true" />
-              </div>
-            </RadioGroupOption>
-          </div>
-        </RadioGroup>
+    <form @submit.prevent="submitForm">
+      <div>
+        <label for="firstname" class="block text-sm font-medium text-gray-700">Voornaam*</label>
+        <div class="mt-1">
+          <input v-model="form.firstname" required type="text" name="firstname" autocomplete="username" id="firstname" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je voornaam" />
+        </div>
       </div>
       <div class="mt-4">
-        <a href="#" class="group inline-flex text-sm text-gray-500 hover:text-gray-700">
-          <span>What size should I buy?</span>
-          <QuestionMarkCircleIcon class="flex-shrink-0 ml-2 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-        </a>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email*</label>
+        <div class="mt-1">
+          <input v-model="form.email" required type="text" name="email" autocomplete="email" id="email" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="you@example.com" />
+        </div>
       </div>
+
+      <div class="mt-4">
+        <label for="password" class="block text-sm font-medium text-gray-700">Wachtwoord*</label>
+        <div class="mt-1">
+          <input v-model="form.password" required type="password" name="password" autocomplete="new-password" id="password" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je passwoord" />
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <label for="repeat-password" class="block text-sm font-medium text-gray-700">Herhaal Wachtwoord*</label>
+        <div class="mt-1">
+          <input v-model="form.rePpassword" required type="password" name="repeat-password" autocomplete="new-password" id="repeat-password" class="px-5 py-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Herhaal je passwoord" />
+        </div>
+      </div>
+
+
+
       <div class="mt-10">
-        <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Add to bag</button>
-      </div>
-      <div class="mt-6 text-center">
-        <a href="#" class="group inline-flex text-base font-medium">
-          <ShieldCheckIcon class="flex-shrink-0 mr-2 h-6 w-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-          <span class="text-gray-500 hover:text-gray-700">Lifetime Guarantee</span>
-        </a>
+        <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Stel je levervoorkeuren in</button>
+        <p class="mt-4 text-sm text-gray-400 text-center" id="email-description">Heb je al een account? <router-link class="text-indigo-500" to="/login">Inloggen</router-link></p>
       </div>
     </form>
   </section>
 </template>
 
 <script>
-import {
-  RadioGroup,
-  RadioGroupDescription,
-  RadioGroupLabel,
-  RadioGroupOption,
-} from '@headlessui/vue'
-
-import { ShieldCheckIcon } from '@heroicons/vue/outline'
-import { QuestionMarkCircleIcon, StarIcon } from '@heroicons/vue/solid'
-
 export default {
   components: {
-    RadioGroup,
-    RadioGroupDescription,
-    RadioGroupLabel,
-    RadioGroupOption,
-
-    QuestionMarkCircleIcon,
-    ShieldCheckIcon,
-    StarIcon
   },
   data() {
     return {
-      selectedKids: 0,
-      selectedParents: 0
+      form: {
+        firstname: 'aaron',
+        email: 'aaron@icloud.com',
+        password: 'aaron',
+        rePpassword: 'aaron',
+      }
+    }
+  },
+  methods: {
+    submitForm(){
+      this.$router.push({ name: 'step-1'})
     }
   },
   computed: {

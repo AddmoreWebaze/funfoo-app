@@ -58,14 +58,14 @@
           <RadioGroupLabel class="block text-sm font-medium text-gray-700">
             Aantal kinderen
           </RadioGroupLabel>
-          <div class="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <RadioGroupOption as="template" v-for="size in product.sizes" :key="size.name" :value="size" v-slot="{ active, checked }">
+          <div class="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-6">
+            <RadioGroupOption as="template" v-for="kids in product.kidsCount" :key="kids.name" :value="kids" v-slot="{ active, checked }">
               <div :class="[active ? 'ring-2 ring-indigo-500' : '', 'relative block border border-gray-300 rounded-lg p-4 cursor-pointer focus:outline-none']">
                 <RadioGroupLabel as="p" class="text-base font-medium text-gray-900">
-                  {{ size.name }}
+                  {{ kids.name }}
                 </RadioGroupLabel>
                 <RadioGroupDescription as="p" class="mt-1 text-sm text-gray-500">
-                  {{ size.description }}
+                  {{ kids.description }}
                 </RadioGroupDescription>
                 <div :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-lg pointer-events-none']" aria-hidden="true" />
               </div>
@@ -79,14 +79,14 @@
           <RadioGroupLabel class="block text-sm font-medium text-gray-700">
             Aantal ouders
           </RadioGroupLabel>
-          <div class="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <RadioGroupOption as="template" v-for="size in product.sizes" :key="size.name" :value="size" v-slot="{ active, checked }">
+          <div class="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-6">
+            <RadioGroupOption as="template" v-for="parents in product.parentCount" :key="parents.name" :value="parents" v-slot="{ active, checked }">
               <div :class="[active ? 'ring-2 ring-indigo-500' : '', 'relative block border border-gray-300 rounded-lg p-4 cursor-pointer focus:outline-none']">
                 <RadioGroupLabel as="p" class="text-base font-medium text-gray-900">
-                  {{ size.name }}
+                  {{ parents.name }}
                 </RadioGroupLabel>
                 <RadioGroupDescription as="p" class="mt-1 text-sm text-gray-500">
-                  {{ size.description }}
+                  {{ parents.description }}
                 </RadioGroupDescription>
                 <div :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-lg pointer-events-none']" aria-hidden="true" />
               </div>
@@ -94,20 +94,60 @@
           </div>
         </RadioGroup>
       </div>
-      <div class="mt-4">
-        <a href="#" class="group inline-flex text-sm text-gray-500 hover:text-gray-700">
-          <span>What size should I buy?</span>
-          <QuestionMarkCircleIcon class="flex-shrink-0 ml-2 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-        </a>
-      </div>
-      <div class="mt-10">
-        <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Add to bag</button>
-      </div>
-      <div class="mt-6 text-center">
-        <a href="#" class="group inline-flex text-base font-medium">
-          <ShieldCheckIcon class="flex-shrink-0 mr-2 h-6 w-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-          <span class="text-gray-500 hover:text-gray-700">Lifetime Guarantee</span>
-        </a>
+      <div>
+        <form class="mt-12 lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start xl:gap-x-12" @submit.prevent="submitForm">
+          <!-- Order summary -->
+          <section aria-labelledby="summary-heading" class="mt-16 bg-gray-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-12">
+            <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Order summary</h2>
+
+            <dl class="mt-6 space-y-4">
+              <div class="flex items-center justify-between">
+                <dt class="text-sm text-gray-600">
+                  Subtotal
+                </dt>
+                <dd class="text-sm font-medium text-gray-900">
+                  $99.00
+                </dd>
+              </div>
+              <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
+                <dt class="flex items-center text-sm text-gray-600">
+                  <span>Shipping estimate</span>
+                  <a href="#" class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
+                    <span class="sr-only">Learn more about how shipping is calculated</span>
+                    <QuestionMarkCircleIcon class="h-5 w-5" aria-hidden="true" />
+                  </a>
+                </dt>
+                <dd class="text-sm font-medium text-gray-900">
+                  $5.00
+                </dd>
+              </div>
+              <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
+                <dt class="flex text-sm text-gray-600">
+                  <span>Tax estimate</span>
+                  <a href="#" class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
+                    <span class="sr-only">Learn more about how tax is calculated</span>
+                    <QuestionMarkCircleIcon class="h-5 w-5" aria-hidden="true" />
+                  </a>
+                </dt>
+                <dd class="text-sm font-medium text-gray-900">
+                  $8.32
+                </dd>
+              </div>
+              <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
+                <dt class="text-base font-medium text-gray-900">
+                  Order total
+                </dt>
+                <dd class="text-base font-medium text-gray-900">
+                  $112.32
+                </dd>
+              </div>
+            </dl>
+          </section>
+
+          <div class="mt-10 col-span-12">
+            <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Stel je levervoorkeuren in</button>
+          </div>
+        </form>
       </div>
     </form>
   </section>
@@ -121,8 +161,7 @@ import {
   RadioGroupOption,
 } from '@headlessui/vue'
 
-import { ShieldCheckIcon } from '@heroicons/vue/outline'
-import { QuestionMarkCircleIcon, StarIcon } from '@heroicons/vue/solid'
+import { StarIcon } from '@heroicons/vue/solid'
 
 export default {
   components: {
@@ -131,14 +170,17 @@ export default {
     RadioGroupLabel,
     RadioGroupOption,
 
-    QuestionMarkCircleIcon,
-    ShieldCheckIcon,
     StarIcon
   },
   data() {
     return {
       selectedKids: 0,
       selectedParents: 0
+    }
+  },
+  methods: {
+    submitForm(){
+      this.$router.push({ name: 'step-2'})
     }
   },
   computed: {

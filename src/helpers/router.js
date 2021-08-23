@@ -17,7 +17,7 @@ import Step5 from '@/pages/flow/5_Thanks.vue'
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "home",
     redirect: '/register',
     component: Home,
   },
@@ -77,6 +77,9 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior () {
+    return { x: 0, y: 0 }
+  }
 });
 
 export default router;
