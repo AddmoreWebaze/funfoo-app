@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Home from "@/App.vue";
 import Login from "@/pages/Login.vue";
-import Register from "@/pages/Register.vue";
+import Register from "@/pages/Register.v
 import Order from "@/pages/Order.vue";
 
 import Admin from "@/pages/admin/AdminHome.vue";
@@ -18,7 +18,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    redirect: '/register',
+    redirect: '/order/getting-started',
     component: Home,
   },
   {
