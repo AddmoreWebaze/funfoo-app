@@ -3,18 +3,47 @@
 
   <main>
     <!-- Product -->
-    <div class="bg-white">
-      <div class="max-w-2xl mx-auto pt-16 pb-24 px-4 sm:pt-24 sm:pb-32 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
-        <!-- Product image -->
-        <div class="mt-10 lg:mt-0 lg:col-start-2 lg:row-span-2 lg:self-top">
-          <div class="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden">
-            <img :src="product.imageSrc" :alt="product.imageAlt" class="w-full h-full object-center object-cover" />
+    <div class="bg-smoke">
+      <div class="max-w-2xl mx-auto pt-16 pb-24  sm:pt-10 sm:pb-32  lg:max-w-7xl lg:grid lg:grid-cols-5 lg:gap-x-8">
+        <!-- Product form -->
+        <div class="mt-10 lg:mt-0 col-span-3 lg:self-start bg-white rounded-3xl lg:p-10 sm:p-6 p-4 border border-gray-100 overflow-hidden relative sm:pb-10 lg:pb-20">
+          <router-view></router-view>
+
+          <div class="h-12 absolute bottom-0 w-full bg-green-400 left-0">
+            <img class='w-full object-cover' src="@/assets/images/funfoo-background.png" alt="">
           </div>
         </div>
 
-        <!-- Product form -->
-        <div class="mt-10 lg:mt-0 lg:max-w-lg lg:col-start-1 lg:row-start-2 lg:self-start">
-          <router-view></router-view>
+        <!-- Product image -->
+        <div class="mt-10 lg:mt-0 lg:self-top col-span-2">
+          <div class="overflow-hidden w-full bg-white rounded-3xl border-gray-100 border lg:p-10 sm:p-6 p-4 relative">
+            <h1 class="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">Besteloverzicht</h1>
+
+            <div class="flex flex-row items-start justify-start space-x-6 mt-10 pb-10">
+              <div class="w-32 h-32 bg-gray-50 flex-shrink-0 rounded-xl">
+
+              </div>
+              <div>
+                <h6 class="text-md font-semibold">{{product.name}}</h6>
+                <p class="text-gray-500 text-sm">4 maaltijden voor 3 kinder en 2 ouder(s)</p>
+                <div class="border-b h-2 mt-2"></div>
+                <div class="flex flex-row items-center justify-between mt-4 text-gray-500">
+                  <p class="text-sm">Per portie</p>
+                  <p class="text-black">€4,99</p>
+                </div>
+
+                <div class="flex flex-row items-center justify-between mt-2 text-gray-500">
+                  <p class="text-sm">Box</p>
+                  <p class="text-black">€60,00</p>
+                </div>
+              </div>
+            </div>
+
+            <!--BACKGROUND-->
+            <div class="absolute w-full h-10 bottom-0 left-0">
+              <img class="h-full w-full object-cover" src="@/assets/images/funfoo-login-background.svg" alt="Funfoo background" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

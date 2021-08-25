@@ -1,44 +1,12 @@
 <template>
   <!-- Product details -->
   <div class="lg:max-w-lg lg:self-end">
-    <nav aria-label="Breadcrumb">
-      <ol role="list" class="flex items-center space-x-2">
-        <li v-for="(breadcrumb, breadcrumbIdx) in product.breadcrumbs" :key="breadcrumb.id">
-          <div class="flex items-center text-sm">
-            <a :href="breadcrumb.href" class="font-medium text-gray-500 hover:text-gray-900">
-              {{ breadcrumb.name }}
-            </a>
-            <svg v-if="(breadcrumbIdx !== product.breadcrumbs.length - 1)" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" class="ml-2 flex-shrink-0 h-5 w-5 text-gray-300">
-              <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-            </svg>
-          </div>
-        </li>
-      </ol>
-    </nav>
-
-    <div class="mt-4">
-      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">{{ product.name }}</h1>
+    <div>
+      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Stel je Funfoo Box samen voor je kids</h1>
     </div>
 
     <section aria-labelledby="information-heading" class="mt-4">
       <h2 id="information-heading" class="sr-only">Product information</h2>
-
-      <div class="flex items-center">
-        <p class="text-lg text-gray-900 sm:text-xl">{{ product.price }}</p>
-
-        <div class="ml-4 pl-4 border-l border-gray-300">
-          <h2 class="sr-only">Reviews</h2>
-          <div class="flex items-center">
-            <div>
-              <div class="flex items-center">
-                <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[reviews.average > rating ? 'text-yellow-400' : 'text-gray-300', 'h-5 w-5 flex-shrink-0']" aria-hidden="true" />
-              </div>
-              <p class="sr-only">{{ reviews.average }} out of 5 stars</p>
-            </div>
-            <p class="ml-2 text-sm text-gray-500">{{ reviews.totalCount }} reviews</p>
-          </div>
-        </div>
-      </div>
 
       <div class="mt-4 space-y-6">
         <p class="text-base text-gray-500">{{ product.description }}</p>
@@ -54,20 +22,32 @@
     <form>
       <div class="sm:flex sm:justify-between">
         <!-- Size selector -->
-        <RadioGroup v-model="selectedKids">
+        <RadioGroup v-model="selectedKids" class="w-full">
           <RadioGroupLabel class="block text-sm font-medium text-gray-700">
             Aantal kinderen
           </RadioGroupLabel>
-          <div class="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-6">
-            <RadioGroupOption as="template" v-for="kids in product.kidsCount" :key="kids.name" :value="kids" v-slot="{ active, checked }">
-              <div :class="[active ? 'ring-2 ring-indigo-500' : '', 'relative block border border-gray-300 rounded-lg p-4 cursor-pointer focus:outline-none']">
-                <RadioGroupLabel as="p" class="text-base font-medium text-gray-900">
+          <div class="mt-1 grid grid-cols-3 gap-4 sm:grid-cols-6 w-full">
+            <RadioGroupOption as="template" v-for="(kids, index) in product.kidsCount" :key="kids.name" :value="index+1" v-slot="{ active, checked }">
+              <div class="relative h-32 flex flex-col items-center justify-between p-4 cursor-pointer focus:outline-none">
+                <RadioGroupLabel as="p" class="text-base font-medium text-gray-900 relative z-20">
                   {{ kids.name }}
                 </RadioGroupLabel>
-                <RadioGroupDescription as="p" class="mt-1 text-sm text-gray-500">
-                  {{ kids.description }}
+                <RadioGroupDescription as="div" class="mt-1 text-sm text-gray-500 relative z-10">
+                  <img v-if="index == 0" class="h-16" src="@/assets/icons/kids/1-kid.svg" alt="">
+                  <img v-if="index == 1" class="h-16" src="@/assets/icons/kids/2-kids.svg" alt="">
+                  <img v-if="index == 2" class="h-16" src="@/assets/icons/kids/3-kids.svg" alt="">
+                  <img v-if="index == 3" class="h-16" src="@/assets/icons/kids/4-kids.svg" alt="">
+                  <img v-if="index == 4" class="h-16" src="@/assets/icons/kids/5-kids.svg" alt="">
+                  <img v-if="index == 5" class="h-16" src="@/assets/icons/kids/6-kids.svg" alt="">
                 </RadioGroupDescription>
-                <div :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-lg pointer-events-none']" aria-hidden="true" />
+
+                <svg v-if="active || checked" class="absolute h-24 mt-3 z-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74.234 70.889">
+                  <g id="Group_140" data-name="Group 140" transform="translate(-163 -4)" opacity="0.8">
+                    <path id="Path_108740" data-name="Path 108740" d="M1614.084,290.971a74.8,74.8,0,0,1-2.17,18.7,36.525,36.525,0,0,1-4.219,10.239,28.219,28.219,0,0,1-11.164,10.323,36.432,36.432,0,0,1-12.008,3.7,39.217,39.217,0,0,1-10.753.015,36.836,36.836,0,0,1-13.244-4.511,41.6,41.6,0,0,1-16.664-17.1,32.524,32.524,0,0,1-4.008-15.64,19.161,19.161,0,0,1,1.332-7.134,12.329,12.329,0,0,1,6.963-6.971c1.578-.653,3.156-1.31,4.774-1.866,1.283-.441,2.532-.981,3.8-1.473a4.984,4.984,0,0,1,.868-.3,37.692,37.692,0,0,0,6.5-2.1,56.348,56.348,0,0,0,10.751-5.5,76.678,76.678,0,0,1,8.933-5.168,26.525,26.525,0,0,1,11.938-2.764,14.881,14.881,0,0,1,9.711,3.467,19.066,19.066,0,0,1,4.685,6.122,36.767,36.767,0,0,1,3.386,10.884A47.4,47.4,0,0,1,1614.084,290.971Z" transform="translate(-1376.852 -259.419)" fill="#e0f3d8"/>
+                  </g>
+                </svg>
+
+                <div class="absolute -inset-px rounded-lg pointer-events-none" aria-hidden="true" />
               </div>
             </RadioGroupOption>
           </div>
@@ -75,20 +55,30 @@
       </div>
       <div class="sm:flex sm:justify-between mt-10">
         <!-- Size selector -->
-        <RadioGroup v-model="selectedParents">
+        <RadioGroup v-model="selectedParents" class="w-full">
           <RadioGroupLabel class="block text-sm font-medium text-gray-700">
             Aantal ouders
           </RadioGroupLabel>
-          <div class="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-6">
-            <RadioGroupOption as="template" v-for="parents in product.parentCount" :key="parents.name" :value="parents" v-slot="{ active, checked }">
-              <div :class="[active ? 'ring-2 ring-indigo-500' : '', 'relative block border border-gray-300 rounded-lg p-4 cursor-pointer focus:outline-none']">
-                <RadioGroupLabel as="p" class="text-base font-medium text-gray-900">
+          <div class="mt-1 grid grid-cols-2 gap-4 sm:grid-cols-6 w-full">
+            <RadioGroupOption as="template" v-for="(parents, index) in product.parentCount" :key="parents.name" :value="index+1" v-slot="{ active, checked }">
+              <div class="relative h-32 flex flex-col items-center justify-between p-4 cursor-pointer focus:outline-none">
+                <RadioGroupLabel as="p" class="text-base font-medium text-gray-900 relative z-20">
                   {{ parents.name }}
                 </RadioGroupLabel>
-                <RadioGroupDescription as="p" class="mt-1 text-sm text-gray-500">
-                  {{ parents.description }}
+                <RadioGroupDescription as="div" class="mt-1 text-sm text-gray-500 relative z-10">
+                  <img v-if="index == 0" class="h-16" src="@/assets/icons/kids/1-kid.svg" alt="">
+                  <img v-if="index == 1" class="h-16" src="@/assets/icons/kids/2-kids.svg" alt="">
+                  <img v-if="index == 2" class="h-16" src="@/assets/icons/kids/3-kids.svg" alt="">
+                  <img v-if="index == 3" class="h-16" src="@/assets/icons/kids/4-kids.svg" alt="">
                 </RadioGroupDescription>
-                <div :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-lg pointer-events-none']" aria-hidden="true" />
+
+                <svg v-if="active || checked" class="absolute h-24 mt-3 z-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74.234 70.889">
+                  <g id="Group_140" data-name="Group 140" transform="translate(-163 -4)" opacity="0.8">
+                    <path id="Path_108740" data-name="Path 108740" d="M1614.084,290.971a74.8,74.8,0,0,1-2.17,18.7,36.525,36.525,0,0,1-4.219,10.239,28.219,28.219,0,0,1-11.164,10.323,36.432,36.432,0,0,1-12.008,3.7,39.217,39.217,0,0,1-10.753.015,36.836,36.836,0,0,1-13.244-4.511,41.6,41.6,0,0,1-16.664-17.1,32.524,32.524,0,0,1-4.008-15.64,19.161,19.161,0,0,1,1.332-7.134,12.329,12.329,0,0,1,6.963-6.971c1.578-.653,3.156-1.31,4.774-1.866,1.283-.441,2.532-.981,3.8-1.473a4.984,4.984,0,0,1,.868-.3,37.692,37.692,0,0,0,6.5-2.1,56.348,56.348,0,0,0,10.751-5.5,76.678,76.678,0,0,1,8.933-5.168,26.525,26.525,0,0,1,11.938-2.764,14.881,14.881,0,0,1,9.711,3.467,19.066,19.066,0,0,1,4.685,6.122,36.767,36.767,0,0,1,3.386,10.884A47.4,47.4,0,0,1,1614.084,290.971Z" transform="translate(-1376.852 -259.419)" fill="#e0f3d8"/>
+                  </g>
+                </svg>
+
+                <div class="absolute -inset-px rounded-lg pointer-events-none" aria-hidden="true" />
               </div>
             </RadioGroupOption>
           </div>
@@ -97,55 +87,40 @@
       <div>
         <form class="mt-12 lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start xl:gap-x-12" @submit.prevent="submitForm">
           <!-- Order summary -->
-          <section aria-labelledby="summary-heading" class="mt-16 bg-gray-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-12">
-            <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Order summary</h2>
+          <section aria-labelledby="summary-heading" class="mt-16 bg-green-100 bg-opacity-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-12">
+            <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Prijsoverzicht</h2>
+            <p class="text-gray-500 text-sm">4 maaltijden voor 3 kinder en 2 ouder(s)</p>
 
             <dl class="mt-6 space-y-4">
               <div class="flex items-center justify-between">
-                <dt class="text-sm text-gray-600">
-                  Subtotal
-                </dt>
-                <dd class="text-sm font-medium text-gray-900">
-                  $99.00
-                </dd>
-              </div>
-              <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
-                <dt class="flex items-center text-sm text-gray-600">
-                  <span>Shipping estimate</span>
-                  <a href="#" class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
-                    <span class="sr-only">Learn more about how shipping is calculated</span>
-                    <QuestionMarkCircleIcon class="h-5 w-5" aria-hidden="true" />
-                  </a>
-                </dt>
-                <dd class="text-sm font-medium text-gray-900">
-                  $5.00
-                </dd>
-              </div>
-              <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
                 <dt class="flex text-sm text-gray-600">
-                  <span>Tax estimate</span>
-                  <a href="#" class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500">
-                    <span class="sr-only">Learn more about how tax is calculated</span>
-                    <QuestionMarkCircleIcon class="h-5 w-5" aria-hidden="true" />
-                  </a>
+                  <span>Prijs per maaltijd</span>
                 </dt>
                 <dd class="text-sm font-medium text-gray-900">
-                  $8.32
+                  €4,99
                 </dd>
               </div>
-              <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
-                <dt class="text-base font-medium text-gray-900">
-                  Order total
+              <div class="flex items-center justify-between">
+                <dt class="flex text-sm text-gray-600">
+                  <span>Prijs per box</span>
                 </dt>
-                <dd class="text-base font-medium text-gray-900">
-                  $112.32
+                <dd class="text-sm font-medium text-gray-900">
+                  €4,99
+                </dd>
+              </div>
+              <div class="flex items-center justify-between">
+                <dt class="flex text-sm text-gray-600">
+                  <span>Bezorging</span>
+                </dt>
+                <dd class="text-sm font-medium text-gray-900">
+                  €4,99
                 </dd>
               </div>
             </dl>
           </section>
 
           <div class="mt-10 col-span-12">
-            <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Stel je levervoorkeuren in</button>
+            <button type="submit" class="w-full bg-green-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">Stel je levervoorkeuren in</button>
           </div>
         </form>
       </div>
@@ -161,21 +136,17 @@ import {
   RadioGroupOption,
 } from '@headlessui/vue'
 
-import { StarIcon } from '@heroicons/vue/solid'
-
 export default {
   components: {
     RadioGroup,
     RadioGroupDescription,
     RadioGroupLabel,
     RadioGroupOption,
-
-    StarIcon
   },
   data() {
     return {
-      selectedKids: 0,
-      selectedParents: 0
+      selectedKids: 3,
+      selectedParents: 2
     }
   },
   methods: {
@@ -186,9 +157,6 @@ export default {
   computed: {
     product() {
       return this.$store.state.product;
-    },
-    reviews(){
-      return this.$store.state.reviews;
     },
     policies(){
       return this.$store.state.policies;

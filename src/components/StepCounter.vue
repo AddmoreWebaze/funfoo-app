@@ -1,77 +1,112 @@
 <template>
-  <div class="mx-auto max-w-2xl lg:max-w-7xl mt-10">
+  <div class="mx-auto max-w-2xl lg:max-w-7xl pt-10">
     <nav aria-label="Progress">
-      <ol role="list" class="border border-gray-200 rounded-md divide-y divide-gray-300 md:flex md:divide-y-0">
-        <li v-for="(step, stepIdx) in steps" :key="step.name" class="relative md:flex-1 md:flex">
-          
-          <router-link v-if="step.status === 'complete'" :to="{ name: step.routeName }" class="group flex items-center w-full">
+
+      <ol role="list" class="border border-gray-100 rounded-3xl divide-y divide-gray-300 md:flex md:divide-y-0 bg-white hidden">
+        <li v-for="(step, stepIdx) in steps" :key="step.name + stepIdx"  class="relative md:flex-1 md:flex">
+
+          <router-link class="group flex items-center w-full" :to="{ name: step.routeName }">
             <span class="px-6 py-4 flex items-center text-sm font-medium">
-              <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-indigo-600 rounded-full group-hover:bg-indigo-800">
-                <CheckIcon class="w-6 h-6 text-white" aria-hidden="true" />
+              <span class="flex-shrink-0 w-10 flex items-center justify-center">
+                  <img v-if="stepIdx == 0" class="w-full" src="@/assets/icons/gegevens.svg" alt="gegevens icoon">
+                  <img v-if="stepIdx == 1" :class="{'opacity-30' : activeRoute < stepIdx}" class="w-full" src="@/assets/icons/box.svg" alt="gegevens icoon">
+                  <img v-if="stepIdx == 2" :class="{'opacity-30' : activeRoute < stepIdx}" class="w-full" src="@/assets/icons/bezorging.svg" alt="gegevens icoon">
+                  <img v-if="stepIdx == 3" :class="{'opacity-30' : activeRoute < stepIdx}" class="w-full" src="@/assets/icons/betalen.svg" alt="gegevens icoon">
+                  <img v-if="stepIdx == 4" :class="{'opacity-30' : activeRoute < stepIdx}" class="w-full" src="@/assets/icons/registreren.svg" alt="gegevens icoon">
               </span>
-              <span class="ml-4 text-sm font-medium text-gray-900">{{ step.name }}</span>
+              <span :class="[activeRoute < stepIdx ? 'text-gray-500' : 'text-gray-900']" class="ml-4 text-sm font-medium">{{ step.name }}</span>
             </span>
           </router-link>
 
-          <router-link v-else-if="step.status === 'current'" :to="{ name: step.routeName }" class="px-6 py-4 flex items-center text-sm font-medium" aria-current="step">
-            <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-indigo-600 rounded-full">
-              <span class="text-indigo-600">{{ step.id }}</span>
-            </span>
-            <span class="ml-4 text-sm font-medium text-indigo-600">{{ step.name }}</span>
-          </router-link>
-
-          <router-link v-else :to="{ name: step.routeName }" class="group flex items-center">
-            <span class="px-6 py-4 flex items-center text-sm font-medium">
-              <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center border-2 border-gray-300 rounded-full group-hover:border-gray-400">
-                <span class="text-gray-500 group-hover:text-gray-900">{{ step.id }}</span>
-              </span>
-              <span class="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">{{ step.name }}</span>
-            </span>
-          </router-link>
-
-          <template v-if="(stepIdx !== steps.length - 1)">
-            <!-- Arrow separator for lg screens and up -->
-            <div class="hidden md:block absolute top-0 right-0 h-full w-5" aria-hidden="true">
-              <svg class="h-full w-full text-gray-200" viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
-                <path d="M0 -2L20 40L0 82" vector-effect="non-scaling-stroke" stroke="currentcolor" stroke-linejoin="round" />
-              </svg>
-            </div>
-          </template>
         </li>
       </ol>
+
     </nav>
   </div>
 </template>
 
 <script>
-import { CheckIcon } from '@heroicons/vue/solid'
-
 export default {
-  components: {
-    CheckIcon,
-  },
   data() {
     return {
-      routeName: 'getting-started'
+      routeName: 'getting-started',
+
+      activeRoute: 1,
+
+      steps: [
+        { id: '01', step: 1, name: 'Jouw gegevens', routeName: 'getting-started', status: 'complete' },
+        { id: '02', step: 2, name: 'Aantal kids', routeName: 'step-1', status: 'current' },
+        { id: '03', step: 3, name: 'Bezorging', routeName: 'step-2', status: 'upcoming' },
+        { id: '04', step: 4, name: 'Bestelinformatie', routeName: 'step-3', status: 'upcoming' },
+        { id: '05', step: 5, name: 'Bestelbevestiging', routeName: 'step-4', status: 'upcoming' },
+      ],
     }
   },
   mounted() {
-    this.checkRoute(this.$route)
-  },
-  computed: {
-    steps() {
-      return this.$store.state.steps
-    }
+    this.getActiveRoute()
+    //this.routeChange(this.$route.name)
   },
   methods: {
-    checkRoute(to){
-      this.$store.commit('routeChange', to.name)
+
+    getActiveRoute(){
+      console.log(this.$route.name)
+      this.activeRoute = this.$route.name
+      switch (this.$route.name) {
+        case 'step-1':
+            this.activeRoute = 1
+          break;
+        case 'step-2':
+            this.activeRoute = 2
+          break;
+        case 'step-3':
+            this.activeRoute = 3
+          break;
+        case 'step-4':
+            this.activeRoute = 4
+          break;
+        case 'step-5':
+            this.activeRoute = 5
+          break;
+        default: this.activeRoute = 1
+          break;
+      }
     }
+
+    /*
+    DEPRICATED
+
+    routeChange (activeRoute) {
+      let index = this.steps.findIndex( route => route.routeName == activeRoute )
+      
+      //change current item
+      let curr = this.steps[index]
+      curr.status = 'current'
+      this.steps[index] = curr
+
+      //change prev items
+      let prev = this.steps.slice(0, index)
+      prev.forEach((route, index) => {
+        route.status = 'complete'
+        this.steps[index] = route
+      });
+
+      //change next items
+      let next = this.steps.slice(index + 1, this.steps.length)
+      for (let index = next.length; index > next.length; index -= 1) {
+        let item = this.steps[this.steps.length - index]
+        item.status = 'upcoming'
+        this.steps[this.steps.length - index] = item
+      }
+      console.log(this.steps)
+    },*/
   },
   watch:{
-    $route (to){
-        this.$store.commit('routeChange', to.name)
+    $route (){
+      this.getActiveRoute()
     }
   } 
 }
 </script>
+
+<style>
+</style>
