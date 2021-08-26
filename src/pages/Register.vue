@@ -4,7 +4,7 @@
       <div class="hidden relative w-0 flex-1 lg:flex items-center justify-center">
         <img class="absolute inset-0 h-full w-full object-cover" src="@/assets/images/funfoo-login-background.svg" alt="Funfoo background" />
 
-        <div class="absolute w-10/12 h-96 bg-white border border-gray-100 p-10 rounded-lg">
+        <div class="absolute w-10/12 h-96 bg-white border border-gray-100 p-10 rounded-lg hidden">
           <div class="w-full border-b border-gray-200 pb-4">
             <h2 class="text-lg font-medium">Debug API response:</h2>
           </div>
@@ -105,7 +105,7 @@ export default {
 
       //debug:
       APIres: 'Submit your form',
-      APIerr: ''
+      APIerr: '',
     }
   },
   methods: {
@@ -120,16 +120,14 @@ export default {
       let password = this.encryptPassword()
 
       await this.$store.dispatch('register', { fname, email, password })
-      .then((res) => {
-        this.APIres = res
-        this.$router.push({ name: 'step-1'})
+      .then(() => {
+        //this.$router.push({ name: 'step-1'})
       })
       .catch(err => { 
         this.APIres = err
         console.log({err})
       })
     },
-
     checkPassword: function() {
       return new Promise((resolve, reject) => {
           if(this.form.password === this.form.rePpassword){
@@ -148,7 +146,6 @@ export default {
           }
       }) 
     },
-
     encryptPassword: function(){          
       const salt = bcrypt.genSaltSync(10)
       return bcrypt.hashSync(this.form.password, salt)

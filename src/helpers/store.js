@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
+//import router from './router';
 
 export const store = createStore({
   state () {
@@ -43,6 +44,20 @@ export const store = createStore({
             { name: '4' },
           ],
         },
+
+
+        order: {
+          lname: '',
+          street: '',
+          hnumber: '',
+          city: '',
+          zip: '',
+          phone: '',
+          deliveryMoment: '',
+          deliveryInstruction: '',
+          kids: '',
+          adults: '',
+        }
 
         
     }
@@ -90,9 +105,10 @@ export const store = createStore({
     register({commit}, user){
       return new Promise((resolve, reject) => {
         commit('auth_request')
+
         axios({url: process.env.VUE_APP_API_URL + '/user/new', data: user, method: 'POST' })
         .then(resp => {
-          const token = resp.data.token
+          const token = resp.data.apikey
           const user = resp.data.user
           localStorage.setItem('token', token)
           axios.defaults.headers.common['Authorization'] = token
@@ -113,6 +129,33 @@ export const store = createStore({
         localStorage.removeItem('token')
         delete axios.defaults.headers.common['Authorization']
         resolve()
+      })
+    },
+    //depending on the chosen method, 
+    //create a new payment route
+    createPayment({commit}, { method, IBAN = null }){
+      return new Promise((resolve, reject) => {
+        commit('auth_request')
+        //var token = localStorage.getItem('token')
+        var token = 'f16e04b3c4435944591f5e2c339a5f25ddf0494876f778c597a4c2525ecae680'
+
+        axios({url: process.env.VUE_APP_API_URL + '/mandate/create', data: { 
+          apikey: token,
+          redirectUrl: `${process.env.VUE_APP_BASE_URL}/order/step-4`,
+          method: method,
+          iban: IBAN
+          }, method: 'POST' })
+        .then(resp => {
+          if(IBAN == null && resp.data.valid){
+            document.location.href = resp.data.authorization
+          }else{
+            reject('Api not reached')
+          }
+          resolve(resp)
+        })
+        .catch(err => {
+          reject(err)
+        })
       })
     }
   },

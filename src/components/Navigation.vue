@@ -13,8 +13,12 @@
             <a v-for="link in navigation" :key="link.name" :href="link.href" class="text-base font-medium text-gray-500 hover:text-green-500">
               {{ link.name }}
             </a>
+            <a v-if="isLoggedIn" href="/order/step-1" class="text-base font-medium text-gray-500 hover:text-green-500">
+              Mijn account
+            </a>
           </div>
-          <a href="#" class="inline-block bg-green-500 py-2 px-4 border border-transparent rounded-full text-base font-medium text-white hover:bg-opacity-75">Uitloggen</a>
+          <button v-if="isLoggedIn" @click="logout" class="inline-block bg-green-500 py-2 px-4 border border-transparent rounded-full text-base font-medium text-white hover:bg-opacity-75">Uitloggen</button>
+          <router-link v-if="!isLoggedIn" :to="{ name: 'Login'}"  @click="logout" class="inline-block bg-green-500 py-2 px-4 border border-transparent rounded-full text-base font-medium text-white hover:bg-opacity-75">Inloggen</router-link>
         </div>
       </div>
       <div class="py-4 flex flex-wrap justify-center space-x-6 lg:hidden">
@@ -31,8 +35,8 @@ import FunfooLogo from './FunfooLogo.vue'
 const navigation = [
   { name: 'Hoe werkt het', href: '#' },
   { name: 'Missie', href: '#' },
-  { name: 'Over ons', href: '#' },
-  { name: 'Mijn Account', href: '#' },
+  { name: 'News', href: '#' },
+  { name: 'Over ons', href: '#' }
 ]
 
 export default {
@@ -42,5 +46,13 @@ export default {
       navigation,
     }
   },
+  computed : {
+    isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
+  },
+  methods: {
+    logout : function (){
+      this.$store.dispatch('logout')
+    }
+  }
 }
 </script>

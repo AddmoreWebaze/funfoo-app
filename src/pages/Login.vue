@@ -4,7 +4,7 @@
       <div class="hidden relative w-0 flex-1 lg:flex items-center justify-center">
         <img class="absolute inset-0 h-full w-full object-cover" src="@/assets/images/funfoo-login-background.svg" alt="Funfoo background" />
 
-        <div class="absolute w-10/12 h-96 bg-white border border-gray-100 p-10 rounded-lg">
+        <div class="absolute w-10/12 h-96 bg-white border border-gray-100 p-10 rounded-lg hidden">
           <div class="w-full border-b border-gray-200 pb-4">
             <h2 class="text-lg font-medium">Debug API response:</h2>
           </div>
@@ -101,7 +101,8 @@ export default {
       this.$store.dispatch('login', { email, password })
       .then((res) => {
         this.APIres = res
-        this.$router.push('/')
+        console.log(res)
+        //this.$router.push('/')
       })
       .catch(err => { 
         this.APIerr = err

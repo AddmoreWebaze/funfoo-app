@@ -9,6 +9,7 @@ import { store } from './helpers/store'
 
 const app = createApp(App)
 
+
 app.config.globalProperties.$http = Axios;
 const token = localStorage.getItem('token')
 if (token) {

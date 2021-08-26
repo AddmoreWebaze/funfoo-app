@@ -1,20 +1,6 @@
 <template>
   <!-- Product details -->
   <div class="lg:max-w-lg lg:self-end">
-    <nav aria-label="Breadcrumb">
-      <ol role="list" class="flex items-center space-x-2">
-        <li v-for="(breadcrumb, breadcrumbIdx) in product.breadcrumbs" :key="breadcrumb.id">
-          <div class="flex items-center text-sm">
-            <router-link :to="{ name: breadcrumb.routeName }" class="font-medium text-gray-500 hover:text-gray-900">
-              {{ breadcrumb.name }}
-            </router-link>
-            <svg v-if="(breadcrumbIdx !== product.breadcrumbs.length - 1)" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" class="ml-2 flex-shrink-0 h-5 w-5 text-gray-300">
-              <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-            </svg>
-          </div>
-        </li>
-      </ol>
-    </nav>
 
     <div class="mt-4">
       <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Bevestig je Bestelling</h1>
@@ -145,7 +131,7 @@
           </section>
 
           <div class="mt-10 col-span-12">
-            <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Plaats je bestelling</button>
+            <button type="submit" class="w-full bg-green-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">Plaats je bestelling</button>
           </div>
         </form>
   </section>

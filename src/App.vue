@@ -10,14 +10,25 @@
     <Navigation /> 
 
     <router-view></router-view>
+
+    <div class="fixed bottom-10 right-10 w-64 h-20 bg-white rounded-lg border border-gray-100 hidden">
+      {{user}}
+    </div>
   </div>
 </template>
 
 <script>
 import Navigation from '@/components/Navigation.vue'
+
 export default {
   components: { Navigation },
-  name: 'App'
+  name: 'App',
+
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+  }
 }
 </script>
 

@@ -15,17 +15,17 @@
         <div>
           <label for="fname" class="block text-sm font-medium text-gray-700">Voornaam*</label>
           <div class="mt-1">
-            <input autofocus v-model="form.firstname" required type="text" name="fname" autocomplete="shipping given-name" id="firstname" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="" />
+            <input autofocus v-model="form.fname" required type="text" name="fname" autocomplete="shipping given-name" id="fname" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="" />
           </div>
         </div>
         <div class="">
           <label for="lname" class="block text-sm font-medium text-gray-700">Naam*</label>
           <div class="mt-1">
-            <input v-model="form.lastname" required type="text" name="lname" autocomplete="shipping family-name" id="lastname" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="" />
+            <input v-model="form.lname" required type="text" name="lname" autocomplete="shipping family-name" id="lname" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="" />
           </div>
         </div>
       </div>
-      <div class="grid sm:grid-cols-2 space-y-4 space-x-0 grid-cols-1 sm:space-x-4 sm:space-y-0 mt-4">
+      <div class="grid sm:grid-cols-2 space-y-4 space-x-0 grid-cols-1 sm:space-x-4 sm:space-y-0 mt-6">
         <div class="col-span-1">
           <label for="street" class="block text-sm font-medium text-gray-700">Adres*</label>
           <div class="mt-1">
@@ -35,11 +35,11 @@
         <div class="col-span-1">
           <label for="housenumber" class="block text-sm font-medium text-gray-700">Nummer + bus*</label>
           <div class="mt-1">
-            <input v-model="form.streetnr" required type="text" name="housenumber" id="housenumber" autocomplete="off" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="12 bus 1" />
+            <input v-model="form.hnumber" required type="text" name="housenumber" id="housenumber" autocomplete="off" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="12 bus 1" />
           </div>
         </div>
       </div>
-      <div class="grid sm:grid-cols-2 space-y-4 space-x-0 grid-cols-1 sm:space-x-4 sm:space-y-0 mt-4">
+      <div class="grid sm:grid-cols-2 space-y-4 space-x-0 grid-cols-1 sm:space-x-4 sm:space-y-0 mt-6">
         <div>
           <label for="city" class="block text-sm font-medium text-gray-700">Woonplaats*</label>
           <div class="mt-1">
@@ -48,60 +48,56 @@
         </div>
         <div>
           <label for="zip" class="block text-sm font-medium text-gray-700">Postcode*</label>
-          <div class="mt-1">
-            <input v-model="form.zip" required type="text" name="zip" autocomplete="shipping postal-code" id="zip" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="" />
+          <div class="mt-1 relative">
+            <input v-on:keyup="checkZip" v-model="form.zip" required type="text" name="zip" autocomplete="shipping postal-code" id="zip" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="" />
+              <div v-if="error.type == 'zip'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
+              </div>
           </div>
+           <p v-if="error.type == 'zip'" class="mt-2 text-sm text-red-600" id="password-error">{{error.message}}</p>
         </div>
       </div>
-      <div class="mt-4">
+      <div class="mt-6">
         <label for="phone" class="block text-sm font-medium text-gray-700">Telefoonnummer*</label>
         <div class="mt-1">
-          <input v-model="form.tel" required type="tel" name="phone" autocomplete="shipping tel" id="phone" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="" />
+          <input v-model="form.phone" required type="tel" name="phone" autocomplete="shipping tel" id="phone" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="" />
         </div>
       </div>
 
-      <div class="mt-4">
+      <div class="mt-6">
         <label for="deliveryDate" class="block text-sm font-medium text-gray-700">Kies jouw bezorgmoment*</label>
-        <RadioGroup v-model="form.deliveryDate" id="deliveryDate" class="mt-1">
+        <RadioGroup v-model="form.deliveryMoment" id="deliveryDate" class="mt-1">
           <RadioGroupLabel class="sr-only">
             Kies jouw bezorgmoment
           </RadioGroupLabel>
           <div class="relative bg-white rounded-3xl space-y-2">
-            <RadioGroupOption as="template" v-for="(date, dateIdx) in deliverydates" :key="date.day" :value="date + dateIdx" v-slot="{ checked, active }">
-              <div :class="[checked ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'rounded-full relative border px-5 py-3 flex flex-col cursor-pointer md:pl-4 md:pr-6 md:grid md:grid-cols-3 focus:outline-none']">
+            <RadioGroupOption as="template" v-for="(date, dateIdx) in deliverydates" :key="dateIdx" :value="date.id" v-slot="{ checked, active }">
+              <div :class="[checked ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'rounded-full relative transition-colors duration-150 border px-5 py-3 flex flex-col cursor-pointer md:pl-4 md:pr-6 focus:outline-none']">
                 <div class="flex items-center text-sm">
                   <span :class="[checked ? 'bg-green-600 border-transparent' : 'bg-white border-gray-300', active ? 'ring-2 ring-offset-2 ring-green-500' : '', 'h-4 w-4 rounded-full border flex items-center justify-center']" aria-hidden="true">
                     <span class="rounded-full bg-white w-1.5 h-1.5" />
                   </span>
-                  <RadioGroupLabel as="span" :class="[checked ? 'text-green-900' : 'text-gray-900', 'ml-3 font-medium']">{{ date.day }}</RadioGroupLabel>
+                  <RadioGroupLabel as="span" :class="[checked ? 'text-green-900' : 'text-gray-900', 'ml-3 font-medium']">{{ date.label }}</RadioGroupLabel>
                 </div>
-                <RadioGroupDescription class="ml-6 pl-1 text-sm md:ml-0 md:pl-0">
-                  <span :class="[checked ? 'text-green-800' : 'text-gray-500', 'font-medium']">{{ date.hours }}</span>
-                </RadioGroupDescription>
+
               </div>
             </RadioGroupOption>
           </div>
         </RadioGroup>
       </div>
 
-      <div class="mt-4">
+      <div class="mt-6">
           <!-- Size selector -->
         <RadioGroup v-model="form.firstDeliveryDate" class="w-full">
           <RadioGroupLabel class="block text-sm font-medium text-gray-700">
             je eerste box*
           </RadioGroupLabel>
-          <div class="mt-1 grid grid-cols-2 gap-4 sm:grid-cols-6 w-full">
-            <RadioGroupOption as="template" v-for="(date, index) in getAllTuesdays" :key="index" :value="index+1" v-slot="{ active, checked }">
-              <div class="relative h-32 flex flex-col items-center justify-between p-4 cursor-pointer focus:outline-none">
-                <RadioGroupLabel as="p" class="text-base font-medium text-gray-900 relative z-20">
-                  {{ date.day }}
+          <div class="mt-1 grid grid-cols-2 gap-2 sm:grid-cols-6 w-full">
+            <RadioGroupOption as="template" v-for="(date, index) in getAllTuesdays" :key="index" :value="date.day" v-slot="{ active, checked }">
+              <div :class="[checked || active ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'relative hover:bg-green-100 transition-colors duration-150 flex flex-col items-center justify-between py-4 cursor-pointer focus:outline-none rounded-3xl border border-gray-300']">
+                <RadioGroupLabel as="p" class="font-medium text-gray-900 relative z-20">
+                  {{ date.parsedDay }}
                 </RadioGroupLabel>
-
-                <svg v-if="active || checked" class="absolute h-24 mt-3 z-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74.234 70.889">
-                  <g id="Group_140" data-name="Group 140" transform="translate(-163 -4)" opacity="0.8">
-                    <path id="Path_108740" data-name="Path 108740" d="M1614.084,290.971a74.8,74.8,0,0,1-2.17,18.7,36.525,36.525,0,0,1-4.219,10.239,28.219,28.219,0,0,1-11.164,10.323,36.432,36.432,0,0,1-12.008,3.7,39.217,39.217,0,0,1-10.753.015,36.836,36.836,0,0,1-13.244-4.511,41.6,41.6,0,0,1-16.664-17.1,32.524,32.524,0,0,1-4.008-15.64,19.161,19.161,0,0,1,1.332-7.134,12.329,12.329,0,0,1,6.963-6.971c1.578-.653,3.156-1.31,4.774-1.866,1.283-.441,2.532-.981,3.8-1.473a4.984,4.984,0,0,1,.868-.3,37.692,37.692,0,0,0,6.5-2.1,56.348,56.348,0,0,0,10.751-5.5,76.678,76.678,0,0,1,8.933-5.168,26.525,26.525,0,0,1,11.938-2.764,14.881,14.881,0,0,1,9.711,3.467,19.066,19.066,0,0,1,4.685,6.122,36.767,36.767,0,0,1,3.386,10.884A47.4,47.4,0,0,1,1614.084,290.971Z" transform="translate(-1376.852 -259.419)" fill="#e0f3d8"/>
-                  </g>
-                </svg>
 
                 <div class="absolute -inset-px rounded-lg pointer-events-none" aria-hidden="true" />
               </div>
@@ -110,7 +106,7 @@
         </RadioGroup>
       </div>
 
-      <div class="mt-4">
+      <div class="mt-6">
         <label for="notHome" class="block text-sm font-medium text-gray-700">Instructies bij afwezigheid</label>
         <select v-model="form.notHome" id="notHome" name="notHome" class="mt-1 block w-full pl-5 pr-14 py-3 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-full">
           <option value="1">In de tuin</option>
@@ -120,73 +116,136 @@
         </select>
       </div>
 
-
-
       <div class="mt-10">
         <button type="submit" class="w-full bg-green-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">Naar betaalmethode</button>
-        <p class="mt-4 text-sm text-center" id="email-description"><router-link class="text-green-500" to="/order/step-1">Vorige stap</router-link></p>
+        <p class="mt-4 text-sm text-center" id="email-description"><router-link class="text-green-600" to="/order/step-1">Vorige stap</router-link></p>
       </div>
     </form>
   </section>
 </template>
 
 <script>
-import { RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
+import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
+import { ExclamationCircleIcon } from '@heroicons/vue/solid'
+import axios from 'axios'
 
 export default {
   components: {
+    ExclamationCircleIcon,
+
     RadioGroup,
-    RadioGroupDescription,
     RadioGroupLabel,
     RadioGroupOption,
   },
   data() {
     return {
       form: {
-        firstname: '',
-        lastname: '',
+        fname: '',
+        lname: '',
         street: '',
-        streetnr: '',
+        hnumber: '',
         city: '',
         zip: '',
-        tel: '',
-        deliveryDate: '1',
+        phone: '',
+        deliveryMoment: '1',
         firstDelivery: [],
         firstDeliveryDate: '',
         notHome: '1'
       },
 
+      error: {},
+
+      zipisGood: null,
+
       deliverydates: [
-        { day: 'Donderdag', hours: 'tussen 7:00 - 10:00'},
-        { day: 'Donderdag', hours: 'tussen 12:00 - 15:00'},
-        { day: 'Donderdag', hours: 'tussen 16:00 - 21:00'},
+        { id:1, dayofweek: 4, label: 'Donderdag tussen 17:00 en 20:00', hour_range: '7:00 - 10:00'},
+        { id:2, dayofweek: 4, label: 'Donderdag tussen 17:00 en 20:00', hour_range: '12:00 - 15:00'},
+        { id:3, dayofweek: 4, label: 'Donderdag tussen 17:00 en 20:00', hour_range: '16:00 - 21:00'},
       ]
     }
+  },
+  mounted() {
+    this.getDeliveryMoments()
   },
   methods: {
     submitForm: function(){
       this.$router.push({ name: 'step-3'})
     },
+    //get all the tuesdays in a week
     getTuesdayInWeek: function (date, dayOfWeek) {
         // Code to check that date and dayOfWeek are valid left as an exercise ;)
         var resultDate = new Date(date.getTime());
         resultDate.setDate(date.getDate() + (7 + dayOfWeek - date.getDay()) % 7);
         return resultDate;
     },
+    //add some days to a specific date
+    //eg. this day + 7 days
     addDays: function (date, days) {
       var result = new Date(date);
       result.setDate(result.getDate() + days);
       return result;
-    }
+    },
+    //pare the date into a readable rime
+    //eg. Do 26/7
+    parseDay: function(dateTime){
+      var d = new Date(dateTime)
+      var dayName = ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za'];
+
+      const formatted = `${dayName[d.getDay()]} ${d.getDate()}/${d.getMonth()}`
+      console.log(formatted)
+      return formatted
+    },
+
+    //get all deliverydates
+    getDeliveryMoments: function() {
+      axios({url: process.env.VUE_APP_API_URL + '/box/delivery/moments', method: 'GET' })
+      .then(resp => {
+        this.deliverydates = resp.data.moments
+      })
+      .catch(() => {
+        console.log('Whoops, something went wrong here')
+      })
+    },
+
+    //check when ZIP is 4 long
+    checkZip(){
+      if(this.form.zip.length > 3){
+        console.log('checking')
+        var token = localStorage.getItem('token')
+        axios({url: process.env.VUE_APP_API_URL + '/box/delivery/zipcode', data: { zip: this.form.zip, apikey: token }, method: 'GET' })
+        .then(resp => {
+          console.log(resp.data.valid)
+          if(!resp.data.valid){
+            this.zipisGood = false;
+            this.error.type = 'zip'
+            this.error.message = resp.data.message
+          }else{
+            this.zipisGood = true;
+            this.error = {}
+          }
+        })
+        .catch(() => {
+          console.log('Whoops, something went wrong here')
+        })
+      }
+    },
+
+    
 
   },
   computed: {
+    //get all the tuesdays for a month
     getAllTuesdays: function() {
       var tuesdays = []
       var daysCap = 28 //28/7 = 4 -> look for 4 weeks every tuesday
 
       for ( var i = 0; i < daysCap; i += 7 ) {
-        tuesdays.push({"day" : this.getTuesdayInWeek(this.addDays(new Date, i), 4)})
+        var tuesday = this.getTuesdayInWeek(this.addDays(new Date, i), 4)
+
+        tuesdays.push({
+          "day" : tuesday,
+          "parsedDay" : this.parseDay(tuesday)
+        })
       }
 
       return tuesdays
