@@ -1,4 +1,5 @@
 <template>
+<div>
   <!-- Product details -->
   <div class="lg:max-w-lg lg:self-end">
     <div>
@@ -122,6 +123,7 @@
       </div>
     </form>
   </section>
+</div>
 </template>
 
 <script>
