@@ -13,9 +13,9 @@
             <a v-for="link in navigation" :key="link.name" :href="link.href" class="text-base font-medium text-gray-500 hover:text-green-500">
               {{ link.name }}
             </a>
-            <a v-if="isLoggedIn" href="/order/step-1" class="text-base font-medium text-gray-500 hover:text-green-500">
+            <router-link v-if="isLoggedIn" :to="{ name: 'UserProfile'}" class="text-base font-medium text-gray-500 hover:text-green-500">
               Mijn account
-            </a>
+            </router-link>
           </div>
           <button v-if="isLoggedIn" @click="logout" class="inline-block bg-green-500 py-2 px-4 border border-transparent rounded-full text-base font-medium text-white hover:bg-opacity-75">Uitloggen</button>
           <router-link v-if="!isLoggedIn" :to="{ name: 'Login'}"  @click="logout" class="inline-block bg-green-500 py-2 px-4 border border-transparent rounded-full text-base font-medium text-white hover:bg-opacity-75">Inloggen</router-link>

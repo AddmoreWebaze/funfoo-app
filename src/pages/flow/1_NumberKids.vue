@@ -153,6 +153,12 @@ export default {
   },
   methods: {
     submitForm(){
+      var form = {
+        kids : this.selectedKids,
+        adults : this.selectedParents
+      }
+
+      this.$store.dispatch('changeQty', form)
       this.$router.push({ name: 'step-2'})
     }
   },
@@ -160,8 +166,8 @@ export default {
     product() {
       return this.$store.state.product;
     },
-    policies(){
-      return this.$store.state.policies;
+    order(){
+      return this.$store.state.order;
     }
   }
 }

@@ -13,7 +13,15 @@ import Step3 from '@/pages/flow/3_Payment.vue'
 import Step4 from '@/pages/flow/4_Confirmation.vue'
 import Step5 from '@/pages/flow/5_Thanks.vue'
 //userprofile
+import UserShell from '@/pages/user/UserShell.vue'
 import UserProfile from '@/pages/user/UserProfile.vue'
+import DeliveryPref from '@/pages/user/DeliveryPref.vue'
+import Recipes from '@/pages/user/Recipes.vue'
+import Overview from '@/pages/user/Overview.vue'
+import ChangeBox from '@/pages/user/ChangeBox.vue'
+import ChangePay from '@/pages/user/ChangePay.vue'
+import CancelOrder from '@/pages/user/CancelOrder.vue'
+import CancelSubscr from '@/pages/user/CancelSubscr.vue'
 
 //admin
 import Admin from "@/pages/admin/AdminHome.vue";
@@ -82,9 +90,54 @@ const routes = [
     ]
   },
   {
-    path: "/my-profile",
+    path: "/profile",
     name: 'Profile',
-    component: UserProfile
+    component: UserShell,
+    meta: {
+      requiresAuth: true
+    },
+    children: [
+      {
+        path: '',
+        name: 'UserProfile',
+        component: UserProfile,
+      },
+      {
+        path: '',
+        name: 'DeliveryPref',
+        component: DeliveryPref,
+      },
+      {
+        path: '',
+        name: 'Recipes',
+        component: Recipes,
+      },
+      {
+        path: '',
+        name: 'Overview',
+        component: Overview,
+      },
+      {
+        path: '',
+        name: 'ChangeBox',
+        component: ChangeBox,
+      },
+      {
+        path: '',
+        name: 'ChangePay',
+        component: ChangePay,
+      },
+      {
+        path: '',
+        name: 'CancelOrder',
+        component: CancelOrder,
+      },
+      {
+        path: '',
+        name: 'CancelSubscr',
+        component: CancelSubscr,
+      }
+    ]
   },
   {
     path: "/admin",

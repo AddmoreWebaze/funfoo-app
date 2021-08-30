@@ -16,9 +16,8 @@
         <div class="max-w-2xl mx-auto pt-16 pb-24  sm:pt-10 sm:pb-32  lg:max-w-7xl lg:grid lg:grid-cols-5 lg:gap-x-8">
           <!-- Product form -->
           <div class="mt-10 lg:mt-0 col-span-3 lg:self-start bg-white rounded-3xl lg:p-10 sm:p-6 p-4 border border-gray-100 overflow-hidden relative sm:pb-10 lg:pb-20">
-            <transition name="slide-fade" mode="out-in">
+            
               <router-view></router-view>
-            </transition>
 
             <div class="h-12 absolute bottom-0 w-full bg-green-400 left-0">
               <img class='w-full object-cover' src="@/assets/images/funfoo-background.png" alt="">

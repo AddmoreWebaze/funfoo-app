@@ -11,7 +11,7 @@
   <!--CHECKOUT choose your option-->
   <section aria-labelledby="payment-options" class="flex-auto overflow-y-auto pt-12 sm:pt-16 lg:pt-16 pb-4">
     <div class="grid grid-cols-2 self-start gap-4 px-2">
-      <button @click="payCredit()" class="w-full bg-green-100 text-green-600 border border-transparent rounded-2xl py-6 px-8 flex flex-col items-between justify-start text-base font-medium hover:bg-green-200 hover:bg-opacity-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">
+      <button v-if="false" @click="payCredit()" class="w-full bg-green-100 text-green-600 border border-transparent rounded-2xl py-6 px-8 flex flex-col items-between justify-start text-base font-medium hover:bg-green-200 hover:bg-opacity-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">
         <svg class="w-10 h-10 text-green-600" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g stroke-linecap="round" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linejoin="round"><path d="M3 9h18"/><path d="M9.5 13H7"/><path d="M11 19H3"/><path d="M9 17l2 2 -2 2"/><path d="M3 15V8c0-1.657 1.343-3 3-3h12c1.657 0 3 1.343 3 3v8c0 1.657-1.343 3-3 3h-3"/></g><path fill="none" d="M0 0h24v24H0Z"/></svg>
         <p class="mt-10">Betaal met Credit Card</p>
       </button>
@@ -82,7 +82,11 @@ export default {
       this.form = {
         method: 'creditcard',
       }
-      this.$store.dispatch('createPayment', this.form )
+      this.$store.dispatch('createPayment', this.form)
+      .then(() => this.$router.push({name: 'step-4'}))
+      .catch(err => {
+        console.log(err)
+      })
     },
     paySepa: function(){
       this.showSepaForm = true
@@ -96,6 +100,13 @@ export default {
       //using an external library to check for IBAN number, this is not ideal
       if(IBAN.isValid(this.form.iban)){
         this.$store.dispatch('createPayment', this.form )
+        .then((res) => {
+          console.log('this is super cool', res)
+          this.$router.push({name: 'step-4'})
+          })
+        .catch(err => {
+          console.log(err)
+        })
       }else{
         this.error = 'Dit IBAN nummer bestaat niet'
       }
