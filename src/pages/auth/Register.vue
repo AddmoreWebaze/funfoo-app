@@ -125,11 +125,10 @@ export default {
       })
       .catch(err => { 
         console.log(err)
-        this.error = {
+        /*this.error = {
           errorField: 'auth',
           errorMessage:  err.response.data.message || err
-        }
-        console.log(err)
+        }*/
       })
     },
     checkPassword: function() {
