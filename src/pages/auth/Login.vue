@@ -106,7 +106,7 @@ export default {
       .catch(err => { 
         this.error = {
           errorField: 'auth',
-          errorMessage:  err.response.data.message
+          errorMessage:  err.response.data.message || err
         }
         this.APIerr = err
         console.log(err)
