@@ -29,7 +29,7 @@
                   <label for="email" class="block text-sm font-medium text-gray-700">Email*</label>
                   <div class="mt-1 relative">
                     <input v-model="form.email" required type="text" name="email" autocomplete="email" id="email" class="px-5 py-3 shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="you@example.com" />
-                    <div v-if="error.errorField == 'email'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <div v-if="error.errorField == 'email' || error.errorField == 'auth'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                       <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
                     </div>
                   </div>
@@ -40,12 +40,14 @@
                   <label for="password" class="block text-sm font-medium text-gray-700">Wachtwoord*</label>
                   <div class="mt-1 relative">
                     <input v-model="form.password" required type="password" name="password" autocomplete="new-password" id="password" class="px-5 py-3 shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je passwoord" />
-                    <div v-if="error.errorField == 'passwoord'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <div v-if="error.errorField == 'passwoord' || error.errorField == 'auth'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                       <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
                     </div>
                   </div>
                   <p v-if="error.errorField == 'passwoord'" class="mt-2 text-sm text-red-600" id="password-error">{{error.errorMessage}}</p>
                 </div>
+
+                <p v-if="error.errorField == 'auth'" class="mt-2 text-sm text-red-600" id="password-error">{{error.errorMessage}}</p>
 
                 <div class="mt-10">
                   <button type="submit" class="w-full bg-orange-500 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 transition-colors duration-200 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-orange-500">Stel je levervoorkeuren in</button>
@@ -54,6 +56,7 @@
               </form>
             </div>
           </div>
+          {{APIerr}}
 
           <!--BACKGROUND-->
           <div class="absolute w-full h-10 bottom-0 left-0">
@@ -67,7 +70,6 @@
 
 <script>
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
-import bcrypt from 'bcryptjs';
 import FunfooLogo from '@/components/FunfooLogo.vue';
 
 export default {
@@ -79,7 +81,7 @@ export default {
     return {
       form: {
         email: 'aaron@icloud.com',
-        password: 'aaron',
+        password: 'aaronissupercool',
       },
 
       error: {},
@@ -96,35 +98,22 @@ export default {
 
     login: function () {
       let email = this.form.email
-      let password = this.encryptPassword()
+      let password = this.form.password
 
       this.$store.dispatch('login', { email, password })
-      .then((res) => {
-        this.APIres = res
-        console.log(res)
-        //this.$router.push('/')
+      .then(() => {
+        this.$router.push({ name: 'step-1'})
       })
       .catch(err => { 
+        this.error = {
+          errorField: 'auth',
+          errorMessage:  err.response.data.message
+        }
         this.APIerr = err
         console.log(err)
       })
     },
-
-    encryptPassword: function(){          
-      const salt = bcrypt.genSaltSync(10)
-      return bcrypt.hashSync(this.form.password, salt)
-    },
   },
-  computed: {
-    product() {
-      return this.$store.state.product;
-    },
-    reviews(){
-      return this.$store.state.reviews;
-    },
-    policies(){
-      return this.$store.state.policies;
-    }
-  }
+  computed: {}
 }
 </script>

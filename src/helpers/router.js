@@ -1,18 +1,20 @@
 import { createWebHistory, createRouter } from "vue-router";
+import { store } from './store.js'
 import Home from "@/App.vue";
-import Login from "@/pages/Login.vue";
-import Register from "@/pages/Register.vue";
-import Order from "@/pages/Order.vue";
-
-import Admin from "@/pages/admin/AdminHome.vue";
-
-//steps
+//auth
+import AuthShell from '@/pages/auth/AuthShell.vue'
+import Login from "@/pages/auth/Login.vue";
+import Register from "@/pages/auth/Register.vue";
+//order
+import OrderShell from '@/pages/flow/OrderShell.vue'
 import Step0 from '@/pages/flow/0_YourData.vue'
 import Step1 from '@/pages/flow/1_NumberKids.vue'
 import Step2 from '@/pages/flow/2_Delivery.vue'
 import Step3 from '@/pages/flow/3_Payment.vue'
 import Step4 from '@/pages/flow/4_Confirmation.vue'
 import Step5 from '@/pages/flow/5_Thanks.vue'
+//admin
+import Admin from "@/pages/admin/AdminHome.vue";
 
 const routes = [
   {
@@ -23,17 +25,32 @@ const routes = [
   },
   {
     path: "/login",
-    name: "Login",
-    component: Login,
+    component: AuthShell,
+    children: [
+      {
+        path: '',
+        name: "Login",
+        component: Login
+      }
+    ]
   },
   {
     path: "/register",
-    name: "Register",
-    component: Register,
+    component: AuthShell,
+    children: [
+      {
+        path: '',
+        name: "Register",
+        component: Register
+      }
+    ]
   },
   {
     path: "/order",
-    component: Order,
+    component: OrderShell,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: 'getting-started',
@@ -71,8 +88,12 @@ const routes = [
     path: "/admin",
     name: "Admin",
     component: Admin,
+    meta: {
+      requiresAuth: true
+    },
   },
 ];
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -81,5 +102,18 @@ const router = createRouter({
     return { x: 0, y: 0 }
   }
 });
+
+//route guad
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/login')
+  } else {
+    next()
+  }
+})
 
 export default router;

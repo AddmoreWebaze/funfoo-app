@@ -2,6 +2,14 @@ import { createStore } from 'vuex'
 import axios from 'axios'
 //import router from './router';
 
+const encrypt = (salt, text) => {
+  console.log(salt, text)
+  const textToChars = text => text.split('').map(c => c.charCodeAt(0));
+  const byteHex = n => ("0" + Number(n).toString(16)).substr(-2);
+  const applySaltToChar = code => textToChars(salt).reduce((a,b) => a ^ b, code);
+  return text.split('').map(textToChars).map(applySaltToChar).map(byteHex).join('');
+};
+
 export const store = createStore({
   state () {
     return {
@@ -10,8 +18,6 @@ export const store = createStore({
         status: '',
         token: localStorage.getItem('token') || '',
         user : {},
-
-
 
 
         //funfoo selected product
@@ -85,9 +91,13 @@ export const store = createStore({
     login({commit}, user){
       return new Promise((resolve, reject) => {
         commit('auth_request')
+        
+        user.password = encrypt(process.env.VUE_APP_SALT, user.password)
+
         axios({url: process.env.VUE_APP_API_URL + '/login', data: user, method: 'POST' })
         .then(resp => {
-          const token = resp.data.token
+          console.log(resp)
+          const token = resp.data.apikey
           const user = resp.data.user
           localStorage.setItem('token', token)
           axios.defaults.headers.common['Authorization'] = token
@@ -105,6 +115,8 @@ export const store = createStore({
     register({commit}, user){
       return new Promise((resolve, reject) => {
         commit('auth_request')
+
+        user.password = encrypt(process.env.VUE_APP_SALT, user.password)
 
         axios({url: process.env.VUE_APP_API_URL + '/user/new', data: user, method: 'POST' })
         .then(resp => {
@@ -157,7 +169,7 @@ export const store = createStore({
           reject(err)
         })
       })
-    }
+    },
   },
   getters: {
     isLoggedIn: state => !!state.token,
