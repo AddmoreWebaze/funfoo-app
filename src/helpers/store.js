@@ -106,6 +106,7 @@ export const store = createStore({
         })
         .catch(err => {
           commit('auth_error')
+          console.log(err)
           localStorage.removeItem('token')
           reject(err)
         })
