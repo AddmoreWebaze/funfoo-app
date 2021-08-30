@@ -34,7 +34,7 @@ export default {
       activeRoute: 1,
 
       steps: [
-        { id: '01', step: 1, name: 'Jouw gegevens', routeName: 'getting-started', status: 'complete' },
+        { id: '01', step: 1, name: 'Jouw gegevens', routeName: 'step-1', status: 'complete' },
         { id: '02', step: 2, name: 'Aantal kids', routeName: 'step-1', status: 'current' },
         { id: '03', step: 3, name: 'Bezorging', routeName: 'step-2', status: 'upcoming' },
         { id: '04', step: 4, name: 'Bestelinformatie', routeName: 'step-3', status: 'upcoming' },
@@ -49,7 +49,6 @@ export default {
   methods: {
 
     getActiveRoute(){
-      console.log(this.$route.name)
       this.activeRoute = this.$route.name
       switch (this.$route.name) {
         case 'step-1':

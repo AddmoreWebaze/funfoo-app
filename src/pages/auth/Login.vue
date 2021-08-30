@@ -56,7 +56,6 @@
               </form>
             </div>
           </div>
-          {{APIerr}}
 
           <!--BACKGROUND-->
           <div class="absolute w-full h-10 bottom-0 left-0">

@@ -15,9 +15,9 @@ const token = localStorage.getItem('token')
 if (token) {
   console.log('token detected: ', token)
   app.config.globalProperties.$http.defaults.headers.common['Authorization'] = token
+}else{
+  console.log('no token detected')
 }
-
-console.log('no token detected')
 
 app.use(store)
 app.use(router)

@@ -7,12 +7,14 @@ import Login from "@/pages/auth/Login.vue";
 import Register from "@/pages/auth/Register.vue";
 //order
 import OrderShell from '@/pages/flow/OrderShell.vue'
-import Step0 from '@/pages/flow/0_YourData.vue'
 import Step1 from '@/pages/flow/1_NumberKids.vue'
 import Step2 from '@/pages/flow/2_Delivery.vue'
 import Step3 from '@/pages/flow/3_Payment.vue'
 import Step4 from '@/pages/flow/4_Confirmation.vue'
 import Step5 from '@/pages/flow/5_Thanks.vue'
+//userprofile
+import UserProfile from '@/pages/user/UserProfile.vue'
+
 //admin
 import Admin from "@/pages/admin/AdminHome.vue";
 
@@ -53,11 +55,6 @@ const routes = [
     },
     children: [
       {
-        path: 'getting-started',
-        name: "getting-started",
-        component: Step0
-      },
-      {
         path: 'step-1',
         name: "step-1",
         component: Step1
@@ -83,6 +80,11 @@ const routes = [
         component: Step5
       }
     ]
+  },
+  {
+    path: "/my-profile",
+    name: 'Profile',
+    component: UserProfile
   },
   {
     path: "/admin",
