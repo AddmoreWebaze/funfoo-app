@@ -45,11 +45,11 @@ const orderModule = {
 
     //order
     //complete user profile
-    changeDelivery({ commit }, form){
+    changeDelivery({ commit, state }, form){
       return new Promise((resolve, reject) => {
         commit('setDelivery', form)
 
-        var completeProfile = this.state.order
+        var completeProfile = state.order
         completeProfile.apikey = localStorage.getItem('token')
 
         axios({url: process.env.VUE_APP_API_URL + '/user/complete', data: completeProfile, method: 'POST' })
