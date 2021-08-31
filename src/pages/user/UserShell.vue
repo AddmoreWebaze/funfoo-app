@@ -69,16 +69,7 @@ export default {
 </script>
 
 <style>
-/* Enter and leave animations can use different */
-/* durations and timing functions.              */
-.slide-fade-enter-active {
-  @apply transform transition-all duration-300 ease-in-out
-}
-.slide-fade-leave-active {
-  @apply transform transition-all duration-300 ease-in-out
-}
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
-  @apply opacity-0 -translate-y-4
+.router-link-exact-active{
+  @apply text-green-500 transition-colors duration-300 font-medium
 }
 </style>

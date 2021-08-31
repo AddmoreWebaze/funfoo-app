@@ -194,14 +194,8 @@ export default {
   },
   computed: {
     product() {
-      return this.$store.state.product;
+      return this.$store.state.productModule.product;
     },
-    reviews(){
-      return this.$store.state.reviews;
-    },
-    policies(){
-      return this.$store.state.policies;
-    }
   }
 }
 </script>

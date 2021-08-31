@@ -35,16 +35,39 @@
                 </div>
                 <div>
                   <h6 class="text-md font-semibold">{{product.name}}</h6>
-                  <p class="text-gray-500 text-sm">4 maaltijden voor 3 kinder en 2 ouder(s)</p>
+                  <p class="text-gray-500 text-sm">4 maaltijden voor {{product.kids}} kinderen en {{product.parent}} ouder(s)</p>
                   <div class="border-b h-2 mt-2"></div>
                   <div class="flex flex-row items-center justify-between mt-4 text-gray-500">
-                    <p class="text-sm">Per portie</p>
-                    <p class="text-black">€4,99</p>
+                    <p class="text-sm">Per maaltijd</p>
+                    <p class="text-black">€{{(Math.round(parseInt(product.total) / (parseInt(product.kids) + parseInt(product.adults))))}}</p>
                   </div>
 
                   <div class="flex flex-row items-center justify-between mt-2 text-gray-500">
                     <p class="text-sm">Box</p>
-                    <p class="text-black">€60,00</p>
+                    <p class="text-black">€{{product.total}}</p>
+                  </div>
+                  <div class="flex flex-row items-center justify-between mt-2 text-gray-500">
+                    <p class="text-sm">Bezorging</p>
+                    <p class="text-black">€5</p>
+                  </div>
+                </div>
+              </div>
+
+              <!--BACKGROUND-->
+              <div class="absolute w-full h-10 bottom-0 left-0">
+                <img class="h-full w-full object-cover" src="@/assets/images/funfoo-login-background.svg" alt="Funfoo background" />
+              </div>
+            </div>
+
+            <div class="overflow-hidden w-full mt-10 bg-white rounded-3xl border-gray-100 border lg:p-10 sm:p-6 p-4 relative">
+              <h1 class="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">Bezorging</h1>
+
+              <div class="flex flex-row items-start justify-start space-x-6 pb-10">
+                <div class="w-full">
+                  <h6 class="text-gray-500 text-sm mt-5">Je kan jouw bezorgmoment wekelijks wijzigen</h6>
+                  <div class="border-b h-2 mt-2"></div>
+                  <div class="flex flex-row items-center justify-between mt-4 text-gray-500">
+                    <p class="text-sm">Per maaltijd</p>
                   </div>
                 </div>
               </div>
@@ -72,12 +95,12 @@ export default {
     StepCounter,
     Navigation
   },
+  mounted() {
+    this.$store.dispatch('getPricing')
+  },
   computed:{
-    product() {
-      return this.$store.state.product
-    },
-    policies() {
-      return this.$store.state.policies
+    product: function(){
+      return this.$store.state.productModule.product
     }
   }
 }

@@ -30,7 +30,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    redirect: '/order/getting-started',
+    redirect: '/order/step-1',
     component: Home,
   },
   {

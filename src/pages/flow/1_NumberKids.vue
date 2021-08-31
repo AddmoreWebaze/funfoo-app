@@ -10,7 +10,7 @@
       <h2 id="information-heading" class="sr-only">Product information</h2>
 
       <div class="mt-4 space-y-6">
-        <p class="text-base text-gray-500">{{ product.description }}</p>
+        <p class="text-base text-gray-500">{{ getProduct.description }}</p>
       </div>
     </section>
   </div>
@@ -23,15 +23,21 @@
     <form>
       <div class="sm:flex sm:justify-between">
         <!-- Size selector -->
-        <RadioGroup v-model="selectedKids" class="w-full">
+        <RadioGroup v-model="product.kids" class="w-full">
           <RadioGroupLabel class="block text-sm font-medium text-gray-700">
             Aantal kinderen
           </RadioGroupLabel>
           <div class="mt-1 grid grid-cols-3 gap-4 sm:grid-cols-6 w-full">
-            <RadioGroupOption as="template" v-for="(kids, index) in product.kidsCount" :key="kids.name" :value="index+1" v-slot="{ active, checked }">
+            <RadioGroupOption as="template" 
+            v-for="(kids, index) in getProduct.kidsSelection" 
+            :key="index+1" 
+            @click="doSomething"
+            :value="kids" 
+            v-slot="{ active, checked }"
+            id="kids">
               <div class="relative h-32 flex flex-col items-center justify-between p-4 cursor-pointer focus:outline-none">
                 <RadioGroupLabel as="p" class="text-base font-medium text-gray-900 relative z-20">
-                  {{ kids.name }}
+                  {{ kids }}
                 </RadioGroupLabel>
                 <RadioGroupDescription as="div" class="mt-1 text-sm text-gray-500 relative z-10">
                   <img v-if="index == 0" class="h-16" src="@/assets/icons/kids/1-kid.svg" alt="">
@@ -56,15 +62,21 @@
       </div>
       <div class="sm:flex sm:justify-between mt-10">
         <!-- Size selector -->
-        <RadioGroup v-model="selectedParents" class="w-full">
+        <RadioGroup v-model="product.adults" class="w-full">
           <RadioGroupLabel class="block text-sm font-medium text-gray-700">
             Aantal ouders
           </RadioGroupLabel>
           <div class="mt-1 grid grid-cols-2 gap-4 sm:grid-cols-6 w-full">
-            <RadioGroupOption as="template" v-for="(parents, index) in product.parentCount" :key="parents.name" :value="index+1" v-slot="{ active, checked }">
+            <RadioGroupOption as="template" 
+            v-for="(adult, index) in getProduct.adultSelection" 
+            @click="doSomething"
+            :key="index+1" 
+            :value="adult" 
+            v-slot="{ active, checked }"
+            id="adults">
               <div class="relative h-32 flex flex-col items-center justify-between p-4 cursor-pointer focus:outline-none">
                 <RadioGroupLabel as="p" class="text-base font-medium text-gray-900 relative z-20">
-                  {{ parents.name }}
+                  {{ adult }}
                 </RadioGroupLabel>
                 <RadioGroupDescription as="div" class="mt-1 text-sm text-gray-500 relative z-10">
                   <img v-if="index == 0" class="h-16" src="@/assets/icons/kids/1-kid.svg" alt="">
@@ -90,7 +102,7 @@
           <!-- Order summary -->
           <section aria-labelledby="summary-heading" class="mt-16 bg-green-100 bg-opacity-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-12">
             <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Prijsoverzicht</h2>
-            <p class="text-gray-500 text-sm">4 maaltijden voor 3 kinder en 2 ouder(s)</p>
+            <p class="text-gray-500 text-sm">4 maaltijden voor {{getProduct.kids}} kinderen en {{getProduct.adults}} ouder(s)</p>
 
             <dl class="mt-6 space-y-4">
               <div class="flex items-center justify-between">
@@ -98,7 +110,7 @@
                   <span>Prijs per maaltijd</span>
                 </dt>
                 <dd class="text-sm font-medium text-gray-900">
-                  €4,99
+                  €{{(Math.round(parseInt(product.total) / (parseInt(getProduct.kids) + parseInt(getProduct.adults))))}}
                 </dd>
               </div>
               <div class="flex items-center justify-between">
@@ -106,7 +118,7 @@
                   <span>Prijs per box</span>
                 </dt>
                 <dd class="text-sm font-medium text-gray-900">
-                  €4,99
+                  €{{product.total}}
                 </dd>
               </div>
               <div class="flex items-center justify-between">
@@ -131,6 +143,8 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
+
 import {
   RadioGroup,
   RadioGroupDescription,
@@ -147,28 +161,26 @@ export default {
   },
   data() {
     return {
-      selectedKids: 3,
-      selectedParents: 2
+      product: {},
     }
   },
+  created(){
+    this.product = this.getProduct
+  },
   methods: {
+    ...mapMutations(["SET_SELECTION"]),
     submitForm(){
-      var form = {
-        kids : this.selectedKids,
-        adults : this.selectedParents
-      }
-
-      this.$store.dispatch('changeQty', form)
+      this.$store.dispatch('changeQty', this.product)
       this.$router.push({ name: 'step-2'})
+    },
+    doSomething(){
+      console.log(this.product.kids)
+      var res = { kids: this.product.kids, adults : this.product.adults}
+      this.SET_SELECTION(res)
     }
   },
   computed: {
-    product() {
-      return this.$store.state.product;
-    },
-    order(){
-      return this.$store.state.order;
-    }
-  }
+    ...mapGetters(["getProduct"])
+  },
 }
 </script>

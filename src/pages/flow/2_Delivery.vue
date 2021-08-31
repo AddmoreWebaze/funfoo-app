@@ -225,14 +225,14 @@ export default {
           console.log('Whoops, something went wrong here')
         })
       }
-    },  
+    }, 
   },
   computed: {
     product() {
-      return this.$store.state.product;
+      return this.$store.state.productModule.product;
     },
     order() {
-      return this.$store.state.order;
+      return this.$store.state.orderModule.order;
     },
   }
 }

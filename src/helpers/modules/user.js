@@ -13,31 +13,38 @@ const userModule = {
     //auth 
     status: '',
     token: localStorage.getItem('token') || '',
-    user : {},
-    userDetails: {},
+    user : {
+      fname: '',
+      lname: '',
+      email: '',
+      phone: ''
+    },
   }),
   mutations: { 
     auth_request(state){
       state.status = 'loading'
     },
-    auth_success(state, token, user){
+    auth_success(state, { token, user }){
       state.status = 'success'
       state.token = token
       state.user = user
+
+      console.log(user)
     },
     auth_error(state){
       state.status = 'error'
-    },
-    user_request(state, userDetails){
-      state.userDetails = userDetails
     },
     logout(state){
       state.status = ''
       state.token = ''
     },
+    update_user(state, user){
+      state.user = user
+    }
   },
   actions: { 
     //login action
+    //return the user and their data
     login({commit}, user){
       return new Promise((resolve, reject) => {
         commit('auth_request')
@@ -46,12 +53,12 @@ const userModule = {
 
         axios({url: process.env.VUE_APP_API_URL + '/login', data: user, method: 'POST' })
         .then(resp => {
-          console.log(resp)
+          console.log(resp.data.user)
           const token = resp.data.apikey
           const user = resp.data.user
           localStorage.setItem('token', token)
           axios.defaults.headers.common['Authorization'] = token
-          commit('auth_success', token, user)
+          commit('auth_success', { token, user })
           resolve(resp)
         })
         .catch(err => {
@@ -63,6 +70,8 @@ const userModule = {
       })
     },
 
+    //register a new user
+    //this can happen more often, this will simply update the used email
     register({commit}, user){
       return new Promise((resolve, reject) => {
         commit('auth_request')
@@ -75,7 +84,7 @@ const userModule = {
           const user = resp.data.user
           localStorage.setItem('token', token)
           axios.defaults.headers.common['Authorization'] = token
-          commit('auth_success', token, user)
+          commit('auth_success', { token, user })
           resolve(resp)
         })
         .catch(err => {
@@ -86,6 +95,9 @@ const userModule = {
       })
     },
 
+
+    //remove store token from localstorage and
+    //log the user out of it's account  
     logout({commit}){
       return new Promise((resolve) => {
         commit('logout')
@@ -94,14 +106,16 @@ const userModule = {
         resolve()
       })
     },
-
+    
+    //
+    //After the hole flow is created, activate the useraccount
+    //this will start the users account
     activeAccount({commit}){
       return new Promise((resolve, reject) => {
         const token = localStorage.getItem('token')
 
         axios({url: process.env.VUE_APP_API_URL + '/user/activate', data: {apikey : token}, method: 'POST' })
         .then(resp => {
-          console.log(resp)
           resolve(resp)
         })
         .catch(err => {
@@ -110,32 +124,35 @@ const userModule = {
           localStorage.removeItem('token')
           reject(err)
         })
-        
       })
     },
 
-    setUserDate({commit}){
-      return new Promise((resolve, reject) => {
-        const token = localStorage.getItem('token')
+    //full the user object
+    async getUser({commit}){
+      const token = localStorage.getItem('token')
 
-        axios({url: process.env.VUE_APP_API_URL + '/user', data: token, method: 'POST' })
-        .then(resp => {
-          console.log(resp)
-          resolve(resp)
-        })
-        .catch(err => {
-          commit('auth_error')
-          console.log(err)
-          localStorage.removeItem('token')
-          reject(err)
-        })
+      await axios({url: process.env.VUE_APP_API_URL + '/user', data: {apikey : token}, method: 'POST' })
+      .then(resp => {
+        const user = resp.data.userdata
+        commit('auth_success', { token, user })
       })
+      .catch(err => {
+        commit('auth_error')
+        console.log(err)
+        localStorage.removeItem('token')
+      })
+    },
+
+    //update the existing user
+    //with new data
+    updateUser({ commit }, data){
+      commit('update_user', data)
     }
   },
   getters: { 
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
-    getUserDeails : state => state.userDetails,
+    activeUser : state => state.user,
   }
 }
 
