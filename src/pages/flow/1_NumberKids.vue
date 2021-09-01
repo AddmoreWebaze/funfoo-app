@@ -174,7 +174,6 @@ export default {
       this.$router.push({ name: 'step-2'})
     },
     doSomething(){
-      console.log(this.product.kids)
       var res = { kids: this.product.kids, adults : this.product.adults}
       this.SET_SELECTION(res)
     }

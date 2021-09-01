@@ -53,21 +53,23 @@
                 </div>
               </div>
 
-              <!--BACKGROUND-->
-              <div class="absolute w-full h-10 bottom-0 left-0">
-                <img class="h-full w-full object-cover" src="@/assets/images/funfoo-login-background.svg" alt="Funfoo background" />
-              </div>
-            </div>
+              <!--DELIVERY SECTION-->
+              <div v-if="activeRoute > 1">
+                <h1 class="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">Bezorging</h1>
 
-            <div class="overflow-hidden w-full mt-10 bg-white rounded-3xl border-gray-100 border lg:p-10 sm:p-6 p-4 relative">
-              <h1 class="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">Bezorging</h1>
-
-              <div class="flex flex-row items-start justify-start space-x-6 pb-10">
-                <div class="w-full">
-                  <h6 class="text-gray-500 text-sm mt-5">Je kan jouw bezorgmoment wekelijks wijzigen</h6>
-                  <div class="border-b h-2 mt-2"></div>
-                  <div class="flex flex-row items-center justify-between mt-4 text-gray-500">
-                    <p class="text-sm">Per maaltijd</p>
+                <div class="flex flex-row items-start justify-start space-x-6 pb-10">
+                  <div class="w-full">
+                    <h6 class="text-gray-500 text-sm mt-5">Je kan jouw bezorgmoment wekelijks wijzigen</h6>
+                    <div class="border-b h-2 mt-2"></div>
+                    <div class="flex flex-row items-center justify-between mt-4 text-gray-500">
+                      <p class="text-sm">{{order.deliveryMoment}}</p>
+                    </div>
+                    <div class="flex flex-row items-center justify-between mt-4 text-gray-500">
+                      <p class="text-sm">{{order.deliveryInstruction}}</p>
+                    </div>
+                    <div class="flex flex-row items-center justify-between mt-4 text-gray-500">
+                      <p class="text-sm">{{order.firstDelivery}}</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -95,14 +97,52 @@ export default {
     StepCounter,
     Navigation
   },
+  data(){
+    return {
+      activeRoute: 1,
+    }
+  },
   mounted() {
     this.$store.dispatch('getPricing')
+    this.getActiveRoute()
   },
   computed:{
     product: function(){
       return this.$store.state.productModule.product
+    },
+    order: function(){
+      return this.$store.state.orderModule.order
     }
-  }
+  },
+  methods: {
+    getActiveRoute(){
+      this.activeRoute = this.$route.name
+      switch (this.$route.name) {
+        case 'step-1':
+            this.activeRoute = 1
+          break;
+        case 'step-2':
+            this.activeRoute = 2
+          break;
+        case 'step-3':
+            this.activeRoute = 3
+          break;
+        case 'step-4':
+            this.activeRoute = 4
+          break;
+        case 'step-5':
+            this.activeRoute = 5
+          break;
+        default: this.activeRoute = 1
+          break;
+      }
+    }
+  },
+  watch:{
+    $route (){
+      this.getActiveRoute()
+    }
+  } 
 }
 </script>
 

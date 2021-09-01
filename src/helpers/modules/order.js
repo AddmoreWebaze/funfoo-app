@@ -11,10 +11,16 @@ const orderModule = {
         city: '',
         zip: '',
         phone: '',
-        deliveryMoment: '',
-        deliveryInstruction: '',
+        deliveryMoment: '1',
+        deliveryInstruction: '1',
+        firstDelivery: '',
         kids: '',
         adults: '',
+      },
+      order_meta: {
+        meta_moment: '',
+        meta_instruction: '',
+        meta_firstdel: ''
       }
     }
   },
@@ -22,14 +28,24 @@ const orderModule = {
     setQty(state, {kids, adults}){
       state.order.kids = kids
       state.order.adults = adults
+    },  
+
+    SET_ZIP(state, zip){
+      state.order.zip = zip
     },
 
-    setDelivery(state, form){
+    SET_ORDER_META(state, { meta_instruction, meta_firstdel, meta_moment }){
+      console.log('form = ', meta_instruction)
+      state.order_meta.meta_moment = meta_moment
+      state.order_meta.meta_instruction = meta_instruction
+      state.order_meta.meta_firstdel = meta_firstdel
+    },
+
+    SET_ORDER(state, form){
       state.order.lname = form.lname
       state.order.street = form.street
       state.order.hnumber = form.hnumber
       state.order.city = form.city
-      state.order.zip = form.zip
       state.order.phone = form.phone
       state.order.deliveryMoment = form.deliveryMoment
       state.order.deliveryInstruction = form.deliveryInstruction
@@ -45,9 +61,8 @@ const orderModule = {
 
     //order
     //complete user profile
-    changeDelivery({ commit, state }, form){
+    createDelivery({ state }){
       return new Promise((resolve, reject) => {
-        commit('setDelivery', form)
 
         var completeProfile = state.order
         completeProfile.apikey = localStorage.getItem('token')
@@ -90,9 +105,39 @@ const orderModule = {
         })
       })
     },
+
+    checkZip({ commit }, zip){
+      return new Promise((res, rej) => {
+        console.log('checking')
+        var token = localStorage.getItem('token')
+        axios({url: process.env.VUE_APP_API_URL + '/box/delivery/zipcode', data: { zipcode: zip, apikey: token }, method: 'POST' })
+          .then(resp => {
+            if(!resp.data.valid){
+              const error = {
+                value: false,
+                type: 'zip',
+                message: resp.data.message
+              }
+              rej(error)
+            }else{
+              res(true)
+              commit('SET_ZIP', zip)
+            }
+          })
+        .catch(() => {
+          const error = {
+            value: false,
+            type: 'zip',
+            message: 'sorry, er ging iets fout'
+          }
+          rej(error)
+        })
+      })
+    },
   },
   getters: {
-    getOrder: state => state.order
+    getOrder: state => state.order,
+    getOrderMeta: state => state.order_meta
   }
 }
 

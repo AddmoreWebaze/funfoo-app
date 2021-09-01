@@ -65,47 +65,23 @@
         <div class="mt-6">
           <label for="deliveryDate" class="block text-sm font-medium text-gray-700">Kies jouw bezorgmoment*</label>
           <RadioGroup 
-          :value="activeUser.deliveryMoment" 
-          @change="updateLocalUser($event)"
+          :value="parseInt(activeUser.delivery_time)" 
+          @onChange="updateLocalUser($event)"
           id="deliveryMoment" 
           class="mt-1">
             <RadioGroupLabel class="sr-only">
               Kies jouw bezorgmoment
             </RadioGroupLabel>
             <div class="relative bg-white rounded-3xl space-y-2">
-              <RadioGroupOption as="template" v-for="(date, dateIdx) in deliverydates" :key="dateIdx" :value="date.id" v-slot="{ checked, active }" @click="getFirstDelivery">
+              <RadioGroupOption as="template" v-for="(date, dateIdx) in deliverydates" :key="dateIdx" :value="parseInt(date.id)" :checked="parseInt(date.id) === parseInt(activeUser.delivery_time)" v-slot="{ checked, active }">
                 <div :class="[checked ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'rounded-full relative transition-colors duration-150 border px-5 py-3 flex flex-col cursor-pointer md:pl-4 md:pr-6 focus:outline-none']">
                   <div class="flex items-center text-sm">
                     <span :class="[checked ? 'bg-green-600 border-transparent' : 'bg-white border-gray-300', active ? 'ring-2 ring-offset-2 ring-green-500' : '', 'h-4 w-4 rounded-full border flex items-center justify-center']" aria-hidden="true">
                       <span class="rounded-full bg-white w-1.5 h-1.5" />
                     </span>
-                    <RadioGroupLabel as="span" :class="[checked ? 'text-green-900' : 'text-gray-900', 'ml-3 font-medium']">{{date.id}} - {{ date.label }}</RadioGroupLabel>
+                    <RadioGroupLabel as="span" :class="[checked ? 'text-green-900' : 'text-gray-900', 'ml-3 font-medium']">{{ date.label }}</RadioGroupLabel>
                   </div>
 
-                </div>
-              </RadioGroupOption>
-            </div>
-          </RadioGroup>
-        </div>
-
-        <!-- FRIST DELIVERY -->
-        <div class="mt-6">
-          <!-- Size selector -->
-          <RadioGroup 
-          :value="activeUser.firstDelivery" 
-          @change="updateLocalUser($event)"
-          class="w-full"
-          id="firstDelivery">
-            <RadioGroupLabel class="block text-sm font-medium text-gray-700">
-              je eerste box*
-            </RadioGroupLabel>
-            <div class="mt-1 grid grid-cols-2 gap-2 sm:grid-cols-5 w-full">
-              <RadioGroupOption as="template" v-for="(date, index) in firstDelivery" :key="index" :value="date" v-slot="{ active, checked }">
-                <div :class="[checked || active ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'relative hover:bg-green-100 transition-colors duration-150 flex flex-col items-center justify-between py-4 cursor-pointer focus:outline-none rounded-3xl border border-gray-300']">
-                  <RadioGroupLabel as="p" class="font-medium text-gray-900 relative z-20">
-                    {{ date }}
-                  </RadioGroupLabel>
-                  <div class="absolute -inset-px rounded-lg pointer-events-none" aria-hidden="true" />
                 </div>
               </RadioGroupOption>
             </div>
@@ -116,7 +92,7 @@
         <div class="mt-6">
           <label for="deliveryInstruction" class="block text-sm font-medium text-gray-700">Instructies bij afwezigheid</label>
           <select 
-          :value="activeUser.email" 
+          :value="activeUser.option_not_home" 
           @input="updateLocalUser($event)"
           id="deliveryInstruction" name="deliveryInstruction" class="mt-1 block w-full pl-5 pr-14 py-3 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-full">
             <option value="1">In de tuin</option>
@@ -155,15 +131,12 @@ export default {
       error: {},
 
       deliverydates: [],
-      firstDelivery: [],
 
       zipisGood: null
     }
   },
   created() {
     this.getDeliveryMoments()
-    this.getFirstDelivery()
-
     this.$store.dispatch('getUser')
     .then(() => this.user = this.activeUser)
   },
@@ -184,18 +157,6 @@ export default {
       await axios({url: process.env.VUE_APP_API_URL + '/box/delivery/moments', method: 'GET' })
       .then(resp => {
         this.deliverydates = resp.data.moments
-      })
-      .catch(() => {
-        console.log('Whoops, something went wrong here')
-      })
-    },
-
-    //BUG - not reactive??
-    getFirstDelivery: async function () {
-      var deliveryid = parseInt(this.user.deliveryMoment)
-      await axios({url: process.env.VUE_APP_API_URL + '/box/options', data: { deliveryid } , method: 'POST' })
-      .then(resp => {
-        this.firstDelivery = resp.data.dates
       })
       .catch(() => {
         console.log('Whoops, something went wrong here')

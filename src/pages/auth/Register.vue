@@ -4,6 +4,8 @@
       <div class="hidden relative w-0 flex-1 lg:flex items-center justify-center">
         <img class="absolute inset-0 h-full w-full object-cover" src="@/assets/images/funfoo-login-background.svg" alt="Funfoo background" />
 
+        <img class="absolute w-5/12 md:w-8/12 lg:w-5/12 h-auto" src="@/assets/images/funfoo-display.png" alt="funfoo display">
+
         <div class="absolute w-10/12 h-96 bg-white border border-gray-100 p-10 rounded-lg hidden">
           <div class="w-full border-b border-gray-200 pb-4">
             <h2 class="text-lg font-medium">Debug API response:</h2>

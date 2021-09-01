@@ -103,37 +103,37 @@ const routes = [
         component: UserProfile,
       },
       {
-        path: '',
+        path: 'delivery',
         name: 'DeliveryPref',
         component: DeliveryPref,
       },
       {
-        path: '',
+        path: 'recipes',
         name: 'Recipes',
         component: Recipes,
       },
       {
-        path: '',
+        path: 'order-overview',
         name: 'Overview',
         component: Overview,
       },
       {
-        path: '',
+        path: 'change-box',
         name: 'ChangeBox',
         component: ChangeBox,
       },
       {
-        path: '',
+        path: 'change-payments',
         name: 'ChangePay',
         component: ChangePay,
       },
       {
-        path: '',
+        path: 'cancel-orders',
         name: 'CancelOrder',
         component: CancelOrder,
       },
       {
-        path: '',
+        path: 'cancel-subscription',
         name: 'CancelSubscr',
         component: CancelSubscr,
       }
