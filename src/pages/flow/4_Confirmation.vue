@@ -17,7 +17,7 @@
             <div class="grid grid-cols-12 ">
               <div class="col-span-10">
                 <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Bestel Overzicht</h2>
-                <p id="summary-text" class="text-sm text-gray-500">4 maaltijden voor 3 kinderen en 2 ouder(s)</p>
+                <p id="summary-text" class="text-sm text-gray-500">4 maaltijden voor {{product.kids}} kinderen en {{product.adults}} ouder(s)</p>
               </div>
               <div class="col-span-2 flex justify-end">
                 <router-link class="text-sm text-gray-500 text-right w-full" :to="{name: 'step-1'}">Wijzigen</router-link>
@@ -27,31 +27,23 @@
             <dl class="mt-6 space-y-4">
               <div class="flex items-center justify-between">
                 <dt class="text-sm text-gray-600">
-                  Box
+                  Funfoo Box
                 </dt>
                 <div class="flex flex-row items-center justify-between w-1/2">
                   <dd class="text-sm font-medium text-gray-500">
-                    <p>aantal: 4</p>
+                    <p>4 personen</p>
                   </dd>
                   <dd class="text-sm font-medium text-gray-900">
-                    <p>€4,99/box</p>
+                    <p>€{{product.boxprice}},-</p>
                   </dd>
                 </div>
-              </div>
-              <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
-                <dt class="flex text-sm text-gray-600">
-                  <span>Subtotaal</span>
-                </dt>
-                <dd class="text-sm font-medium text-gray-900">
-                  €60,00
-                </dd>
               </div>
               <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
                 <dt class="flex text-sm text-gray-600">
                   <span>Leveringskosten</span>
                 </dt>
                 <dd class="text-sm font-medium text-gray-900">
-                  GRATIS
+                  €5,-
                 </dd>
               </div>
               <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
@@ -59,7 +51,7 @@
                   Totaal
                 </dt>
                 <dd class="text-base font-medium text-gray-900">
-                  €60,00
+                  €{{product.boxprice + 5}},-
                 </dd>
               </div>
             </dl>
@@ -82,17 +74,18 @@
               <div>
                 <dt class="font-medium text-gray-900">Leverings datum</dt>
                 <dd class="mt-2 text-gray-700">
-                  <p>Elke Donderdag</p>
-                  <p>Tussen 17:00 - 20:00</p>
+                  <p>Elke {{order_meta.meta_moment}}</p>
+                  <p>{{order_meta.meta_instruction}}</p>
+                  <p>Eerste levering: {{order_meta.meta_firstdel}}</p>
                 </dd>
               </div>
               <div>
                 <dt class="font-medium text-gray-900">Levering address</dt>
                 <dd class="mt-2 text-gray-700">
                   <address class="not-italic">
-                    <span class="block">Kristin Watson</span>
-                    <span class="block">7363 Cynthia Pass</span>
-                    <span class="block">Toronto, ON N3Y 4H8</span>
+                    <span class="block capitalize">{{order.fname}} {{order.lname}}</span>
+                    <span class="block">{{order.zip}} {{order.city}}</span>
+                    <span class="block">{{order.street}}, {{order.hnumber}}</span>
                   </address>
                 </dd>
               </div>
@@ -193,9 +186,15 @@ export default {
     },
   },
   computed: {
-    product() {
-      return this.$store.state.productModule.product;
+    product: function(){
+      return this.$store.state.productModule.product
     },
+    order_meta: function(){
+      return this.$store.state.orderModule.order_meta
+    },
+    order: function(){
+      return this.$store.state.orderModule.order
+    }
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- Product details -->
-  <div class="lg:max-w-lg lg:self-end">
+  <div class="lg:max-w-2xl lg:self-end">
     <div>
       <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Stel je Funfoo Box samen voor je kids</h1>
     </div>

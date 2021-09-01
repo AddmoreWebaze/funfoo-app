@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import createPersistedState from "vuex-persistedstate";
 
 import userModule from './modules/user'
 import productModule from './modules/product'
@@ -10,5 +11,6 @@ export const store = createStore({
     userModule,
     productModule,
     orderModule
-  }
+  },
+  plugins: [createPersistedState()],
 })

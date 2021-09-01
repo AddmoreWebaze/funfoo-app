@@ -3,7 +3,7 @@
   <div class="lg:max-w-lg lg:self-end">
     <div class="mt-4">
       <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Betaalinformatie</h1>
-      <p class="mt-4 text-gray-500">Dit wordt je standaardvoorkeur, maar je kan ja voorkeuren wekelijks wijzigen</p>
+      <p class="mt-4 text-gray-500">Dit wordt je standaardvoorkeur, maar je kan je voorkeuren wekelijks wijzigen</p>
     </div>
   </div>
 
@@ -43,11 +43,11 @@
           </div>
         </div>
 
-        <button type="submit" class="w-full mt-6 bg-green-600 border border-transparent rounded-full shadow-sm py-3 px-4 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Betaal  €{{ total }}</button>
+        <button type="submit" class="w-full mt-6 bg-green-600 border border-transparent rounded-full shadow-sm py-3 px-4 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Voeg betaalmethode toe</button>
 
         <p class="flex justify-center text-sm font-medium text-gray-500 mt-6">
           <LockClosedIcon class="w-5 h-5 text-green-400 mr-1.5" aria-hidden="true" />
-          Payment details stored in safely
+          Betalingen worden veilig opgeslagen
         </p>
       </form>
     </div>

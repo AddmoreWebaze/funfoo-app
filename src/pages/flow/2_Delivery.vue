@@ -80,9 +80,10 @@
             v-for="(date, dateIdx) in deliverydates" 
             :key="dateIdx" :value="date.id" 
             v-slot="{ checked, active }" 
-            @click="getFirstDelivery"
-            @onChange="updateMeta('meta_moment', date.label)">
-              <div :class="[checked ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'rounded-full relative transition-colors duration-150 border px-5 py-3 flex flex-col cursor-pointer md:pl-4 md:pr-6 focus:outline-none']">
+            @click="getFirstDelivery">
+              <div 
+              v-on:click="updateMeta('meta_moment', date.label)"
+              :class="[checked ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'rounded-full relative transition-colors duration-150 border px-5 py-3 flex flex-col cursor-pointer md:pl-4 md:pr-6 focus:outline-none']">
                 <div class="flex items-center text-sm">
                   <span :class="[checked ? 'bg-green-600 border-transparent' : 'bg-white border-gray-300', active ? 'ring-2 ring-offset-2 ring-green-500' : '', 'h-4 w-4 rounded-full border flex items-center justify-center']" aria-hidden="true">
                     <span class="rounded-full bg-white w-1.5 h-1.5" />
@@ -104,12 +105,13 @@
           </RadioGroupLabel>
           <div class="mt-1 grid grid-cols-2 gap-2 sm:grid-cols-5 w-full">
             <RadioGroupOption as="template" 
-            @onChange="updateMeta('meta_firstdel', date)"
             v-for="(date, index) in firstDelivery" 
             :key="index" :value="date" 
             v-slot="{ active, checked }" 
             aria-required="true">
-              <div :class="[checked || active ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'relative hover:bg-green-100 transition-colors duration-150 flex flex-col items-center justify-between py-4 cursor-pointer focus:outline-none rounded-3xl border border-gray-300']">
+              <div 
+              v-on:click="updateMeta('meta_firstdel', date)"
+              :class="[checked || active ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'relative hover:bg-green-100 transition-colors duration-150 flex flex-col items-center justify-between py-4 cursor-pointer focus:outline-none rounded-3xl border border-gray-300']">
                 <RadioGroupLabel as="p" class="font-medium text-gray-900 relative z-20">
                   {{ date }}
                 </RadioGroupLabel>
@@ -133,6 +135,9 @@
       <div class="mt-10">
         <button type="submit" class="w-full bg-green-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">Naar betaalmethode</button>
         <p class="mt-4 text-sm text-center" id="email-description"><router-link class="text-green-600" to="/order/step-1">Vorige stap</router-link></p>
+      </div>
+      <div class="mt-10">
+        <p class="text-red-500" v-if="error.type == 'server'">{{error.message}}</p>
       </div>
     </form>
   </section>
@@ -176,18 +181,27 @@ export default {
   methods: {
     ...mapMutations(["SET_ORDER", "SET_ORDER_META"]),
 
+    //set the order to it's latest version 
+    //and submit the form
+    //then go to the next step
     submitForm: function(){
-      this.SET_ORDER(this.order)
-      this.$store.dispatch('createDelivery')
-      .then(() => this.$router.push({ name: 'step-3'}))
-      .catch(err => console.log(err))
-      
+      if(this.zipisGood){
+        this.SET_ORDER(this.order)
+        this.$store.dispatch('createDelivery')
+        .then(() => this.$router.push({ name: 'step-3'}))
+        .catch(err => this.error = err) 
+      }
+    },
+    
+    //update the selected value in
+    //the store
+    updateMeta(key, value){
+      this.order_meta[key] = value
+      this.SET_ORDER_META(this.order_meta)
     },
 
-    updateForm: function(){
-      this.SET_ORDER(this.order)
-    },
-
+    //parse the id of the selected
+    //leave into a readable text
     changeInst(event){
       var value = ''
       event.target.value == 1 ? value = 'In de tuin'
@@ -197,32 +211,32 @@ export default {
       this.updateMeta('meta_instruction', value)  
     },
 
-    updateMeta(key, value){
-      this.order_meta[key] = value
-      console.log(this.order_meta)
-      this.SET_ORDER_META(this.order_meta)
-    },
-
     //get all deliverydates
     getDeliveryMoments: async function() {
       await axios({url: process.env.VUE_APP_API_URL + '/box/delivery/moments', method: 'GET' })
       .then(resp => {
         this.deliverydates = resp.data.moments
+        this.order_meta.meta_moment = this.deliverydates[0].label
+        this.order_meta.meta_instruction = 'In de tuin'
         this.order.deliveryMoment = this.deliverydates[0].id
+        this.SET_ORDER_META(this.order_meta)
       })
       .catch(() => {
         console.log('Whoops, something went wrong here')
       })
     },
 
-    //BUG - not reactive??
+    //get the first deliverydate posibble
+    //triggered by the develiverymoments
     getFirstDelivery: async function () {
       var deliveryid = parseInt(this.order.deliveryMoment)
       await axios({url: process.env.VUE_APP_API_URL + '/box/options', data: { deliveryid } , method: 'POST' })
       .then(resp => {
         this.firstDelivery = resp.data.dates
+        this.order_meta.meta_firstdel = this.firstDelivery[0]
         this.order.firstDelivery = this.firstDelivery[0]
-        this.updateForm()
+        this.SET_ORDER(this.order)
+        this.SET_ORDER_META(this.order_meta)
       })
       .catch(() => {
         console.log('Whoops, something went wrong here')
@@ -230,6 +244,7 @@ export default {
     },
 
     //check when ZIP is 4 long
+    //and let us know if the ZIP code is acceptable
     checkZip(){
       if(this.order.zip.length > 3){
         this.$store.dispatch('checkZip', this.order.zip)
@@ -239,7 +254,7 @@ export default {
           this.zipisGood = true
         })
         .catch(({type, value, message}) => { 
-          console.log('niet guud')
+          console.log('niet guud', type, message)
           this.zipisGood = value
           this.error = { type, message }
          })

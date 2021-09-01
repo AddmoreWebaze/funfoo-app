@@ -21,7 +21,8 @@ const orderModule = {
         meta_moment: '',
         meta_instruction: '',
         meta_firstdel: ''
-      }
+      },
+      discountcode: ''
     }
   },
   mutations: {
@@ -33,12 +34,13 @@ const orderModule = {
     SET_ZIP(state, zip){
       state.order.zip = zip
     },
-
-    SET_ORDER_META(state, { meta_instruction, meta_firstdel, meta_moment }){
-      console.log('form = ', meta_instruction)
-      state.order_meta.meta_moment = meta_moment
-      state.order_meta.meta_instruction = meta_instruction
-      state.order_meta.meta_firstdel = meta_firstdel
+    SET_DISCOUNTCODE(state, code){
+      state.discountcode = code
+    },
+    SET_ORDER_META(state, object){
+      state.order_meta.meta_moment = object.meta_moment
+      state.order_meta.meta_instruction = object.meta_instruction
+      state.order_meta.meta_firstdel = object.meta_firstdel
     },
 
     SET_ORDER(state, form){
@@ -72,7 +74,13 @@ const orderModule = {
           resolve(resp)
         })
         .catch(err => {
-          reject(err)
+          console.log(err)
+          const error = {
+            value: false,
+            type: 'server',
+            message: 'Deze gebruiker heeft al een actief account.'
+          }
+          reject(error)
         })
       })
     },
@@ -137,7 +145,8 @@ const orderModule = {
   },
   getters: {
     getOrder: state => state.order,
-    getOrderMeta: state => state.order_meta
+    getOrderMeta: state => state.order_meta,
+    getDiscoundCode: state => state.discountcode
   }
 }
 

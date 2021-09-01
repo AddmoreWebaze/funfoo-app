@@ -37,7 +37,7 @@ export default {
         { id: '01', step: 1, name: 'Jouw gegevens', routeName: 'step-1', status: 'complete' },
         { id: '02', step: 2, name: 'Aantal kids', routeName: 'step-1', status: 'current' },
         { id: '03', step: 3, name: 'Bezorging', routeName: 'step-2', status: 'upcoming' },
-        { id: '04', step: 4, name: 'Bestelinformatie', routeName: 'step-3', status: 'upcoming' },
+        { id: '04', step: 4, name: 'Betaalinformatie', routeName: 'step-3', status: 'upcoming' },
         { id: '05', step: 5, name: 'Bestelbevestiging', routeName: 'step-4', status: 'upcoming' },
       ],
     }
