@@ -2,7 +2,7 @@
    <div>
      <div class="lg:max-w-lg lg:self-end">
       <div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Persoonlijke gegevens</h1>
+        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Deze week</h1>
       </div>
     </div>
     <section aria-labelledby="options-heading" class="mt-20 flex flex-row items-start justify-start overflow-auto space-x-6">

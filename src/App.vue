@@ -22,6 +22,8 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600&display=swap');
+
 @font-face {
   font-family: 'CookieRun';
   font-weight: 500;
@@ -51,5 +53,13 @@ export default {
 :is(h1, h2, h3, h4, h5){
   font-family: 'CookieRun' !important;
   font-weight: 800 !important;
+}
+.cookiefont {
+  font-family: 'CookieRun' !important;
+  font-weight: 800 !important;
+}
+
+body{
+  font-family: 'Quicksand', sans-serif;
 }
 </style>

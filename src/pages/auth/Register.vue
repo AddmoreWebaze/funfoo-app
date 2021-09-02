@@ -69,7 +69,7 @@
                 <p v-if="error.errorField == 'auth'" class="mt-2 text-sm text-red-600" id="password-error">{{error.errorMessage}}</p>
 
                 <div class="mt-10">
-                  <button type="submit" class="w-full bg-orange-500 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 transition-colors duration-200 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-orange-500">Stel je levervoorkeuren in</button>
+                  <button type="submit" class="w-full bg-orange-500 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 transition-colors duration-200 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-orange-500">Stel je leveringsvoorkeur in</button>
                   <p class="mt-4 text-sm text-gray-400 text-center" id="email-description">Al een account?<router-link class="text-orange-500 font-medium" :to="{ name: 'Login' }"> Login hier</router-link></p>
                 </div>
               </form>

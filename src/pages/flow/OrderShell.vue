@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-smoke">
     <header class="relative bg-smoke">
         <p class="bg-green-600 h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
-          Funfoo Development Env.
+          FunFoo Development Env.
         </p>
     </header>
     
@@ -35,11 +35,11 @@
                 </div>
                 <div>
                   <h6 class="text-md font-semibold">{{product.name}}</h6>
-                  <p class="text-gray-500 text-sm">4 maaltijden voor {{product.kids}} kinderen en {{product.parent}} ouder(s)</p>
+                  <p class="text-gray-500 text-sm">3 maaltijden en snacks voor {{product.kids}} kinderen en<br> {{product.adults}} ouder(s)</p>
                 </div>
               </div>
 
-              <div>
+              <div class="pb-10">
                  <div class="border-b h-2 mt-2"></div>
                   <div class="flex flex-row items-center justify-between mt-4 text-gray-500 hidden">
                     <p class="text-sm">Per maaltijd</p>
@@ -48,11 +48,11 @@
 
                   <div class="flex flex-row items-center justify-between mt-4 text-gray-500">
                     <p class="text-sm">FunFoo Box</p>
-                    <p class="text-black">€{{product.boxprice}},00</p>
+                    <p class="text-black cookiefont">€{{product.total}}</p>
                   </div>
                   <div class="flex flex-row items-center justify-between mt-4 text-gray-500">
                     <p class="text-sm">Bezorging</p>
-                    <p class="text-black">€5,00</p>
+                    <p class="text-black cookiefont">GRATIS</p>
                   </div>
                   <div class="flex flex-row items-center justify-between mt-4 text-gray-500 w-full relative">
                     <div v-click-away="hideDiscount" class="flex flex-row items-center justify-start">
@@ -68,12 +68,12 @@
                         </div>
                       </form>
                     </div>
-                    <p class="text-black">-€10,00</p>
+                    <p class="text-black cookiefont">-€10,00</p>
                   </div>
               </div>
 
               <!--DELIVERY SECTION-->
-              <div v-if="activeRoute > 1" class="mt-20">
+              <div v-if="activeRoute > 1" class="mt-10">
                 <h1 class="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">Bezorging</h1>
 
                 <div class="flex flex-row items-start justify-start space-x-6 pb-10">
@@ -102,7 +102,7 @@
               </div>
             </div>
 
-            <RecipesSection /> 
+            <RecipesSection v-if="activeRoute == 1" /> 
           </div>
         </div>
       </div>

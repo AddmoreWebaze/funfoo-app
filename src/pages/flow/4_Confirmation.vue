@@ -17,7 +17,7 @@
             <div class="grid grid-cols-12 ">
               <div class="col-span-10">
                 <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Bestel Overzicht</h2>
-                <p id="summary-text" class="text-sm text-gray-500">4 maaltijden voor {{product.kids}} kinderen en {{product.adults}} ouder(s)</p>
+                <p id="summary-text" class="text-sm text-gray-500">3 maaltijden en snacks voor {{product.kids}} kinderen en {{product.adults}} ouder(s)</p>
               </div>
               <div class="col-span-2 flex justify-end">
                 <router-link class="text-sm text-gray-500 text-right w-full" :to="{name: 'step-1'}">Wijzigen</router-link>
@@ -27,7 +27,7 @@
             <dl class="mt-6 space-y-4">
               <div class="flex items-center justify-between">
                 <dt class="text-sm text-gray-600">
-                  Funfoo Box
+                  FunFoo Box
                 </dt>
                 <div class="flex flex-row items-center justify-between w-1/2">
                   <dd class="text-sm font-medium text-gray-500">
@@ -43,7 +43,7 @@
                   <span>Leveringskosten</span>
                 </dt>
                 <dd class="text-sm font-medium text-gray-900">
-                  €5,-
+                  GRATIS
                 </dd>
               </div>
               <div class="border-t border-gray-200 pt-4 flex items-center justify-between">

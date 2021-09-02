@@ -5,7 +5,7 @@ const productModule = {
     return {
       //auth 
       product: {
-        name: 'Funfoo Box',
+        name: 'FunFoo Box',
         description: 'Dit wordt je standaardvoorkeur, maar je kan je voorkeuren wekelijks wijzigen.',
 
         boxprice: 70,

@@ -3,7 +3,7 @@
   <!-- Product details -->
   <div class="lg:max-w-2xl lg:self-end">
     <div>
-      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Stel je Funfoo Box samen voor je kids</h1>
+      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Stel je FunFoo Box samen</h1>
     </div>
 
     <section aria-labelledby="information-heading" class="mt-4">
@@ -36,7 +36,7 @@
             v-slot="{ active, checked }"
             id="kids">
               <div class="relative h-32 flex flex-col items-center justify-between p-4 cursor-pointer focus:outline-none">
-                <RadioGroupLabel as="p" class="text-base font-medium text-gray-900 relative z-20">
+                <RadioGroupLabel as="p" class="text-gray-900 relative z-20 cookiefont text-lg">
                   {{ kids }}
                 </RadioGroupLabel>
                 <RadioGroupDescription as="div" class="mt-1 text-sm text-gray-500 relative z-10">
@@ -75,7 +75,7 @@
             v-slot="{ active, checked }"
             id="adults">
               <div class="relative h-32 flex flex-col items-center justify-between p-4 cursor-pointer focus:outline-none">
-                <RadioGroupLabel as="p" class="text-base font-medium text-gray-900 relative z-20">
+                <RadioGroupLabel as="p" class="text-gray-900 relative z-20 cookiefont text-lg">
                   {{ adult }}
                 </RadioGroupLabel>
                 <RadioGroupDescription as="div" class="mt-1 text-sm text-gray-500 relative z-10">
@@ -102,22 +102,14 @@
           <!-- Order summary -->
           <section aria-labelledby="summary-heading" class="mt-16 bg-green-100 bg-opacity-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-12">
             <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Prijsoverzicht</h2>
-            <p class="text-gray-500 text-sm">4 maaltijden voor {{getProduct.kids}} kinderen en {{getProduct.adults}} ouder(s)</p>
+            <p class="text-gray-500 text-sm">FunFoo avontuur voor {{getProduct.kids}} kinderen en {{getProduct.adults}} ouder(s)</p>
 
             <dl class="mt-6 space-y-4">
               <div class="flex items-center justify-between">
                 <dt class="flex text-sm text-gray-600">
-                  <span>Prijs per maaltijd</span>
-                </dt>
-                <dd class="text-sm font-medium text-gray-900">
-                  €{{(Math.round(parseInt(product.total) / (parseInt(getProduct.kids) + parseInt(getProduct.adults))))}}
-                </dd>
-              </div>
-              <div class="flex items-center justify-between">
-                <dt class="flex text-sm text-gray-600">
                   <span>Prijs per box</span>
                 </dt>
-                <dd class="text-sm font-medium text-gray-900">
+                <dd class="text-sm font-medium text-gray-900 cookiefont">
                   €{{product.total}}
                 </dd>
               </div>
@@ -125,15 +117,15 @@
                 <dt class="flex text-sm text-gray-600">
                   <span>Bezorging</span>
                 </dt>
-                <dd class="text-sm font-medium text-gray-900">
-                  €4,99
+                <dd class="text-sm font-medium text-gray-900 cookiefont">
+                  GRATIS
                 </dd>
               </div>
             </dl>
           </section>
 
           <div class="mt-10 col-span-12">
-            <button type="submit" class="w-full bg-green-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">Stel je levervoorkeuren in</button>
+            <button type="submit" class="w-full bg-green-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">Stel je leveringsvoorkeur in</button>
           </div>
         </form>
       </div>

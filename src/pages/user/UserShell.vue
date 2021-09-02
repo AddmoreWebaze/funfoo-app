@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-smoke">
     <header class="relative bg-smoke">
         <p class="bg-green-600 h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
-          Funfoo Development Env.
+          FunFoo Development Env.
         </p>
     </header>
     
@@ -20,12 +20,12 @@
 
               <div class="flex flex-col items-start justify-start space-y-2 mt-10 pb-10">
                 <router-link :to="{name: 'UserProfile'}" class="text-gray-400">Persoonlijke gegevens</router-link>
-                <router-link :to="{name: 'DeliveryPref'}" class="text-gray-400">Levervoorkeuren wijzigen</router-link>
+                <router-link :to="{name: 'DeliveryPref'}" class="text-gray-400">Leveringsvoorkeur wijzigen</router-link>
                 <router-link :to="{name: 'Recipes'}" class="text-gray-400">Recepten</router-link>
                 <router-link :to="{name: 'Overview'}" class="text-gray-400">Besteloverzicht</router-link>
                 <router-link :to="{name: 'ChangeBox'}" class="text-gray-400">Box wijzigen</router-link>
                 <router-link :to="{name: 'ChangePay'}" class="text-gray-400">Betaalmethode wijzigen</router-link>
-                <router-link :to="{name: 'CancelOrder'}" class="text-gray-400">Bestellingen annuleren</router-link>
+                <router-link :to="{name: 'CancelOrder'}" class="text-gray-400">Bestelling pauzeren</router-link>
                 <router-link :to="{name: 'CancelSubscr'}" class="text-gray-400">Abonnement annuleren</router-link>
               </div>
 

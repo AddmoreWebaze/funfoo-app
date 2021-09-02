@@ -123,13 +123,18 @@
       </div>
 
       <div class="mt-6">
-        <label for="notHome" class="block text-sm font-medium text-gray-700">Instructies bij afwezigheid</label>
+        <label for="notHome" class="block text-sm font-medium text-gray-700">Instructies bij afwezigheid*</label>
         <select v-model="order.deliveryInstruction" @change="changeInst($event)" id="notHome" name="notHome" class="mt-1 block w-full pl-5 pr-14 py-3 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-full">
           <option value="1">In de tuin</option>
           <option value="2">Bij de buren</option>
           <option value="3">Voor de deur</option>
           <option value="4">Op een veilige plaats</option>
         </select>
+      </div>
+
+      <div class="mt-6">
+        <label for="notHome" class="block text-sm font-medium text-gray-700">Extra notities</label>
+        <textarea name="" id="" cols="20" rows="5" class="mt-3 px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-3xl" placeholder=""></textarea>
       </div>
 
       <div class="mt-10">

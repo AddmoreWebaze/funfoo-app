@@ -2,7 +2,7 @@
   <div>
      <div class="lg:max-w-lg lg:self-end">
       <div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Levervoorkeuren wijzigen</h1>
+        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Leveringsvoorkeur wijzigen</h1>
       </div>
     </div>
     <section aria-labelledby="options-heading" class="mt-20">
