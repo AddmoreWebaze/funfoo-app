@@ -1,25 +1,25 @@
 <template>
-<TransitionRoot as="template" :show="open">
-  <Dialog as="div" class="fixed z-50 inset-0 overflow-y-auto bg-black bg-opacity-20" @close="open = false">
+  <Dialog as="div" class="fixed z-50 inset-0 overflow-y-auto bg-black bg-opacity-20" :open="isOpen" @close="setIsOpen">
+    <DialogOverlay />
 
     <div class="flex items-start justify-start min-h-screen pt-4 px-4 pb-20 sm:block sm:p-0">
 
       <!-- This element is to trick the browser into centering the modal contents. -->
-      <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 my-20">
           <div class="relative py-16 bg-white overflow-hidden rounded-xl">
 
-            <div class="w-14 h-14 bg-gray-100 absolute top-5 right-5 rounded-full flex items-center justify-center">
+            <button @click="setIsOpen(false)" class="w-14 h-14 bg-gray-100 absolute top-5 right-5 rounded-full flex items-center justify-center">
               <svg class="w-8 h-8 text-gray-800" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M0 0h24v24H0Z"/><g stroke-linecap="round" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linejoin="round"><path d="M8 8l8 8"/><path d="M16 8l-8 8"/></g></g></svg>
-            </div>
+            </button>
 
             <div class="relative px-4 sm:px-6 lg:px-8">
               <div class="text-lg max-w-prose mx-auto">
-                <h1>
-                  <span class="block text-base text-center text-indigo-600 font-semibold tracking-wide uppercase">Introducing</span>
-                  <span class="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">JavaScript for Beginners</span>
-                </h1>
+                <DialogTitle>
+                  <h1>
+                    <span class="block text-base text-center text-indigo-600 font-semibold tracking-wide uppercase">Introducing</span>
+                    <span class="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">JavaScript for Beginners</span>
+                  </h1>
+                </DialogTitle>
                 <p class="mt-8 text-xl text-gray-500 leading-8">Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem. At arcu, sit dui mi, nibh dui, diam eget aliquam. Quisque id at vitae feugiat egestas ac. Diam nulla orci at in viverra scelerisque eget. Eleifend egestas fringilla sapien.</p>
               </div>
 
@@ -50,34 +50,31 @@
             </div>
           </div>
         </div>
-
-      </TransitionChild>
     </div>
   </Dialog>
-</TransitionRoot>
 </template>
 
 <script>
 import { ref } from 'vue'
-import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ExclamationIcon } from '@heroicons/vue/outline'
+import { Dialog, DialogOverlay, DialogTitle } from '@headlessui/vue'
 
 export default {
   components: {
     Dialog,
     DialogOverlay,
-    TransitionChild,
-    TransitionRoot,
-    ExclamationIcon
+    DialogTitle,
   },
   props: {
     recipe: Object,
   },
   setup() {
-    const open = ref(true)
+    let isOpen = ref(true)
 
     return {
-      open,
+      isOpen,
+      setIsOpen(value){
+        isOpen.value = value
+      }
     }
   },
 }

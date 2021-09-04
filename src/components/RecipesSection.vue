@@ -2,7 +2,9 @@
   <div class="overflow-hidden w-full bg-white rounded-3xl border-gray-100 border lg:p-10 sm:p-6 p-4 relative mt-10">
     <h1 class="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl pb-10">Deze week in de box</h1>
     <div class="mb-10" v-if="!noBoxes">
-      <div @click="activeRecipe = box, showguide = true" v-for="(box, index) in filterItems" :key="index" class="flex flex-row items-center justify-start space-x-6 mb-5 hover:bg-gray-50 transition-colors duration-200 p-2 rounded-2xl">
+      <div 
+      @click="setIsOpen(!isOpen)"
+      v-for="(box, index) in filterItems" :key="index" class="flex flex-row items-center justify-start space-x-6 mb-5 hover:bg-gray-50 transition-colors duration-200 p-2 rounded-2xl">
         <div class="w-20 h-20 bg-gray-50 flex-shrink-0 rounded-xl">
           <img class="w-full h-full object-cover object-center" :src="box.img" alt="">
         </div>
@@ -21,7 +23,7 @@
     </div>
   </div>
 
-  <RecipeGuide v-if="showguide || true" :recipe="activeRecipe" />
+  <RecipeGuide :show="showguide" :recipe="activeRecipe" />
 </template>
 
 <script>
@@ -47,10 +49,10 @@ export default {
   },
   methods: {
     async getRecipes() {
-      var dateFullDate = new Date()
-      var day = dateFullDate.getDay()
-      var month = dateFullDate.getMonth()
-      var year = dateFullDate.getFullYear()
+      //var dateFullDate = new Date()
+      //var day = dateFullDate.getDay()
+      //var month = dateFullDate.getMonth()
+      //var year = dateFullDate.getFullYear()
 
       //dont forget to undo this
       //var parsed = `${year}-${month}-${day}`
