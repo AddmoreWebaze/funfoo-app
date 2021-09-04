@@ -37,6 +37,7 @@ module.exports = {
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
-    require('@headlessui/vue')
+    require('@headlessui/vue'),
+    require('@tailwindcss/typography')
   ],
 }

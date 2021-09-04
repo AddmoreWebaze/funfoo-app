@@ -1,10 +1,10 @@
 <template>
   <main>
     <div class="min-h-screen bg-smoke flex">
-      <div class="hidden relative w-0 flex-1 lg:flex items-center justify-center">
-        <img class="absolute inset-0 h-full w-full object-cover" src="@/assets/images/funfoo-login-background.svg" alt="Funfoo background" />
+      <img class="absolute inset-0 h-full w-full object-cover" src="@/assets/images/funfoo-background2.svg" alt="Funfoo background" />
 
-        <img class="absolute w-5/12 md:w-8/12 lg:w-5/12 h-auto" src="@/assets/images/funfoo-display.png" alt="funfoo display">
+      <div class="hidden relative w-0 flex-1 lg:flex items-center justify-center">
+        <img class="absolute w-5/12 md:w-8/12 lg:w-5/12 h-auto" src="@/assets/images/funfoo-logo.svg" alt="funfoo display">
 
         <div class="absolute w-10/12 h-96 bg-white border border-gray-100 p-10 rounded-lg hidden">
           <div class="w-full border-b border-gray-200 pb-4">
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-        <div class="mx-auto w-full max-w-sm lg:max-w-xl bg-white px-6 py-6 lg:px-20 lg:py-20 rounded-xl border border-gray-100 relative overflow-hidden">
+        <div class="mx-auto w-full max-w-sm lg:max-w-xl bg-white px-6 py-6 lg:px-20 lg:py-20 rounded-xl relative overflow-hidden">
           <div>
             <FunfooLogo class="h-20 w-auto"  /> 
             <h2 class="mt-10 text-3xl font-extrabold text-gray-900">
