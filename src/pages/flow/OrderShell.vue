@@ -26,7 +26,7 @@
 
           <!-- Product image -->
           <div class="mt-10 lg:mt-0 lg:self-top col-span-2" v-if="activeRoute < 5">
-            <div class="overflow-hidden w-full bg-white rounded-3xl border-gray-100 border lg:p-10 sm:p-6 p-4 relative">
+            <div class="w-full bg-white rounded-3xl border-gray-100 border lg:p-10 sm:p-6 p-4 relative">
               <h1 class="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">Besteloverzicht</h1>
 
               <div class="flex flex-row items-center justify-start space-x-6 mt-10">
@@ -57,15 +57,16 @@
                   <div class="flex flex-row items-center justify-between mt-4 text-gray-500 w-full relative">
                     <div v-click-away="hideDiscount" class="flex flex-row items-center justify-start">
                       <p class="text-sm">Kortingscode</p>
-                      <span class="rounded-full bg-green-100 text-xs text-green-700 py-0.5 px-2 ml-2">STUDENT50</span>
-                      <span @click="toggleDiscount" class="rounded-full bg-green-100 text-xs text-green-700 py-0.5 px-2 ml-2">+ Voeg toe</span>
+                      <span v-if="discount.valid" class="rounded-full bg-green-100 text-xs text-green-700 py-0.5 px-2 ml-2">STUDENT50</span>
+                      <span v-if="discount.valid == null" @click="toggleDiscount" class="rounded-full bg-green-100 text-xs text-green-700 py-0.5 px-2 ml-2">+ Voeg toe</span>
 
-                      <form v-if="openDiscount" @submit.prevent="checkCode" class="mt-10 w-full absolute bg-white top-2 1order border-gray-50 shadow-lg p-4 rounded-lg">
+                      <form v-if="openDiscount" @submit.prevent="checkCode" class="mt-10 w-full absolute bg-white top-2 z-50 border-gray-50 shadow-lg p-4 rounded-lg">
                         <label for="discount-code-mobile" class="block text-sm font-medium text-gray-700">kortingscode toevoegen</label>
                         <div class="flex space-x-4 mt-1">
                           <input v-model="discountcode" type="text" id="discount-code-mobile" name="discount-code-mobile" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm" />
                           <button type="submit" class="bg-gray-200 text-sm font-medium text-gray-600 rounded-md px-4 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">Apply</button>
                         </div>
+                        <p v-if="error.type == 'discount'" class="pt-1 text-xs text-red-500">{{error.message}}</p>
                       </form>
                     </div>
                     <p class="text-black cookiefont">-€10,00</p>
@@ -97,7 +98,7 @@
               </div>
 
               <!--BACKGROUND-->
-              <div class="absolute w-full h-10 bottom-0 left-0 opacity-50">
+              <div class="absolute w-full h-10 bottom-0 left-0 opacity-50 rounded-b-2xl overflow-hidden">
                 <img class="h-full w-full object-cover" src="@/assets/images/funfoo-login-background.svg" alt="Funfoo background" />
               </div>
             </div>
@@ -136,7 +137,12 @@ export default {
     return {
       activeRoute: 1,
       openDiscount: false,
-      discountcode: ''
+      discountcode: '',
+      discount: {
+        valid: null
+      },
+      
+      error: {}
     }
   },
   mounted() {
@@ -185,12 +191,18 @@ export default {
     },
     checkCode(){
       const apikey = localStorage.getItem('token')
-      axios({url: process.env.VUE_APP_API_URL + '/coupon/redeem', body: { apikey, coupon: this.discountcode }, method: 'POST' })
+      axios({url: process.env.VUE_APP_API_URL + '/coupon/redeem', data: { apikey, coupon: this.discountcode }, method: 'POST' })
       .then(resp => {
         console.log(resp)
+        this.discount = {
+          code: this.discountcode,
+          valid: true
+        }
       })
-      .catch(() => {
-        console.log('Whoops, something went wrong here')
+      .catch(err => {
+        console.log(err.response.data)
+        this.error = err.response.data
+        this.error.type = 'discount' 
       })
     }
   },
