@@ -19,7 +19,7 @@
             
               <router-view></router-view>
 
-            <div class="h-12 absolute bottom-0 w-full bg-green-400 left-0">
+            <div class="h-12 absolute bottom-0 w-full opacity-50 left-0">
               <img class='w-full object-cover' src="@/assets/images/funfoo-background.png" alt="">
             </div>
           </div>
@@ -97,7 +97,7 @@
               </div>
 
               <!--BACKGROUND-->
-              <div class="absolute w-full h-10 bottom-0 left-0">
+              <div class="absolute w-full h-10 bottom-0 left-0 opacity-50">
                 <img class="h-full w-full object-cover" src="@/assets/images/funfoo-login-background.svg" alt="Funfoo background" />
               </div>
             </div>

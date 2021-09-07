@@ -58,15 +58,21 @@
 import { ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle } from '@headlessui/vue'
 
+const props = {
+  show: {
+    type: Boolean,
+    default: false,
+  },
+  recipe: Object,
+};
+
 export default {
   components: {
     Dialog,
     DialogOverlay,
     DialogTitle,
   },
-  props: {
-    recipe: Object,
-  },
+  props,
   setup() {
     let isOpen = ref(true)
 

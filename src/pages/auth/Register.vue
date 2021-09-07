@@ -77,7 +77,7 @@
           </div>
 
           <!--BACKGROUND-->
-          <div class="absolute w-full h-10 bottom-0 left-0">
+          <div class="absolute w-full h-10 bottom-0 left-0 opacity-50">
             <img class="h-full w-full object-cover" src="@/assets/images/funfoo-login-background.svg" alt="Funfoo background" />
           </div>
         </div>

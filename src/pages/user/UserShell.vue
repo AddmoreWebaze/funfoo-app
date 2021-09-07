@@ -22,15 +22,15 @@
                 <router-link :to="{name: 'UserProfile'}" class="text-gray-400">Persoonlijke gegevens</router-link>
                 <router-link :to="{name: 'DeliveryPref'}" class="text-gray-400">Leveringsvoorkeur wijzigen</router-link>
                 <router-link :to="{name: 'Recipes'}" class="text-gray-400">Recepten</router-link>
-                <router-link :to="{name: 'Overview'}" class="text-gray-400">Besteloverzicht</router-link>
-                <router-link :to="{name: 'ChangeBox'}" class="text-gray-400">Box wijzigen</router-link>
+                <router-link :to="{name: 'Overview'}" class="text-gray-400 hidden">Besteloverzicht</router-link>
+                <router-link :to="{name: 'ChangeBox'}" class="text-gray-400 hidden">Box wijzigen</router-link>
                 <router-link :to="{name: 'ChangePay'}" class="text-gray-400">Betaalmethode wijzigen</router-link>
                 <router-link :to="{name: 'CancelOrder'}" class="text-gray-400">Bestelling pauzeren</router-link>
                 <router-link :to="{name: 'CancelSubscr'}" class="text-gray-400">Abonnement annuleren</router-link>
               </div>
 
               <!--BACKGROUND-->
-              <div class="absolute w-full h-10 bottom-0 left-0">
+              <div class="absolute w-full h-10 bottom-0 left-0 opacity-50">
                 <img class="h-full w-full object-cover" src="@/assets/images/funfoo-login-background.svg" alt="Funfoo background" />
               </div>
             </div>
@@ -40,8 +40,8 @@
           <div class="mt-10 lg:mt-0 col-span-3 lg:self-start bg-white rounded-3xl lg:p-10 sm:p-6 p-4 border border-gray-100 overflow-hidden relative sm:pb-10 lg:pb-20">
             <router-view></router-view>
 
-            <div class="h-12 absolute bottom-0 w-full bg-green-400 left-0">
-              <img class='w-full object-cover' src="@/assets/images/funfoo-background.png" alt="">
+            <div class="h-10 absolute bottom-0 w-full left-0">
+              <img class='w-full object-cover opacity-50' src="@/assets/images/funfoo-background.png" alt="">
             </div>
           </div>
 
