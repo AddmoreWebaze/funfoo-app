@@ -73,13 +73,13 @@
               Kies jouw bezorgmoment
             </RadioGroupLabel>
             <div class="relative bg-white rounded-3xl space-y-2">
-              <RadioGroupOption as="template" v-for="(date, dateIdx) in deliverydates" :key="dateIdx" :value="parseInt(date.id)" :checked="parseInt(date.id) === parseInt(activeUser.delivery_time)" v-slot="{ checked, active }">
-                <div :class="[checked ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'rounded-full relative transition-colors duration-150 border px-5 py-3 flex flex-col cursor-pointer md:pl-4 md:pr-6 focus:outline-none']">
+              <RadioGroupOption as="template" v-for="(date, dateIdx) in deliverydates" :key="dateIdx" :value="parseInt(date.id)" v-slot="{ checked, active }">
+                <div :class="[checked || parseInt(date.id) === parseInt(activeUser.delivery_time) ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'rounded-full relative transition-colors duration-150 border px-5 py-3 flex flex-col cursor-pointer md:pl-4 md:pr-6 focus:outline-none']">
                   <div class="flex items-center text-sm">
                     <span :class="[checked ? 'bg-green-600 border-transparent' : 'bg-white border-gray-300', active ? 'ring-2 ring-offset-2 ring-green-500' : '', 'h-4 w-4 rounded-full border flex items-center justify-center']" aria-hidden="true">
                       <span class="rounded-full bg-white w-1.5 h-1.5" />
                     </span>
-                    <RadioGroupLabel as="span" :class="[checked ? 'text-green-900' : 'text-gray-900', 'ml-3 font-medium']">{{ date.label }}</RadioGroupLabel>
+                    <RadioGroupLabel as="span" :class="[checked ? 'text-green-900' : 'text-gray-900', 'ml-3 font-medium']">{{date.label }}</RadioGroupLabel>
                   </div>
 
                 </div>
@@ -156,6 +156,7 @@ export default {
     getDeliveryMoments: async function() {
       await axios({url: process.env.VUE_APP_API_URL + '/box/delivery/moments', method: 'GET' })
       .then(resp => {
+        this.user.delivery_time = this.activeUser.delivery_time
         this.deliverydates = resp.data.moments
       })
       .catch(() => {

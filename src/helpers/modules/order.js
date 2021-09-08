@@ -22,7 +22,10 @@ const orderModule = {
         meta_instruction: '',
         meta_firstdel: ''
       },
-      discountcode: ''
+      discountcode: {
+        value: 0,
+        code: ''
+      }
     }
   },
   mutations: {
@@ -34,8 +37,9 @@ const orderModule = {
     SET_ZIP(state, zip){
       state.order.zip = zip
     },
-    SET_DISCOUNTCODE(state, code){
-      state.discountcode = code
+    SET_DISCOUNTCODE(state, obj){
+      state.discountcode.value = obj.value
+      state.discountcode.code = obj.code
     },
     SET_ORDER_META(state, object){
       state.order_meta.meta_moment = object.meta_moment
@@ -114,11 +118,12 @@ const orderModule = {
       })
     },
 
+    //check if the zip code is in 
+    //the allowed region of delivery
     checkZip({ commit }, zip){
       return new Promise((res, rej) => {
-        console.log('checking')
-        var token = localStorage.getItem('token')
-        axios({url: process.env.VUE_APP_API_URL + '/box/delivery/zipcode', data: { zipcode: zip, apikey: token }, method: 'POST' })
+        var apikey = localStorage.getItem('token')
+        axios({url: process.env.VUE_APP_API_URL + '/box/delivery/zipcode', data: { apikey, zipcode: zip }, method: 'POST' })
           .then(resp => {
             if(!resp.data.valid){
               const error = {
@@ -142,6 +147,39 @@ const orderModule = {
         })
       })
     },
+
+
+    //check if the dicountcode
+    //exists, if yes, apply the discount
+    checkDiscountcode({ commit }, code){
+      return new Promise((res, rej) => {
+        console.log(code)
+        const apikey = localStorage.getItem('token')
+          axios({url: process.env.VUE_APP_API_URL + '/coupon/redeem', data: { apikey, coupon: code }, method: 'POST' })
+          .then(resp => {
+            const couponCode = {
+              value: resp.data.value,
+              code: code
+            }
+            commit('SET_DISCOUNTCODE', couponCode)
+            res()
+          })
+          .catch(err => {
+            console.log('niet guud', err.response)
+            if(err.response.status == 500){
+              rej({
+                type: 'discount',
+                message: 'Deze code is niet geldig'
+              })
+            }else{
+              rej({
+                type: 'discount',
+                message: err.response.data.message
+              })
+            }
+          })
+      })
+    }
   },
   getters: {
     getOrder: state => state.order,

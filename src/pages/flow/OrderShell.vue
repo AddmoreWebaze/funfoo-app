@@ -55,21 +55,31 @@
                     <p class="text-black cookiefont">GRATIS</p>
                   </div>
                   <div class="flex flex-row items-center justify-between mt-4 text-gray-500 w-full relative">
-                    <div v-click-away="hideDiscount" class="flex flex-row items-center justify-start">
+                    <div v-click-away="hideAfterDiscount" class="flex flex-row items-center justify-start">
                       <p class="text-sm">Kortingscode</p>
-                      <span v-if="discount.valid" class="rounded-full bg-green-100 text-xs text-green-700 py-0.5 px-2 ml-2">STUDENT50</span>
-                      <span v-if="discount.valid == null" @click="toggleDiscount" class="rounded-full bg-green-100 text-xs text-green-700 py-0.5 px-2 ml-2">+ Voeg toe</span>
+                      <span v-if="hideAfterDiscount || getDiscoundCode.value > 0" class="rounded-full bg-green-100 text-xs text-green-700 py-0.5 px-2 ml-2">{{getDiscoundCode.code}}</span>
+                      <span v-else @click="toggleDiscount" class="rounded-full bg-green-100 text-xs text-green-700 py-0.5 px-2 ml-2 cursor-pointer">+ Voeg toe</span>
 
-                      <form v-if="openDiscount" @submit.prevent="checkCode" class="mt-10 w-full absolute bg-white top-2 z-50 border-gray-50 shadow-lg p-4 rounded-lg">
+                      <form v-if="openDiscount && getDiscoundCode.value > 0" @submit.prevent="checkCode" class="mt-10 w-full absolute bg-white top-2 z-50 border-gray-50 shadow-lg p-4 rounded-lg">
                         <label for="discount-code-mobile" class="block text-sm font-medium text-gray-700">kortingscode toevoegen</label>
-                        <div class="flex space-x-4 mt-1">
+
+                        <div class="flex space-x-4 mt-4">
                           <input v-model="discountcode" type="text" id="discount-code-mobile" name="discount-code-mobile" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm" />
-                          <button type="submit" class="bg-gray-200 text-sm font-medium text-gray-600 rounded-md px-4 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">Apply</button>
+                          <button type="submit" class="bg-green-100 text-sm font-medium text-green-600 rounded-md px-4 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-500">Toepassen</button>
+                        </div>
+
+                        <div @click="openDiscount = false" class="absolute top-3 right-3 cursor-pointer">
+                          <svg class="w-6 h-6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M0 0h24v24H0Z"/><g stroke-linecap="round" stroke-width="1.5" stroke="#000" fill="none" stroke-linejoin="round"><path d="M8 8l8 8"/><path d="M16 8l-8 8"/></g></g></svg>
                         </div>
                         <p v-if="error.type == 'discount'" class="pt-1 text-xs text-red-500">{{error.message}}</p>
                       </form>
                     </div>
-                    <p class="text-black cookiefont">-€10,00</p>
+                    <p v-if="hideAfterDiscount || getDiscoundCode.value > 0" class="text-black cookiefont">- €{{getDiscoundCode.value}}</p>
+                  </div>
+                  <div class="border-b h-2 mt-4"></div>
+                  <div class="flex flex-row items-center justify-between mt-4 text-gray-500">
+                    <p class="text-sm">Totaal</p>
+                    <p class="text-black cookiefont">€{{parseFloat(product.total - getDiscoundCode.value).toFixed(2)}}</p>
                   </div>
               </div>
 
@@ -122,8 +132,6 @@ import { directive } from "vue3-click-away";
 
 import { mapGetters } from "vuex";
 
-import axios from 'axios'
-
 export default {
   components: {
     StepCounter,
@@ -138,9 +146,7 @@ export default {
       activeRoute: 1,
       openDiscount: false,
       discountcode: '',
-      discount: {
-        valid: null
-      },
+      hideAfterDiscount: false,
       
       error: {}
     }
@@ -148,17 +154,14 @@ export default {
   mounted() {
     this.popupItem = this.$el
     this.$store.dispatch('getPricing')
-    this.getActiveRoute()
-  },
-  computed:{
-    ...mapGetters(["getOrderMeta"]),
+    /*
+    const discountCode = {
+      value: 20,
+      code: '20OFF'
+    };
 
-    product: function(){
-      return this.$store.state.productModule.product
-    },
-    order: function(){
-      return this.$store.state.orderModule.order
-    }
+    this.$store.commit('SET_DISCOUNTCODE', discountCode )*/
+    this.getActiveRoute()
   },
   methods: {
     getActiveRoute(){
@@ -190,21 +193,20 @@ export default {
       this.openDiscount = !this.openDiscount
     },
     checkCode(){
-      const apikey = localStorage.getItem('token')
-      axios({url: process.env.VUE_APP_API_URL + '/coupon/redeem', data: { apikey, coupon: this.discountcode }, method: 'POST' })
-      .then(resp => {
-        console.log(resp)
-        this.discount = {
-          code: this.discountcode,
-          valid: true
-        }
-      })
-      .catch(err => {
-        console.log(err.response.data)
-        this.error = err.response.data
-        this.error.type = 'discount' 
-      })
+      this.$store.dispatch('checkDiscountcode', this.discountcode)
+      .then(() => !this.hideAfterDiscount)
+      .catch(err => this.error = err)
     }
+  },
+  computed:{
+    ...mapGetters(["getOrderMeta", "getDiscoundCode"]),
+
+    product: function(){
+      return this.$store.state.productModule.product
+    },
+    order: function(){
+      return this.$store.state.orderModule.order
+    },
   },
   watch:{
     $route (){

@@ -3,10 +3,10 @@
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
       <div class="w-full py-6 flex items-center justify-between border-b border-green-500 lg:border-none">
         <div class="flex items-center">
-          <router-link to="/">
+          <a href="https://funfoo.be/">
             <span class="sr-only">Funfoo</span>
             <FunfooLogo class="h-10" />
-          </router-link>
+          </a>
         </div>
         <div class="ml-10 space-x-6 flex flex-row items-center justify-end">
           <div class="hidden ml-10 space-x-8 lg:block">

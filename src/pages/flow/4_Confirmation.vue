@@ -31,10 +31,10 @@
                 </dt>
                 <div class="flex flex-row items-center justify-between w-1/2">
                   <dd class="text-sm font-medium text-gray-500">
-                    <p>4 personen</p>
+                    <p>{{product.kids + product.adults}} personen</p>
                   </dd>
                   <dd class="text-sm font-medium text-gray-900">
-                    <p>€{{product.boxprice}},-</p>
+                    <p>€{{parseFloat(product.total).toFixed(2)}}</p>
                   </dd>
                 </div>
               </div>
@@ -47,11 +47,19 @@
                 </dd>
               </div>
               <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
+                <dt class="flex text-sm text-gray-600">
+                  <span>Kortingscode</span>
+                </dt>
+                <dd class="text-sm font-medium text-gray-900">
+                  - €{{parseFloat(discountcode.value).toFixed(2)}}
+                </dd>
+              </div>
+              <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
                 <dt class="text-base font-medium text-gray-900">
                   Totaal
                 </dt>
                 <dd class="text-base font-medium text-gray-900">
-                  €{{product.boxprice + 5}},-
+                  €{{parseFloat(product.total - discountcode.value).toFixed(2)}}
                 </dd>
               </div>
             </dl>
@@ -116,9 +124,9 @@
                       <p class="sr-only">Visa</p>
                     </div>
                     <div class="ml-4 mt-4">
-                      <p>Eindigd met <span aria-hidden="true">•••• </span><span class="sr-only">Ending in </span>1545</p>
+                      <p>Eindigd met <span aria-hidden="true">•••• </span><span class="sr-only">Ending in </span>{{method.last4}}</p>
                       <p class="text-gray-600 text-sm">
-                        Expires 02 / 24
+                        Vervalt op {{method.expiry.slice(5)}}
                       </p>
                     </div>
                   </div>
@@ -194,6 +202,9 @@ export default {
     },
     order: function(){
       return this.$store.state.orderModule.order
+    },
+    discountcode: function(){
+      return this.$store.state.orderModule.discountcode
     }
   }
 }

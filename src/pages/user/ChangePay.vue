@@ -63,9 +63,9 @@
             <p class="sr-only">Visa</p>
           </div>
           <div class="ml-4 mt-4">
-            <p>Eindigd met <span aria-hidden="true">•••• </span><span class="sr-only">Ending in </span>1545</p>
+            <p>Eindigd met <span aria-hidden="true">•••• </span><span class="sr-only">Ending in </span>{{method.last4}}</p>
             <p class="text-gray-600 text-sm">
-              Expires 02 / 24
+              Vervalt op {{method.expiry.slice(5)}}
             </p>
           </div>
         </div>

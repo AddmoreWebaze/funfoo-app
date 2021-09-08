@@ -26,7 +26,7 @@
                 <router-link :to="{name: 'ChangeBox'}" class="text-gray-400 hidden">Box wijzigen</router-link>
                 <router-link :to="{name: 'ChangePay'}" class="text-gray-400">Betaalmethode wijzigen</router-link>
                 <router-link :to="{name: 'CancelOrder'}" class="text-gray-400">Bestelling pauzeren</router-link>
-                <router-link :to="{name: 'CancelSubscr'}" class="text-gray-400">Abonnement annuleren</router-link>
+                <router-link :to="{name: 'CancelSubscr'}" class="text-gray-400 hidden">Abonnement annuleren</router-link>
               </div>
 
               <!--BACKGROUND-->
@@ -60,11 +60,6 @@ export default {
   components: {
     Navigation
   },
-  computed:{
-    user() {
-      return this.$store.state.userModule.user
-    },
-  }
 }
 </script>
 

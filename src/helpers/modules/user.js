@@ -143,6 +143,37 @@ const userModule = {
       })
     },
 
+    //unsubscribe a user from it's account
+    //make sure to wire this with the rught endpiunt
+    async unsubscribeUser({commit}, user){
+      const apikey = localStorage.getItem('token')
+      await axios({url: process.env.VUE_APP_API_URL + '/box/pause', data: { apikey }, method: 'POST' })
+      .then(() => {
+        user.active_sub = 0
+        console.log(user)
+        commit('update_user', user)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+
+    //resubscribe a user to its original state
+    //set a new delivery first delivery date based on selection
+    async resubscribeUser({commit}, user){
+      const startdate = user.startdate
+      const apikey = localStorage.getItem('token')
+      await axios({url: process.env.VUE_APP_API_URL + '/box/unpause', data: { apikey, startdate }, method: 'POST' })
+      .then(() => {
+        user.active_sub = 1
+        console.log(user)
+        commit('update_user', user)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+
     //update the existing user
     //with new data
     updateUser({ commit }, data){

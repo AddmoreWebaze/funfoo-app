@@ -9,10 +9,10 @@
       <div class="mb-10 w-full grid grid-cols-3 gap-2" v-if="!noBoxes">
         <div 
         @click="doSomething(box)"
-        v-for="(box, index) in filterItems" :key="index" class="flex flex-col items-center justify-start bg-gray-50 hover:bg-gray-100 transition-colors duration-150 p-2 rounded-2xl">
+        v-for="(box, index) in filterItems" :key="index" class="flex flex-col cursor-pointer items-center justify-start bg-gray-50 hover:bg-gray-100 transition-colors duration-150 p-2 rounded-2xl">
 
-          <div class="w-full h-56 bg-gray-200 flex-shrink-0 rounded-xl">
-            <img class="w-full h-full object-cover object-center" :src="box.img" alt="">
+          <div class="w-full h-56 flex-shrink-0 rounded-xl">
+            <img class="w-full h-full object-contain object-center" :src="box.img" alt="">
           </div>
           <div class="overflow-hidden flex flex-col w-full py-4 px-2 text-center">
             <h3>{{box.naam}}</h3>
@@ -51,7 +51,7 @@
 
               <div class="my-10 px-20">
                 <figure>
-                  <img class="w-full rounded-lg max-h-96 object-cover" :src="activeRecipe.img" alt="" width="1310" height="400" />
+                  <img class="w-full rounded-lg max-h-80 object-cover" :src="activeRecipe.img" alt="" width="1310" height="400" />
                 </figure>
               </div>
 
@@ -116,16 +116,23 @@ export default {
         .catch(err => {
           console.log(err)
         })
-     },
-     doSomething: function (box) {
-      this.activeRecipe = box
-      this.showModal = true
-      console.log(box)
-    },
+      },
 
-    setIsOpen(value){
-      this.showModal = value
-    }
+      doSomething: function (box){
+        window.open(box.steps, '_blank').focus()
+      },
+
+      /*
+      doSomething: function (box) {
+        this.activeRecipe = box
+        this.showModal = true
+        console.log(box)
+      },
+      */
+
+      setIsOpen(value){
+        this.showModal = value
+      }
   },
   computed: {
     filterItems () {
