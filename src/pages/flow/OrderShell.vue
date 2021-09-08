@@ -34,7 +34,7 @@
 
                 </div>
                 <div>
-                  <h6 class="text-md font-semibold">{{product.name}}</h6>
+                  <h6 class="text-md font-semibold">FunFoo</h6>
                   <p class="text-gray-500 text-sm">3 maaltijden en snacks voor {{product.kids}} kinderen en<br> {{product.adults}} ouder(s)</p>
                 </div>
               </div>
@@ -51,7 +51,7 @@
                     <p class="text-black cookiefont">€{{product.total}}</p>
                   </div>
                   <div class="flex flex-row items-center justify-between mt-4 text-gray-500">
-                    <p class="text-sm">Bezorging</p>
+                    <p class="text-sm">Levering</p>
                     <p class="text-black cookiefont">GRATIS</p>
                   </div>
                   <div class="flex flex-row items-center justify-between mt-4 text-gray-500 w-full relative">
@@ -85,22 +85,22 @@
 
               <!--DELIVERY SECTION-->
               <div v-if="activeRoute > 1" class="mt-10">
-                <h1 class="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">Bezorging</h1>
+                <h1 class="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">Levering</h1>
 
                 <div class="flex flex-row items-start justify-start space-x-6 pb-10">
                   <div class="w-full">
                     <h6 class="text-gray-500 text-sm mt-5">Je kan jouw bezorgmoment wekelijks wijzigen</h6>
                     <div class="border-b h-2 mt-2"></div>
                     <div class="flex flex-row items-center justify-between mt-4 text-gray-800 text-sm">
-                      <p class="text-sm text-gray-500">Bezorgmoment</p>
-                      <p>Elke {{getOrderMeta.meta_moment}}</p>
+                      <p class="text-sm text-gray-500">Bezorgmoment:</p>
+                      <p>{{getOrderMeta.meta_moment}}</p>
                     </div>
                     <div class="flex flex-row items-center justify-between mt-4 text-gray-800 text-sm">
-                      <p class="text-sm text-gray-500">Eerste levering</p>
+                      <p class="text-sm text-gray-500">Eerste levering:</p>
                       <p>{{getOrderMeta.meta_firstdel}}</p>
                     </div>
                     <div class="flex flex-row items-center justify-between mt-4 text-gray-800 text-sm">
-                      <p class="text-sm text-gray-500">bij afwezigheid</p>
+                      <p class="text-sm text-gray-500">Bij afwezigheid:</p>
                       <p>{{getOrderMeta.meta_instruction}}</p>
                     </div>
                   </div>

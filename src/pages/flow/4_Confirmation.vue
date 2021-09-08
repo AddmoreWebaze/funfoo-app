@@ -3,12 +3,11 @@
   <div class="lg:max-w-lg lg:self-end">
 
     <div class="mt-4">
-      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Bevestig je Bestelling</h1>
-      <p class="mt-4 text-gray-500">Dit wordt je standaardvoorkeur, maar je kan ja voorkeuren wekelijks wijzigen</p>
+      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Bevestig je bestelling</h1>
     </div>
   </div>
 
-  <section aria-labelledby="options-heading" class="mt-20">
+  <section aria-labelledby="options-heading" class="mt-10">
     <h2 id="options-heading" class="sr-only">Register options</h2>
 
     <form class="mt-12 lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start xl:gap-x-12" @submit.prevent="submitForm">
@@ -16,7 +15,7 @@
           <section aria-labelledby="summary-heading" class="mt-16 bg-gray-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-12">
             <div class="grid grid-cols-12 ">
               <div class="col-span-10">
-                <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Bestel Overzicht</h2>
+                <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Besteloverzicht</h2>
                 <p id="summary-text" class="text-sm text-gray-500">3 maaltijden en snacks voor {{product.kids}} kinderen en {{product.adults}} ouder(s)</p>
               </div>
               <div class="col-span-2 flex justify-end">
@@ -40,7 +39,7 @@
               </div>
               <div class="border-t border-gray-200 pt-4 flex items-center justify-between">
                 <dt class="flex text-sm text-gray-600">
-                  <span>Leveringskosten</span>
+                  <span>Levering</span>
                 </dt>
                 <dd class="text-sm font-medium text-gray-900">
                   GRATIS
@@ -80,7 +79,7 @@
 
             <dl class="mt-6 grid grid-cols-2 gap-x-6 text-sm py-3">
               <div>
-                <dt class="font-medium text-gray-900">Leverings datum</dt>
+                <dt class="font-medium text-gray-900">Leveringsdatum</dt>
                 <dd class="mt-2 text-gray-700">
                   <p>Elke {{order_meta.meta_moment}}</p>
                   <p>{{order_meta.meta_instruction}}</p>
@@ -88,7 +87,7 @@
                 </dd>
               </div>
               <div>
-                <dt class="font-medium text-gray-900">Levering address</dt>
+                <dt class="font-medium text-gray-900">Leveringaddress</dt>
                 <dd class="mt-2 text-gray-700">
                   <address class="not-italic">
                     <span class="block capitalize">{{order.fname}} {{order.lname}}</span>

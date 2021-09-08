@@ -3,7 +3,6 @@
   <div class="lg:max-w-lg lg:self-end">
     <div class="mt-4">
       <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Betaalinformatie</h1>
-      <p class="mt-4 text-gray-500">Dit wordt je standaardvoorkeur, maar je kan je voorkeuren wekelijks wijzigen</p>
     </div>
   </div>
 

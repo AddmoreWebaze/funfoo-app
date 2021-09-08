@@ -36,7 +36,7 @@
                 <div class="mt-4">
                   <label for="email" class="block text-sm font-medium text-gray-700">Email*</label>
                   <div class="mt-1 relative">
-                    <input v-model="form.email" required type="text" name="email" autocomplete="email" id="email" class="px-5 py-3 shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="you@example.com" />
+                    <input v-model="form.email" required type="text" name="email" autocomplete="email" id="email" class="px-5 py-3 shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je email" />
                     <div v-if="error.errorField == 'email' || error.errorField == 'auth'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                       <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
                     </div>
@@ -47,7 +47,7 @@
                 <div class="mt-4">
                   <label for="password" class="block text-sm font-medium text-gray-700">Wachtwoord*</label>
                   <div class="mt-1 relative">
-                    <input v-model="form.password" required type="password" name="password" autocomplete="new-password" id="password" class="px-5 py-3 shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je passwoord" />
+                    <input v-model="form.password" required type="password" name="password" autocomplete="new-password" id="password" class="px-5 py-3 shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je wachtwoord" />
                     <div v-if="error.errorField == 'passwoord' || error.errorField == 'auth'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                       <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
                     </div>
@@ -58,7 +58,7 @@
                 <div class="mt-4">
                   <label for="repeat-password" class="block text-sm font-medium text-gray-700">Herhaal Wachtwoord*</label>
                   <div class="mt-1 relative">
-                    <input v-model="form.rePpassword" required type="password" name="repeat-password" autocomplete="new-password" id="repeat-password" class="px-5 py-3 shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Herhaal je passwoord" />
+                    <input v-model="form.rePpassword" required type="password" name="repeat-password" autocomplete="new-password" id="repeat-password" class="px-5 py-3 shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Herhaal je wachtwoord" />
                     <div v-if="error.errorField == 'passwoord-repeat'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                       <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
                     </div>
@@ -98,10 +98,10 @@ export default {
   data() {
     return {
       form: {
-        fname: 'aaron',
-        email: 'aaron@icloud.com',
-        password: 'aaronissupercool',
-        rePpassword: 'aaronissupercool',
+        fname: '',
+        email: '',
+        password: '',
+        rePpassword: '',
       },
       error: {},
 

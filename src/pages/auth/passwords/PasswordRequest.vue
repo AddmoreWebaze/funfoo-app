@@ -21,36 +21,23 @@
           <div>
             <FunfooLogo class="h-20 w-auto"  /> 
             <h2 class="mt-10 text-3xl font-extrabold text-gray-900">
-              Maak van elke maaltijd een avontuur voor je kids!
+              Reset je passwoord hier
             </h2>
           </div>
 
           <div class="mt-8">
             <div class="mt-6">
-              <form @submit.prevent="submitForm">
+              <form @submit.prevent="requestPassword">
                 <div class="mt-4">
                   <label for="email" class="block text-sm font-medium text-gray-700">Email*</label>
                   <div class="mt-1 relative">
-                    <input v-model="form.email" required type="text" name="email" autocomplete="email" id="email" class="px-5 py-3 shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je email" />
+                    <input v-model="form.email" required type="text" name="email" autocomplete="email" id="email" class="px-5 py-3 shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="you@example.com" />
                     <div v-if="error.errorField == 'email' || error.errorField == 'auth'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                       <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
                     </div>
                   </div>
                   <p v-if="error.errorField == 'email'" class="mt-2 text-sm text-red-600" id="email-error">{{error.errorMessage}}</p>
                 </div>
-
-                <div class="mt-4">
-                  <label for="password" class="block text-sm font-medium text-gray-700">Wachtwoord*</label>
-                  <div class="mt-1 relative">
-                    <input v-model="form.password" required type="password" name="password" autocomplete="new-password" id="password" class="px-5 py-3 shadow-sm focus:ring-orange-500 focus:border-orange-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="Je wachtwoord" />
-                    <div v-if="error.errorField == 'passwoord' || error.errorField == 'auth'" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                      <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
-                    </div>
-                  </div>
-                  <p v-if="error.errorField == 'passwoord'" class="mt-2 text-sm text-red-600" id="password-error">{{error.errorMessage}}</p>
-                </div>
-
-                <p v-if="error.errorField == 'auth'" class="mt-2 text-sm text-red-600" id="password-error">{{error.errorMessage}}</p>
 
                 <div class="mt-10">
                   <button type="submit" class="w-full bg-orange-500 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 transition-colors duration-200 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-orange-500">Stel je leveringsvoorkeur in</button>
@@ -83,7 +70,6 @@ export default {
     return {
       form: {
         email: '',
-        password: '',
       },
 
       error: {},
@@ -94,17 +80,12 @@ export default {
   },
   methods: {
 
-    submitForm: function(){
-      this.login()
-    },
-
-    login: function () {
+    requestPassword: function () {
       let email = this.form.email
-      let password = this.form.password
 
-      this.$store.dispatch('login', { email, password })
+      this.$store.dispatch('requestResetPassword', { email })
       .then(() => {
-        this.$router.push({ name: '/profile'})
+        this.$router.push({ name: '/'})
       })
       .catch(err => { 
         this.error = {

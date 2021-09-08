@@ -115,7 +115,7 @@
               </div>
               <div class="flex items-center justify-between">
                 <dt class="flex text-sm text-gray-600">
-                  <span>Bezorging</span>
+                  <span>Levering</span>
                 </dt>
                 <dd class="text-sm font-medium text-gray-900 cookiefont">
                   GRATIS

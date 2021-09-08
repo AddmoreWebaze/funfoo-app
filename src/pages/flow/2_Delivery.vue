@@ -1,10 +1,10 @@
 <template>
 <div>
   <!-- Product details -->
-  <div class="lg:max-w-lg lg:self-end">
+  <div class="">
     <div>
       <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Bezorging</h1>
-      <p class="mt-4 text-gray-500">Dit wordt je standaardvoorkeur, maar je kan ja voorkeuren wekelijks wijzigen</p>
+      <p class="mt-4 text-gray-500">Dit wordt je standaardvoorkeur, maar je kan je voorkeuren wekelijks wijzigen.</p>
     </div>
   </div>
 
@@ -101,7 +101,7 @@
           <!-- Size selector -->
         <RadioGroup v-model="order.firstDelivery" class="w-full" aria-required="true" required>
           <RadioGroupLabel class="block text-sm font-medium text-gray-700">
-            je eerste box*
+            Je eerste box*
           </RadioGroupLabel>
           <div class="mt-1 grid grid-cols-2 gap-2 sm:grid-cols-5 w-full">
             <RadioGroupOption as="template" 
@@ -133,7 +133,7 @@
       </div>
 
       <div class="mt-6">
-        <label for="notHome" class="block text-sm font-medium text-gray-700">Extra notities</label>
+        <label for="notHome" class="block text-sm font-medium text-gray-700">Extra notities voor levering</label>
         <textarea name="" id="" cols="20" rows="5" class="mt-3 px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-3xl" placeholder=""></textarea>
       </div>
 

@@ -1,4 +1,6 @@
-import { createWebHistory, createRouter } from "vue-router";
+//import { createWebHistory } from "vue-router";
+import { createWebHashHistory } from "vue-router";
+import { createRouter } from "vue-router";
 import { store } from './store.js'
 import Home from "@/App.vue";
 //auth
@@ -151,7 +153,8 @@ const routes = [
 
 
 const router = createRouter({
-  history: createWebHistory(),
+  //history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
   scrollBehavior () {
     return { x: 0, y: 0 }
