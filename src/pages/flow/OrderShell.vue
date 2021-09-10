@@ -60,7 +60,7 @@
                       <span v-if="hideAfterDiscount || getDiscoundCode.value > 0" class="rounded-full bg-green-100 text-xs text-green-700 py-0.5 px-2 ml-2">{{getDiscoundCode.code}}</span>
                       <span v-else @click="toggleDiscount" class="rounded-full bg-green-100 text-xs text-green-700 py-0.5 px-2 ml-2 cursor-pointer">+ Voeg toe</span>
 
-                      <form v-if="openDiscount && getDiscoundCode.value > 0" @submit.prevent="checkCode" class="mt-10 w-full absolute bg-white top-2 z-50 border-gray-50 shadow-lg p-4 rounded-lg">
+                      <form v-if="openDiscount && getDiscoundCode.value == 0" @submit.prevent="checkCode" class="mt-10 w-full absolute bg-white top-2 z-50 border-gray-50 shadow-lg p-4 rounded-lg">
                         <label for="discount-code-mobile" class="block text-sm font-medium text-gray-700">kortingscode toevoegen</label>
 
                         <div class="flex space-x-4 mt-4">
@@ -79,7 +79,7 @@
                   <div class="border-b h-2 mt-4"></div>
                   <div class="flex flex-row items-center justify-between mt-4 text-gray-500">
                     <p class="text-sm">Totaal</p>
-                    <p class="text-black cookiefont">€{{parseFloat(product.total - getDiscoundCode.value).toFixed(2)}}</p>
+                    <p class="text-black cookiefont">€{{parseFloat(product.total - (getDiscoundCode.value || 0)).toFixed(2)}}</p>
                   </div>
               </div>
 
@@ -194,7 +194,10 @@ export default {
     },
     checkCode(){
       this.$store.dispatch('checkDiscountcode', this.discountcode)
-      .then(() => !this.hideAfterDiscount)
+      .then(() => {
+        this.hideAfterDiscount = true
+        this.openDiscount = false
+        })
       .catch(err => this.error = err)
     }
   },

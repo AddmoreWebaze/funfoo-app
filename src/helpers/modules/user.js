@@ -142,6 +142,24 @@ const userModule = {
       })
     },
 
+    async submitResetPassword({commit}, obj){
+      localStorage.removeItem('token')
+
+      obj.password = encrypt(process.env.VUE_APP_SALT, obj.password)
+
+      new Promise((resolve, reject) => {
+        axios({url: process.env.VUE_APP_API_URL + '/user/updatepw', data: { password : obj.password, apikey : obj.apikey }, method: 'POST' })
+        .then(() => {
+          resolve()
+        })
+        .catch(err => {
+          commit('auth_error')
+          console.log(err)
+          reject()
+        })
+      })
+    },
+
     //full the user object
     async getUser({commit}){
       const token = localStorage.getItem('token')

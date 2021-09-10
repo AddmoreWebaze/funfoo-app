@@ -7,6 +7,8 @@ import Home from "@/App.vue";
 import AuthShell from '@/pages/auth/AuthShell.vue'
 import Login from "@/pages/auth/Login.vue";
 import Register from "@/pages/auth/Register.vue";
+import PasswordRequest from "@/pages/auth/passwords/PasswordRequest"
+import PasswordReset from "@/pages/auth/passwords/PasswordReset"
 //order
 import OrderShell from '@/pages/flow/OrderShell.vue'
 import Step1 from '@/pages/flow/1_NumberKids.vue'
@@ -54,6 +56,28 @@ const routes = [
         path: '',
         name: "Register",
         component: Register
+      }
+    ]
+  },
+  {
+    path: "/wachtwoord-vergeten",
+    component: AuthShell,
+    children: [
+      {
+        path: '',
+        name: "PasswordRequest",
+        component: PasswordRequest
+      }
+    ]
+  },
+  {
+    path: "/verify",
+    component: AuthShell,
+    children: [
+      {
+        path: '',
+        name: "PasswordReset",
+        component: PasswordReset
       }
     ]
   },

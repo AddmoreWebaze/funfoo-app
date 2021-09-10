@@ -18,14 +18,14 @@
       </div>
       <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div class="mx-auto w-full max-w-sm lg:max-w-xl bg-white px-6 py-6 lg:px-20 lg:py-20 rounded-xl relative overflow-hidden">
-          <div>
+          <div v-if="!submitted">
             <FunfooLogo class="h-20 w-auto"  /> 
             <h2 class="mt-10 text-3xl font-extrabold text-gray-900">
               Reset je passwoord hier
             </h2>
           </div>
 
-          <div class="mt-8">
+          <div class="mt-8" v-if="!submitted">
             <div class="mt-6">
               <form @submit.prevent="requestPassword">
                 <div class="mt-4">
@@ -40,11 +40,16 @@
                 </div>
 
                 <div class="mt-10">
-                  <button type="submit" class="w-full bg-orange-500 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 transition-colors duration-200 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-orange-500">Stel je leveringsvoorkeur in</button>
-                  <p class="mt-4 text-sm text-gray-400 text-center" id="email-description">Nog geen account?<router-link class="text-orange-500 font-medium" :to="{ name: 'Register' }"> Maak hier je account</router-link></p>
+                  <button type="submit" class="w-full bg-orange-500 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 transition-colors duration-200 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-orange-500">Verstuur mijn link</button>
+                  <p class="mt-4 text-sm text-gray-400 text-center" id="email-description">Al een account?<router-link class="text-orange-500 font-medium" :to="{ name: 'Login' }"> Inloggen</router-link></p>
                 </div>
               </form>
             </div>
+          </div>
+
+          <div class="h-64 flex items-center justify-center flex-col" v-else>
+            <h2 class="text-3xl text-green-500">Verzonden!</h2>
+            <p class="text-gray-500">Bekijk je mailbox voor de reset-link</p>
           </div>
 
           <!--BACKGROUND-->
@@ -71,6 +76,7 @@ export default {
       form: {
         email: '',
       },
+      submitted: false,
 
       error: {},
       //debug
@@ -85,7 +91,7 @@ export default {
 
       this.$store.dispatch('requestResetPassword', { email })
       .then(() => {
-        this.$router.push({ name: '/'})
+        this.submitted = true
       })
       .catch(err => { 
         this.error = {
