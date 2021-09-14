@@ -105,12 +105,13 @@ export default {
 
       this.$store.dispatch('login', { email, password })
       .then(() => {
-        this.$router.push({ name: '/profile'})
+        this.$router.push({ name: 'Profile'})
       })
       .catch(err => { 
+        console.log(err)
         this.error = {
           errorField: 'auth',
-          errorMessage:  err.response.data.message || err
+          errorMessage:  'Je hebt de foute gegevens ingegeven'
         }
         this.APIerr = err
         console.log(err)

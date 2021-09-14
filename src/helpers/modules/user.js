@@ -130,7 +130,7 @@ const userModule = {
     async requestResetPassword({commit}, email){
       localStorage.removeItem('token')
       new Promise((resolve, reject) => {
-        axios({url: process.env.VUE_APP_API_URL + '/user/activate', data: { email }, method: 'POST' })
+        axios({url: process.env.VUE_APP_API_URL + '/user/forgot', data: { email }, method: 'POST' })
         .then(() => {
           resolve()
         })

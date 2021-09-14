@@ -16,7 +16,9 @@
         <div>
           <label for="fname" class="block text-sm font-medium text-gray-700">Voornaam*</label>
           <div class="mt-1">
-            <input autofocus v-model="order.fname" required type="text" name="fname" autocomplete="shipping given-name" id="fname" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="" />
+            <input autofocus 
+            v-model="order.fname" 
+            required type="text" name="fname" autocomplete="shipping given-name" id="fname" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="" />
           </div>
         </div>
         <div class="">
@@ -180,8 +182,12 @@ export default {
   },
   created(){
     this.getDeliveryMoments()
-    this.getFirstDelivery()
+    .then(() => this.getFirstDelivery())
+    
     this.order = this.getOrder
+  },
+  mounted(){
+    this.order.fname = this.activeUser.fname
   },
   methods: {
     ...mapMutations(["SET_ORDER", "SET_ORDER_META"]),
@@ -190,6 +196,7 @@ export default {
     //and submit the form
     //then go to the next step
     submitForm: function(){
+      console.log('Check form', this.zipisGood)
       if(this.zipisGood){
         this.SET_ORDER(this.order)
         this.$store.dispatch('createDelivery')
@@ -218,28 +225,30 @@ export default {
 
     //get all deliverydates
     getDeliveryMoments: async function() {
-      await axios({url: process.env.VUE_APP_API_URL + '/box/delivery/moments', method: 'GET' })
-      .then(resp => {
-        this.deliverydates = resp.data.moments
-        this.order_meta.meta_moment = this.deliverydates[0].label
-        this.order_meta.meta_instruction = 'In de tuin'
-        this.order.deliveryMoment = this.deliverydates[0].id
-        this.SET_ORDER_META(this.order_meta)
-      })
-      .catch(() => {
-        console.log('Whoops, something went wrong here')
-      })
+        await axios({url: process.env.VUE_APP_API_URL + '/box/delivery/moments', method: 'GET' })
+        .then(resp => {
+          this.deliverydates = resp.data.moments
+          this.order_meta.meta_moment = this.deliverydates[0].label
+          this.order_meta.meta_instruction = 'In de tuin'
+          this.order.deliveryMoment = this.deliverydates[0].id
+          this.SET_ORDER_META(this.order_meta)
+        })
+        .catch(() => {
+          console.log('Whoops, something went wrong here')
+        })
     },
 
     //get the first deliverydate posibble
     //triggered by the develiverymoments
     getFirstDelivery: async function () {
       var deliveryid = parseInt(this.order.deliveryMoment)
+      console.log(deliveryid)
       await axios({url: process.env.VUE_APP_API_URL + '/box/options', data: { deliveryid } , method: 'POST' })
       .then(resp => {
+        console.log(this.firstDelivery)
         this.firstDelivery = resp.data.dates
-        this.order_meta.meta_firstdel = this.firstDelivery[0]
-        this.order.firstDelivery = this.firstDelivery[0]
+        //this.order_meta.meta_firstdel = this.firstDelivery[0]
+        //this.order.firstDelivery = this.firstDelivery
         this.SET_ORDER(this.order)
         this.SET_ORDER_META(this.order_meta)
       })
@@ -267,7 +276,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getOrder"])
+    ...mapGetters(["getOrder", "activeUser"])
   }
 }
 </script>

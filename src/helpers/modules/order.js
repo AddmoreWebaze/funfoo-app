@@ -75,6 +75,7 @@ const orderModule = {
 
         axios({url: process.env.VUE_APP_API_URL + '/user/complete', data: completeProfile, method: 'POST' })
         .then(resp => {
+          console.log('doing call')
           resolve(resp)
         })
         .catch(err => {
@@ -91,7 +92,7 @@ const orderModule = {
 
     //depending on the chosen method, 
     //create a new payment route
-    createPayment({commit}, { method, IBAN = null }){
+    createPayment({commit}, { method, iban = null }){
       return new Promise((resolve, reject) => {
         commit('auth_request')
         var token = localStorage.getItem('token')
@@ -101,7 +102,7 @@ const orderModule = {
             apikey: token,
             redirectUrl: `${process.env.VUE_APP_BASE_URL}/order/step-4`,
             method: method,
-            iban: IBAN
+            iban: iban
           }, method: 'POST' })
         .then(resp => {
           if(method == 'directdebit' && resp.data.valid){

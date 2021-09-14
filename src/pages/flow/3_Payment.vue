@@ -67,7 +67,10 @@ export default {
     return {
       total: 88,
 
-      form: {},
+      form: {
+        method: '',
+        iban: ''
+      },
       error: '',
 
       showSepaForm: false
@@ -90,7 +93,7 @@ export default {
       this.showSepaForm = true
       this.form = {
         method: 'directdebit',
-        IBAN: 'BE68539007547034'
+        iban: ''
       }
     },
 
