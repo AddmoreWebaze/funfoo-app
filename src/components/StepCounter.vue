@@ -1,9 +1,9 @@
 <template>
-  <div class="mx-auto max-w-2xl lg:max-w-7xl pt-10">
+  <div class="mx-auto max-w-2xl lg:max-w-7xl md:pt-10 pt-4 px-3">
     <nav aria-label="Progress">
 
-      <ol role="list" class="border border-gray-100 rounded-3xl divide-y divide-gray-300 md:flex md:divide-y-0 bg-white hidden">
-        <li v-for="(step, stepIdx) in steps" :key="step.name + stepIdx"  class="relative md:flex-1 md:flex">
+      <ol role="list" class="border border-gray-100 rounded-3xl flex bg-white">
+        <li v-for="(step, stepIdx) in steps" :key="step.name + stepIdx"  class="relative flex-1 flex">
 
           <p class="group flex items-center w-full">
             <span class="px-6 py-4 flex items-center text-sm font-medium">
@@ -13,7 +13,7 @@
                   <img v-if="stepIdx == 2" :class="{'opacity-30' : activeRoute < stepIdx}" class="w-full" src="@/assets/icons/bezorging.svg" alt="gegevens icoon">
                   <img v-if="stepIdx == 3" :class="{'opacity-30' : activeRoute < stepIdx}" class="w-full" src="@/assets/icons/betalen.svg" alt="gegevens icoon">
               </span>
-              <span :class="[activeRoute < stepIdx ? 'text-gray-500' : 'text-gray-900']" class="ml-4 text-sm font-medium">{{ step.name }}</span>
+              <span :class="[activeRoute < stepIdx ? 'text-gray-500' : 'text-gray-900']" class="ml-4 text-sm font-medium hidden md:block">{{ step.name }}</span>
             </span>
           </p>
 

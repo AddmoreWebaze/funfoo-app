@@ -1,8 +1,8 @@
 <template>
   <div class="min-h-screen bg-smoke">
     <header class="relative bg-smoke">
-        <p class="bg-green-600 h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
-          FunFoo Development Env.
+        <p class="bg-orange-500 h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
+          Pre-order nu en krijg een korting van €10!
         </p>
     </header>
     

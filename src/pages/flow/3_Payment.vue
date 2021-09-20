@@ -6,50 +6,51 @@
     </div>
   </div>
 
+  <div class="md:mb-0 mb-14">
+    <!--CHECKOUT choose your option-->
+    <section aria-labelledby="payment-options" class="flex-auto overflow-y-auto pt-6 sm:pt-10 lg:pt-10 pb-4">
+      <div class="flex flex-col w-auto px-2">
+        <button @click="payCredit()" class="w-full border border-transparent rounded-full px-4 py-3.5 space-x-3 border-gray-200 flex flex-row items-center justify-start text-base font-medium hover:bg-green-200 hover:bg-opacity-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">
+          <img src="@/assets/icons/creditcard.svg" class="w-8" alt="">
+          <p class="text-gray-700 ml-2">Betaal met kredietkaart</p>
+        </button>
+        <button @click="paySepa()" class="mt-2 w-full border border-transparent rounded-full px-4 py-3.5 space-x-3 border-gray-200 flex flex-row items-center justify-start text-base font-medium hover:bg-green-200 hover:bg-opacity-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">
+          <img src="@/assets/icons/sepa.svg" class="w-8" alt="">
+          <p class="text-gray-700 ml-2">Betaal met een domiciliëring</p>
+        </button>
+      </div>
+    </section>
 
-  <!--CHECKOUT choose your option-->
-  <section aria-labelledby="payment-options" class="flex-auto overflow-y-auto pt-6 sm:pt-10 lg:pt-10 pb-4">
-    <div class="flex flex-col w-auto px-2">
-      <button @click="payCredit()" class="w-full border border-transparent rounded-full px-4 py-3.5 space-x-3 border-gray-200 flex flex-row items-center justify-start text-base font-medium hover:bg-green-200 hover:bg-opacity-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">
-        <img src="@/assets/icons/creditcard.svg" class="w-8" alt="">
-        <p class="text-gray-700 ml-2">Betaal met kredietkaart</p>
-      </button>
-      <button @click="paySepa()" class="mt-2 w-full border border-transparent rounded-full px-4 py-3.5 space-x-3 border-gray-200 flex flex-row items-center justify-start text-base font-medium hover:bg-green-200 hover:bg-opacity-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">
-        <img src="@/assets/icons/sepa.svg" class="w-8" alt="">
-        <p class="text-gray-700 ml-2">Betaal met een domiciliëring</p>
-      </button>
-    </div>
-  </section>
+    <!-- Checkout form -->
+    <section v-if="showSepaForm" aria-labelledby="payment-heading" class="flex-auto overflow-y-auto md:pt-10 lg:pb-10">
+      <div class="px-6 mx-auto">
+        <form class="mt-6" @submit.prevent="paySepaSubmit">
+          <p class="mt-4 text-gray-500 text-xl">Betaal met een SEPA Domiciliëring</p>
 
-  <!-- Checkout form -->
-  <section v-if="showSepaForm" aria-labelledby="payment-heading" class="flex-auto overflow-y-auto pt-10 lg:pb-10">
-    <div class="px-6 mx-auto">
-      <form class="mt-6" @submit.prevent="paySepaSubmit">
-        <p class="mt-4 text-gray-500 text-xl">Betaal met een SEPA Domiciliëring</p>
-
-        <div class="grid grid-cols-12 gap-y-6 gap-x-4 mt-4">
-          <div class="col-span-full">
-            <label for="card-number" class="block text-sm font-medium text-gray-700">IBAN nummer</label>
-            <small class="text-gray-400">Zonder spaties en speciale tekens</small>
-            <div class="mt-2 relative">
-              <input v-model="form.iban" type="text" id="card-number" placeholder="BE68539007547034" pattern="^([A-Z]{2}[ \-]?[0-9]{2})(?=(?:[ \-]?[A-Z0-9]){9,30}$)((?:[ \-]?[A-Z0-9]{3,5}){2,7})([ \-]?[A-Z0-9]{1,3})?$"  title="Voeg een juist IBAN nummer in" name="card-number" autocomplete="cc-number" class="block w-full border-gray-300 rounded-full shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm py-2" />
-              <div v-if="error !== ''" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
+          <div class="grid grid-cols-12 gap-y-6 gap-x-4 mt-4">
+            <div class="col-span-full">
+              <label for="card-number" class="block text-sm font-medium text-gray-700">IBAN nummer</label>
+              <small class="text-gray-400">Zonder spaties en speciale tekens</small>
+              <div class="mt-2 relative">
+                <input v-model="form.iban" type="text" id="card-number" placeholder="BE68539007547034" pattern="^([A-Z]{2}[ \-]?[0-9]{2})(?=(?:[ \-]?[A-Z0-9]){9,30}$)((?:[ \-]?[A-Z0-9]{3,5}){2,7})([ \-]?[A-Z0-9]{1,3})?$"  title="Voeg een juist IBAN nummer in" name="card-number" autocomplete="cc-number" class="block w-full border-gray-300 rounded-full shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm py-2" />
+                <div v-if="error !== ''" class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                  <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
+                </div>
               </div>
+              <p v-if="error !== ''" class="mt-2 text-sm text-red-600" id="password-error">{{error}}</p>
             </div>
-            <p v-if="error !== ''" class="mt-2 text-sm text-red-600" id="password-error">{{error}}</p>
           </div>
-        </div>
 
-        <button type="submit" class="w-full mt-6 bg-green-600 border border-transparent rounded-full shadow-sm py-3 px-4 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Voeg betaalmethode toe</button>
+          <button type="submit" class="w-full mt-6 bg-green-600 border border-transparent rounded-full shadow-sm py-3 px-4 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Voeg betaalmethode toe</button>
 
-        <p class="flex justify-center text-sm font-medium text-gray-500 mt-6">
-          <LockClosedIcon class="w-5 h-5 text-green-400 mr-1.5" aria-hidden="true" />
-          Betalingen worden veilig opgeslagen
-        </p>
-      </form>
-    </div>
-  </section>
+          <p class="flex justify-center text-sm font-medium text-gray-500 mt-6">
+            <LockClosedIcon class="w-5 h-5 text-green-400 mr-1.5" aria-hidden="true" />
+            Betalingen worden veilig opgeslagen
+          </p>
+        </form>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>

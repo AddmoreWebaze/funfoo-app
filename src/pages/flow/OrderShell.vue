@@ -13,9 +13,9 @@
     <main>
       <!-- Product -->
       <div class="bg-smoke">
-        <div class="max-w-2xl mx-auto pt-16 pb-24  sm:pt-10 sm:pb-32  lg:max-w-7xl lg:grid lg:grid-cols-5 lg:gap-x-8">
+        <div class="max-w-2xl mx-auto pt-0 pb-0  sm:pt-10 sm:pb-32  lg:max-w-7xl lg:grid lg:grid-cols-5 lg:gap-x-8 px-3">
           <!-- Product form -->
-          <div :class="[activeRoute < 5 ? 'col-span-3' : 'col-span-5']" class="mt-10 lg:mt-0 lg:self-start bg-white rounded-3xl lg:p-10 sm:p-6 p-4 border border-gray-100 overflow-hidden relative sm:pb-10 lg:pb-20">
+          <div :class="[activeRoute < 5 ? 'col-span-3' : 'col-span-5']" class="mt-4 md:mt-10 lg:mt-0 lg:self-start bg-white rounded-3xl lg:p-10 sm:p-6 p-4 border border-gray-100 overflow-hidden relative sm:pb-10 lg:pb-20">
             
               <router-view></router-view>
 
@@ -97,7 +97,7 @@
                     </div>
                     <div class="flex flex-row items-center justify-between mt-4 text-gray-800 text-sm">
                       <p class="text-sm text-gray-500">Eerste levering:</p>
-                      <p>{{getOrderMeta.meta_firstdel}}</p>
+                      <p>{{parseDateToBE(getOrderMeta.meta_firstdel)}}</p>
                     </div>
                     <div class="flex flex-row items-center justify-between mt-4 text-gray-800 text-sm">
                       <p class="text-sm text-gray-500">Bij afwezigheid:</p>
@@ -201,6 +201,17 @@ export default {
         this.openDiscount = false
         })
       .catch(err => this.error = err)
+    },
+    parseDateToBE(unparsed){
+      var unifiedFormat = new Date(unparsed)
+
+      var options = {
+                month:'long',
+                day:'numeric'};
+
+      unifiedFormat = unifiedFormat.toLocaleString('nl', options);
+      
+      return unifiedFormat
     }
   },
   computed:{

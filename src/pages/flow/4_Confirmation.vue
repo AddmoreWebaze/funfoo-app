@@ -154,7 +154,7 @@
               </div>
           </section>
 
-          <div class="mt-10 col-span-12">
+          <div class="mt-10 col-span-12 md:mb-0 mb-14">
             <button type="submit" class="w-full bg-green-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">Plaats je bestelling</button>
           </div>
         </form>

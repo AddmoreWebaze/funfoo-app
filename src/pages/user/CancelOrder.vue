@@ -28,7 +28,7 @@
               v-on:click="updateMeta('startdate', date)"
               :class="[checked || active ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'relative hover:bg-green-100 transition-colors duration-150 flex flex-col items-center justify-between py-4 cursor-pointer focus:outline-none rounded-3xl border border-gray-300']">
                 <RadioGroupLabel as="p" class="font-medium text-gray-900 relative z-20">
-                  {{ date }}
+                  {{ parseDateToBE(date) }}
                 </RadioGroupLabel>
                 <div class="absolute -inset-px rounded-lg pointer-events-none" aria-hidden="true" />
               </div>
@@ -90,6 +90,17 @@ export default {
         console.log(err, 'Whoops, something went wrong here')
       })
     },
+    parseDateToBE(unparsed){
+      var unifiedFormat = new Date(unparsed)
+
+      var options = {
+                month:'long',
+                day:'numeric'};
+
+      unifiedFormat = unifiedFormat.toLocaleString('nl', options);
+      
+      return unifiedFormat
+    }
   },
   mounted() {
     this.user = this.activeUser

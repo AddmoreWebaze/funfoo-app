@@ -115,7 +115,7 @@
               v-on:click="updateMeta('meta_firstdel', date)"
               :class="[checked || active ? 'bg-green-100 border-green-200 z-10' : 'border-gray-300', 'relative hover:bg-green-100 transition-colors duration-150 flex flex-col items-center justify-between py-4 cursor-pointer focus:outline-none rounded-3xl border border-gray-300']">
                 <RadioGroupLabel as="p" class="font-medium text-gray-900 relative z-20">
-                  {{ date }}
+                  {{ parseDateToBE(date) }}
                 </RadioGroupLabel>
                 <div class="absolute -inset-px rounded-lg pointer-events-none" aria-hidden="true" />
               </div>
@@ -139,7 +139,7 @@
         <textarea name="" id="" cols="20" rows="5" class="mt-3 px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-3xl" placeholder=""></textarea>
       </div>
 
-      <div class="mt-10">
+      <div class="mt-10 md:mb-0 mb-14">
         <button type="submit" class="w-full bg-green-600 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">Naar betaalmethode</button>
         <p class="mt-4 text-sm text-center" id="email-description"><router-link class="text-green-600" to="/order/step-1">Vorige stap</router-link></p>
       </div>
@@ -196,6 +196,7 @@ export default {
     //and submit the form
     //then go to the next step
     submitForm: function(){
+      this.checkZip()
       console.log('Check form', this.zipisGood)
       if(this.zipisGood){
         this.SET_ORDER(this.order)
@@ -247,8 +248,8 @@ export default {
       .then(resp => {
         console.log(this.firstDelivery)
         this.firstDelivery = resp.data.dates
-        //this.order_meta.meta_firstdel = this.firstDelivery[0]
-        //this.order.firstDelivery = this.firstDelivery
+        this.order_meta.meta_firstdel = this.firstDelivery[0]
+        this.order.firstDelivery = this.firstDelivery[0]
         this.SET_ORDER(this.order)
         this.SET_ORDER_META(this.order_meta)
       })
@@ -273,10 +274,21 @@ export default {
           this.error = { type, message }
          })
       }
+    },
+    parseDateToBE(unparsed){
+      var unifiedFormat = new Date(unparsed)
+
+      var options = {
+                month:'long',
+                day:'numeric'};
+
+      unifiedFormat = unifiedFormat.toLocaleString('nl', options);
+      
+      return unifiedFormat
     }
   },
   computed: {
-    ...mapGetters(["getOrder", "activeUser"])
+    ...mapGetters(["getOrder", "activeUser"]),
   }
 }
 </script>
