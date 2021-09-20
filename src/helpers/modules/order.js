@@ -100,7 +100,7 @@ const orderModule = {
         axios({url: process.env.VUE_APP_API_URL + '/mandate/create', 
           data: { 
             apikey: token,
-            redirectUrl: `${process.env.VUE_APP_BASE_URL}/order/step-4`,
+            redirectUrl: 'https://shop.funfoo.be/#/order/step-4',
             method: method,
             iban: iban
           }, method: 'POST' })

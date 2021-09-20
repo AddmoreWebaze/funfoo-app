@@ -4,7 +4,9 @@
       <img class="absolute inset-0 h-full w-full object-cover" src="@/assets/images/funfoo-background2.svg" alt="Funfoo background" />
 
       <div class="hidden relative w-0 flex-1 lg:flex items-center justify-center">
-        <img class="absolute w-5/12 md:w-8/12 lg:w-5/12 h-auto" src="@/assets/images/funfoo-logo.svg" alt="funfoo display">
+        <a href="https://www.funfoo.be" target="_blank">
+          <img class="absolute w-5/12 md:w-8/12 lg:w-5/12 h-auto" src="@/assets/images/funfoo-logo.svg" alt="funfoo display">
+        </a>
 
         <div class="absolute w-10/12 h-96 bg-white border border-gray-100 p-10 rounded-lg hidden">
           <div class="w-full border-b border-gray-200 pb-4">
@@ -21,7 +23,7 @@
           <div>
             <FunfooLogo class="h-20 w-auto"  /> 
             <h2 class="mt-10 text-3xl font-extrabold text-gray-900">
-              Maak van elke maaltijd een avontuur voor je kids!
+              Maak van elke maaltijd een avontuur!
             </h2>
           </div>
 
@@ -50,12 +52,26 @@
                   <p v-if="error.errorField == 'passwoord'" class="mt-2 text-sm text-red-600" id="password-error">{{error.errorMessage}}</p>
                 </div>
 
-                <p v-if="error.errorField == 'auth'" class="mt-2 text-sm text-red-600" id="password-error">{{error.errorMessage}}</p>
+                <div class="flex items-start mt-5">
+                  <div class="flex-shrink-0">
+                    <Switch required v-model="agreedRemeber" :class="[agreedRemeber ? 'bg-green-600' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500']">
+                      <span class="sr-only">Remember me</span>
+                      <span aria-hidden="true" :class="[agreedRemeber ? 'translate-x-5' : 'translate-x-0', 'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']" />
+                    </Switch>
+                  </div>
+                  <div class="ml-3">
+                    <p class="text-sm text-gray-500">
+                      onthou mij
+                    </p>
+                  </div>
+                </div>
+
+                <p v-if="error.errorField == 'auth'" class="mt-2 text-sm text-red-600" id="password-error">De opgegeven data komt niet overeen in onze database</p>
 
                 <div class="mt-10">
                   <button type="submit" class="w-full bg-orange-500 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 transition-colors duration-200 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-orange-500">Stel je leveringsvoorkeur in</button>
                   <p class="mt-4 text-sm text-gray-400 text-center" id="email-description">Nog geen account?<router-link class="text-orange-500 font-medium" :to="{ name: 'Register' }"> Maak hier je account</router-link></p>
-                  <p class="mt-4 text-sm text-gray-400 text-center" id="email-description">Wachtwoord vergeten?<router-link class="text-orange-500 font-medium" :to="{ name: 'PasswordRequest' }"> Rest je wachtwoord</router-link></p>
+                  <p class="mt-4 text-sm text-gray-400 text-center" id="email-description">Wachtwoord vergeten?<router-link class="text-orange-500 font-medium" :to="{ name: 'PasswordRequest' }"> Herstel je wachtwoord hier</router-link></p>
                 </div>
               </form>
             </div>
@@ -75,10 +91,13 @@
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 import FunfooLogo from '@/components/FunfooLogo.vue';
 
+import { Switch } from '@headlessui/vue'
+
 export default {
   components: {
     ExclamationCircleIcon,
     FunfooLogo,
+    Switch
   },
   data() {
     return {
@@ -90,7 +109,8 @@ export default {
       error: {},
       //debug
       APIres: '',
-      APIerr: ''
+      APIerr: '',
+      agreedRemeber: false
     }
   },
   methods: {
@@ -105,7 +125,7 @@ export default {
 
       this.$store.dispatch('login', { email, password })
       .then(() => {
-        this.$router.push({ name: 'Profile'})
+        this.$router.push({ name: 'UserProfile'})
       })
       .catch(err => { 
         console.log(err)

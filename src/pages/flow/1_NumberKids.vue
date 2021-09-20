@@ -3,7 +3,7 @@
   <!-- Product details -->
   <div class="lg:max-w-2xl lg:self-end">
     <div>
-      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Stel je FunFoo Box samen</h1>
+      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Stel je FunFoo box samen</h1>
     </div>
 
     <section aria-labelledby="information-heading" class="mt-4">

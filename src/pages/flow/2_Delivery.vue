@@ -52,7 +52,7 @@
         <div>
           <label for="zip" class="block text-sm font-medium text-gray-700">Postcode*</label>
           <div class="mt-1 relative">
-            <input v-on:keyup="checkZip" v-model="order.zip" required type="text" name="zip" autocomplete="shipping postal-code" id="zip" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="" />
+            <input v-on:keyup="checkZip" v-model="order.zip" required type="text" name="zip" autocomplete="none" id="zip" class="px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-full" placeholder="" />
               <div v-if="error.type == 'zip'" class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                 <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
               </div>
@@ -103,7 +103,7 @@
           <!-- Size selector -->
         <RadioGroup v-model="order.firstDelivery" class="w-full" aria-required="true" required>
           <RadioGroupLabel class="block text-sm font-medium text-gray-700">
-            Je eerste box*
+            Je eerste FunFoo box*
           </RadioGroupLabel>
           <div class="mt-1 grid grid-cols-2 gap-2 sm:grid-cols-5 w-full">
             <RadioGroupOption as="template" 

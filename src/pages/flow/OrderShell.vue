@@ -1,8 +1,8 @@
 <template>
   <div class="min-h-screen bg-smoke">
     <header class="relative bg-smoke">
-        <p class="bg-green-600 h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
-          FunFoo Development Env.
+        <p class="bg-orange-500 h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
+          Pre-order nu en krijg een korting van €10!
         </p>
     </header>
     
@@ -30,12 +30,12 @@
               <h1 class="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">Besteloverzicht</h1>
 
               <div class="flex flex-row items-center justify-start space-x-6 mt-10">
-                <div class="w-20 h-20 bg-gray-50 flex-shrink-0 rounded-xl">
-
+                <div class="w-20 h-20 bg-gray-50 flex-shrink-0 rounded-xl flex items-center justify-center">
+                  <img class="w-12" src="@/assets/images/box-render.png" alt="">
                 </div>
                 <div>
                   <h6 class="text-md font-semibold">FunFoo</h6>
-                  <p class="text-gray-500 text-sm">3 maaltijden en snacks voor {{product.kids}} kinderen en<br> {{product.adults}} ouder(s)</p>
+                  <p class="text-gray-500 text-sm">3 maaltijden voor {{product.kids}} kinderen en<br> {{product.adults}} ouder(s)</p>
                 </div>
               </div>
 
@@ -162,6 +162,8 @@ export default {
 
     this.$store.commit('SET_DISCOUNTCODE', discountCode )*/
     this.getActiveRoute()
+    this.discountcode = 'FunFoorier21'
+    this.checkCode()
   },
   methods: {
     getActiveRoute(){

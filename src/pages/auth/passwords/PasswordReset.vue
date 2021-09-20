@@ -21,7 +21,7 @@
           <div v-if="!submitted">
             <FunfooLogo class="h-20 w-auto"  /> 
             <h2 class="mt-10 text-3xl font-extrabold text-gray-900">
-              Reset je passwoord hier
+              Herstel je wachtwoord
             </h2>
           </div>
 
@@ -61,7 +61,7 @@
 
           <div class="h-64 flex items-center justify-center flex-col" v-else>
             <h2 class="text-3xl text-green-500">Verzonden!</h2>
-            <p class="text-gray-500">Bekijk je mailbox voor de reset-link</p>
+            <p class="text-gray-500">Bekijk je mailbox voor de herstel link!</p>
           </div>
 
           <!--BACKGROUND-->
@@ -99,7 +99,8 @@ export default {
     }
   },
   created(){
-    if(this.$route.query.t == ''){
+    if(this.$route.query.t.length === 0){
+      console.log('no querry found because length is', this.$route.query.t.length, ' = ',  this.$route.query.t, + ' ')
       this.$router.push({name: 'PasswordRequest'})
     }else{
       this.apikey = this.$route.query.t
@@ -113,7 +114,7 @@ export default {
     },
     requestPassword: function () {
       const obj = {
-        password : this.password,
+        password : this.form.password,
         apikey : this.apikey
       }
 

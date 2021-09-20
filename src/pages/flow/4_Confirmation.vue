@@ -16,7 +16,7 @@
             <div class="grid grid-cols-12 ">
               <div class="col-span-10">
                 <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Besteloverzicht</h2>
-                <p id="summary-text" class="text-sm text-gray-500">3 maaltijden en snacks voor {{product.kids}} kinderen en {{product.adults}} ouder(s)</p>
+                <p id="summary-text" class="text-sm text-gray-500">3 maaltijden voor {{product.kids}} kinderen en {{product.adults}} ouder(s)</p>
               </div>
               <div class="col-span-2 flex justify-end">
                 <router-link class="text-sm text-gray-500 text-right w-full" :to="{name: 'step-1'}">Wijzigen</router-link>
@@ -81,13 +81,13 @@
               <div>
                 <dt class="font-medium text-gray-900">Leveringsdatum</dt>
                 <dd class="mt-2 text-gray-700">
-                  <p>Elke {{order_meta.meta_moment}}</p>
+                  <p>{{order_meta.meta_moment}}</p>
                   <p>{{order_meta.meta_instruction}}</p>
                   <p>Eerste levering: {{order_meta.meta_firstdel}}</p>
                 </dd>
               </div>
               <div>
-                <dt class="font-medium text-gray-900">Leveringaddress</dt>
+                <dt class="font-medium text-gray-900">Leveringsadres</dt>
                 <dd class="mt-2 text-gray-700">
                   <address class="not-italic">
                     <span class="block capitalize">{{order.fname}} {{order.lname}}</span>
@@ -165,11 +165,9 @@
 import axios from 'axios'
 
 export default {
-  components: {
-  },
   data() {
     return {
-      payMethods: []
+      payMethods: [],
     }
   },
   mounted() {
@@ -178,7 +176,10 @@ export default {
   methods: {
     submitForm(){
       this.$store.dispatch('activeAccount')
-      .then(() => this.$router.push({name: 'step-5'}))
+      .then(resp => {
+        console.log(resp)
+        this.$router.push({name: 'step-5'})
+      })
     },
     getAllPayments: async function (){
       var token = localStorage.getItem('token')

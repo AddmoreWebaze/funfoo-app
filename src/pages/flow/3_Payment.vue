@@ -12,11 +12,11 @@
     <div class="flex flex-col w-auto px-2">
       <button @click="payCredit()" class="w-full border border-transparent rounded-full px-4 py-3.5 space-x-3 border-gray-200 flex flex-row items-center justify-start text-base font-medium hover:bg-green-200 hover:bg-opacity-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">
         <img src="@/assets/icons/creditcard.svg" class="w-8" alt="">
-        <p class="text-gray-700 ml-2">Betaal met Credit Card</p>
+        <p class="text-gray-700 ml-2">Betaal met kredietkaart</p>
       </button>
       <button @click="paySepa()" class="mt-2 w-full border border-transparent rounded-full px-4 py-3.5 space-x-3 border-gray-200 flex flex-row items-center justify-start text-base font-medium hover:bg-green-200 hover:bg-opacity-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500">
         <img src="@/assets/icons/sepa.svg" class="w-8" alt="">
-        <p class="text-gray-700 ml-2">Betaal met een Domiciliëring</p>
+        <p class="text-gray-700 ml-2">Betaal met een domiciliëring</p>
       </button>
     </div>
   </section>
@@ -50,7 +50,6 @@
       </form>
     </div>
   </section>
-
 </template>
 
 <script>

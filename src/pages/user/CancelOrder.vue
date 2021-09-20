@@ -15,7 +15,7 @@
           <!-- Size selector -->
         <RadioGroup v-model="user.startdate" class="w-full flex flex-col items-center justify-center" aria-required="true" required>
           <RadioGroupLabel class="block text-sm font-medium text-gray-700">
-            Ontvang je eerste box op:*
+            Ontvang je volgende box op:*
           </RadioGroupLabel>
           <div class="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4 w-full">
             <RadioGroupOption as="template" 
@@ -41,7 +41,6 @@
     </section>
   </div>
   <div class="w-full border-t mt-32 border-gray-200"></div>
-  <p class="text-center text-sm mt-4">Abonemment definitief stopzetten? <a class="text-green-500" href="mailto:info@funfoo.be">Stuur ons een mailtje</a></p>
 </template>
 
 <script>
