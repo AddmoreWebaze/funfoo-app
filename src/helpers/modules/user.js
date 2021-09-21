@@ -146,6 +146,7 @@ const userModule = {
       localStorage.removeItem('token')
 
       obj.password = encrypt(process.env.VUE_APP_SALT, obj.password)
+      console.log(obj.password)
 
       new Promise((resolve, reject) => {
         axios({url: process.env.VUE_APP_API_URL + '/user/updatepw', data: { password : obj.password, apikey : obj.apikey }, method: 'POST' })

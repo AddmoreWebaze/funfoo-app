@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="mt-10">
-                  <button type="submit" class="w-full bg-orange-500 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 transition-colors duration-200 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-orange-500">Reset mijn wachtwoord</button>
+                  <button type="submit" class="w-full bg-orange-500 border border-transparent rounded-full py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 transition-colors duration-200 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-orange-500">Herstel mijn wachtwoord</button>
                   <p class="mt-4 text-sm text-gray-400 text-center" id="email-description">Al een account?<router-link class="text-orange-500 font-medium" :to="{ name: 'Login' }"> Inloggen</router-link></p>
                 </div>
               </form>
@@ -60,8 +60,8 @@
           </div>
 
           <div class="h-64 flex items-center justify-center flex-col" v-else>
-            <h2 class="text-3xl text-green-500">Verzonden!</h2>
-            <p class="text-gray-500">Bekijk je mailbox voor de herstel link!</p>
+            <h2 class="text-3xl text-green-500">Gelukt!</h2>
+            <p class="text-gray-500">We sturen je zodadelijk door!</p>
           </div>
 
           <!--BACKGROUND-->
@@ -118,11 +118,11 @@ export default {
         apikey : this.apikey
       }
 
-      this.$store.dispatch('submitResetPassword', { obj })
+      this.$store.dispatch('submitResetPassword', obj)
       .then(() => {
         this.submitted = true
         setTimeout(() => {  
-          this.$route.push({ name: 'Login'})
+          location.replace("https://shop.funfoo.be/#/login")
         }, 2000)
       })
       .catch(err => { 
