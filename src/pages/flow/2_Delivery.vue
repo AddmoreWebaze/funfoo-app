@@ -136,7 +136,7 @@
 
       <div class="mt-6">
         <label for="notHome" class="block text-sm font-medium text-gray-700">Extra notities voor levering</label>
-        <textarea name="" id="" cols="20" rows="5" class="mt-3 px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-3xl" placeholder=""></textarea>
+        <textarea v-model="order.deliveryInfo" name="" id="" cols="20" rows="5" class="mt-3 px-5 py-3 shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-3xl" placeholder=""></textarea>
       </div>
 
       <div class="mt-10 md:mb-0 mb-14">

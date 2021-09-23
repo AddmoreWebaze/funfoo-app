@@ -167,8 +167,15 @@ export default {
       let fname = this.form.fname
       let email = this.form.email
       let password = this.form.password
+      let contactConsent = 0
 
-      await this.$store.dispatch('register', { fname, email, password })
+      if(this.agreedNews){
+        contactConsent = 1
+      }else{
+        contactConsent = 0
+      }
+
+      await this.$store.dispatch('register', { fname, email, password, contactConsent })
       .then(() => {
         this.$router.push({ name: 'step-1'})
       })
