@@ -197,13 +197,13 @@ export default {
     //then go to the next step
     submitForm: function(){
       this.checkZip()
-      console.log('Check form', this.zipisGood)
-      if(this.zipisGood){
+      .then(() => {
+        console.log('Check form', this.zipisGood)
         this.SET_ORDER(this.order)
         this.$store.dispatch('createDelivery')
         .then(() => this.$router.push({ name: 'step-3'}))
         .catch(err => this.error = err) 
-      }
+      })
     },
     
     //update the selected value in
@@ -261,19 +261,23 @@ export default {
     //check when ZIP is 4 long
     //and let us know if the ZIP code is acceptable
     checkZip(){
-      if(this.order.zip.length > 3){
-        this.$store.dispatch('checkZip', this.order.zip)
-        .then(() => { 
-          console.log('guud')
-          this.error = {}
-          this.zipisGood = true
-        })
-        .catch(({type, value, message}) => { 
-          console.log('niet guud', type, message)
-          this.zipisGood = value
-          this.error = { type, message }
-         })
-      }
+      return new Promise((res, rej) => {
+        if(this.order.zip.length > 3){
+          this.$store.dispatch('checkZip', this.order.zip)
+          .then(() => { 
+            console.log('guud')
+            this.error = {}
+            this.zipisGood = true
+            res()
+          })
+          .catch(({type, value, message}) => { 
+            console.log('niet guud', type, message)
+            this.zipisGood = value
+            this.error = { type, message }
+            rej()
+          })
+        }
+      })
     },
     parseDateToBE(unparsed){
       var unifiedFormat = new Date(unparsed)

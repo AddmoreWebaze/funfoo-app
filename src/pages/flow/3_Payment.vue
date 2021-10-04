@@ -99,6 +99,7 @@ export default {
 
     paySepaSubmit: function(){
       //using an external library to check for IBAN number, this is not ideal
+      this.form.iban = this.form.iban.replace(/\s+/g, '');
       if(IBAN.isValid(this.form.iban)){
         this.$store.dispatch('createPayment', this.form )
         .then((res) => {
@@ -106,6 +107,7 @@ export default {
           this.$router.push({name: 'step-4'})
           })
         .catch(err => {
+          this.error = 'Dit IBAN nummer bestaat niet'
           console.log(err)
         })
       }else{

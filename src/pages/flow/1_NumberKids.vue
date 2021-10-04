@@ -154,10 +154,17 @@ export default {
   data() {
     return {
       product: {},
+      user: {}
     }
   },
   created(){
     this.product = this.getProduct
+    this.$store.dispatch('getUser')
+    .then(() => {
+      this.user = this.activeUser
+      console.log(this.user)
+      })
+    
   },
   methods: {
     ...mapMutations(["SET_SELECTION"]),
@@ -171,7 +178,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getProduct"])
+    ...mapGetters(["getProduct", "activeUser"])
   },
 }
 </script>
