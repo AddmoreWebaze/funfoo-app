@@ -110,11 +110,12 @@ const userModule = {
     //
     //After the hole flow is created, activate the useraccount
     //this will start the users account
-    activeAccount({commit}){
+    activeAccount({commit}, coupon){
       return new Promise((resolve, reject) => {
         const token = localStorage.getItem('token')
 
-        axios({url: process.env.VUE_APP_API_URL + '/user/activate', data: {apikey : token}, method: 'POST' })
+        axios({url: process.env.VUE_APP_API_URL + '/coupon/redeem', data: { apikey: token, coupon }, method: 'POST' })
+        axios({url: process.env.VUE_APP_API_URL + '/user/activate', data: { apikey : token}, method: 'POST' })
         .then(resp => {
           resolve(resp)
         })

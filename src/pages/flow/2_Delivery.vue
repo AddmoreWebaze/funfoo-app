@@ -200,9 +200,13 @@ export default {
       .then(() => {
         console.log('Check form', this.zipisGood)
         this.SET_ORDER(this.order)
-        this.$store.dispatch('createDelivery')
-        .then(() => this.$router.push({ name: 'step-3'}))
-        .catch(err => this.error = err) 
+        if(this.activeUser.mollie_customer !== null){
+          this.$router.push({ name: 'step-3'})
+        }else{
+          this.$store.dispatch('createDelivery')
+          .then(() => this.$router.push({ name: 'step-3'}))
+          .catch(err => this.error = err) 
+        }
       })
     },
     

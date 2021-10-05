@@ -116,7 +116,7 @@ export default {
       this.$store.dispatch('login', { email, password })
       .then(user => {
         //should we check if a user has an active subscription?
-        if(user.mollie_customer == null || user.street == null){
+        if(parseInt(user.flow_completed) === 0){
           this.$router.push({ name: 'step-1'})
         }else{
           this.$router.push({ name: 'UserProfile'})

@@ -70,6 +70,8 @@ const orderModule = {
     createDelivery({ state }){
       return new Promise((resolve, reject) => {
 
+        console.log('Creating delivery')
+
         var completeProfile = state.order
         completeProfile.apikey = localStorage.getItem('token')
 
@@ -156,7 +158,7 @@ const orderModule = {
       return new Promise((res, rej) => {
         console.log(code)
         const apikey = localStorage.getItem('token')
-          axios({url: process.env.VUE_APP_API_URL + '/coupon/redeem', data: { apikey, coupon: code }, method: 'POST' })
+          axios({url: process.env.VUE_APP_API_URL + '/coupon/value', data: { apikey, coupon: code }, method: 'POST' })
           .then(resp => {
             const couponCode = {
               value: resp.data.value,
@@ -180,7 +182,7 @@ const orderModule = {
             }
           })
       })
-    }
+    },
   },
   getters: {
     getOrder: state => state.order,

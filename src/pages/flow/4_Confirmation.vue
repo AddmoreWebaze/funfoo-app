@@ -175,7 +175,7 @@ export default {
   },
   methods: {
     submitForm(){
-      this.$store.dispatch('activeAccount')
+      this.$store.dispatch('activeAccount', this.discountcode.code)
       .then(resp => {
         console.log(resp)
         this.$router.push({name: 'step-5'})
